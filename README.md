@@ -70,3 +70,26 @@ Cependant, pour faciliter le travail avec les données, il vous faudra créer
 quelques dossiers supplémentaires en suivant la structure du [template
 ISDS](https://github.com/osumontreal/template_r), notamment pour les dossiers
 `data`, `R` et `figures`.
+
+## Principaux packages R utilisés dans l'exemple:
+
+-   R Core Team (2020). R: A language and environment for statistical
+    computing. R Foundation for Statistical Computing, Vienna, Austria.
+    <https://www.R-project.org/>
+
+-   JJ Allaire, Rich Iannone, Alison Presmanes Hill and Yihui Xie (2021).
+    distill: 'R Markdown' Format for Scientific and Technical Writing. R
+    package version 1.3. <https://CRAN.R-project.org/package=distill>
+
+-   H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag
+    New York, 2016. <https://ggplot2.tidyverse.org>
+
+-   Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2021). leaflet: Create
+    Interactive Web Maps with the JavaScript 'Leaflet' Library. R package
+    version 2.0.4.1. <https://CRAN.R-project.org/package=leaflet>
+
+-   C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and
+    shiny. Chapman and Hall/CRC. Florida, 2020. <https://plotly-r.com>
+
+-   Jennifer Bryan (2017). gapminder: Data from Gapminder. R package version
+    0.3.0. <https://CRAN.R-project.org/package=gapminder>
