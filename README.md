@@ -27,7 +27,8 @@ certains dossiers cruciaux, mais ils n'y sont pas à des fins éducatives!
     `Project >  Version Control > votre répertoire`.
 
     1.  Pour les plus téméraires, vous pouvez
-        `git clone https://votre.repertoire.com/` à partir de votre terminal.
+        `git clone https://github.com/USERNAME/votre-repertoire` à partir de
+        votre terminal.
     2.  N'oubliez pas de *commit* périodiquement en tenant compte de la
         fonctionnalité de vos ajouts. Je vous invite à révisiter le guide
         [GitHub
@@ -71,6 +72,11 @@ quelques dossiers supplémentaires en suivant la structure du [template
 ISDS](https://github.com/osumontreal/template_r), notamment pour les dossiers
 `data`, `R` et `figures`.
 
+Pour plus de détails sur la structure et les modifications possibles en
+fonction des fichiers, veuillez consulter le site web de
+[distill](https://rstudio.github.io/distill/). Tout y est pour modifier le
+look, etc.
+
 ## Principaux packages R utilisés dans l'exemple:
 
 -   R Core Team (2020). R: A language and environment for statistical
@@ -93,3 +99,4 @@ ISDS](https://github.com/osumontreal/template_r), notamment pour les dossiers
 
 -   Jennifer Bryan (2017). gapminder: Data from Gapminder. R package version
     0.3.0. <https://CRAN.R-project.org/package=gapminder>
+
