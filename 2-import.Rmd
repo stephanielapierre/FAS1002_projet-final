@@ -45,7 +45,7 @@ Dans vos différents documents, assurez-vous de bien utiliser la notation avec d
 data_URL <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
 write.csv(data_URL, file = paste('data/raw/vaccination_', Sys.Date(), '.csv'))
 
-df_vaccination <- data_URL
+df_vaccination <- as_tibble(data_URL)
 
 df_vaccination$location <- as.factor(df_vaccination$location)
 df_vaccination$iso_code <- as.factor(df_vaccination$iso_code)
