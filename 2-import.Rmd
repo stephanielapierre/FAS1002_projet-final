@@ -29,6 +29,7 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 
 library(tidyverse)
+library(googlesheets4)
 ```
 
 Vous pouvez maintenant importer et travailler sur vos données, comme celles de @mathieu2021.
@@ -62,3 +63,20 @@ df_vaccination$type_location <- str_replace(df_vaccination$type_location, "TRUE"
 df_vaccination$type_location <- str_replace(df_vaccination$type_location, "FALSE", "country")
 df_vaccination$type_location <- as.factor(df_vaccination$type_location)
 ```
+
+
+### Appeler les données de population de GapMinder
+
+Data for regions by year
+```{r}
+data_URL <- range_read("https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/edit#gid=1003383399", "data-for-regions-by-year")
+write.csv(data_URL, file = paste('data/raw/pop-region_', Sys.Date(), '.csv'))
+
+df_pop_region <- as_tibble(data_URL)
+
+data_URL <- read_sheet("https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/edit#gid=176703676")
+write.csv(data_URL, file = paste('data/raw/pop-country_', Sys.Date(), '.csv'))
+
+df_pop_region <- as_tibble(data_URL)
+````
+
