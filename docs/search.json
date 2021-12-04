@@ -16,17 +16,17 @@
     },
     {
       "path": "2-import.html",
-      "title": "Titre de votre deuxième R Markdown",
-      "description": "Petite description du contenu de cette page\n",
+      "title": "Importation des données",
+      "description": "Cette section a pour objectif de présenter les données utilisées dans ce rapport ainsi que leur source.\n",
       "author": [
         {
           "name": {},
-          "url": "https://github.com/votre-username"
+          "url": "https://github.com/stephanielapierre"
         }
       ],
       "date": "`r Sys.Date()`",
       "contents": "\n\nContents\nDifférents niveaux de titres\n\nVous pouvez maintenant importer et travailler sur vos données, comme celles de Mathieu et al. (2021).\nDifférents niveaux de titres\nDans vos différents documents, assurez-vous de bien utiliser la notation avec du Markdown et autres.\n\n\n\nMathieu, Edouard, Hannah Ritchie, Esteban Ortiz-Ospina, Max Roser, Joe Hasell, Cameron Appel, Charlie Giattino, and Lucas Rodés-Guirao. 2021. “A Global Database of COVID-19 Vaccinations.” Nature Human Behaviour 5 (7): 947–53. https://doi.org/10.1038/s41562-021-01122-8.\n\n\n\n\n",
-      "last_modified": "2021-12-04T09:53:39-05:00"
+      "last_modified": "2021-12-04T10:14:53-05:00"
     },
     {
       "path": "3-exploration.html",
