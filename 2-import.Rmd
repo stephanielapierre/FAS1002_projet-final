@@ -27,6 +27,8 @@ output: distill::distill_article
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
 ```
 
 Vous pouvez maintenant importer et travailler sur vos données, comme celles de @mathieu2021.
@@ -39,7 +41,24 @@ Dans vos différents documents, assurez-vous de bien utiliser la notation avec d
 
 ### Appeler les données de Our World in Data
 
+```{r}
 data_URL <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
-write.csv(data_URL, file = paste('data/raw/vaccination_',Sys.Date()'.csv'))
+write.csv(data_URL, file = paste('data/raw/vaccination_', Sys.Date(), '.csv'))
 
 df_vaccination <- data_URL
+
+df_vaccination$location <- as.factor(df_vaccination$location)
+df_vaccination$iso_code <- as.factor(df_vaccination$iso_code)
+df_vaccination$date <- as.Date(df_vaccination$date)
+
+summary(df_vaccination)
+```
+
+La variable `location` contient autant des pays que des régions. Afin de pouvoir distinguer les pays des régions, il faut ajouter une nouvelle variable. 
+
+```{r}
+df_vaccination$type_location <- str_detect(df_vaccination$iso_code, "OWID_")
+df_vaccination$type_location <- str_replace(df_vaccination$type_location, "TRUE", "region")
+df_vaccination$type_location <- str_replace(df_vaccination$type_location, "FALSE", "country")
+df_vaccination$type_location <- as.factor(df_vaccination$type_location)
+```

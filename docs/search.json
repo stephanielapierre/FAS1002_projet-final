@@ -7,7 +7,7 @@
       "author": [
         {
           "name": {},
-          "url": "https://github.com/votre-username"
+          "url": "https://github.com/stephanielapierre"
         }
       ],
       "date": "`r Sys.Date()`",
@@ -25,8 +25,8 @@
         }
       ],
       "date": "`r Sys.Date()`",
-      "contents": "\n\nContents\nDifférents niveaux de titres\n\nVous pouvez maintenant importer et travailler sur vos données, comme celles de Mathieu et al. (2021).\nDifférents niveaux de titres\nDans vos différents documents, assurez-vous de bien utiliser la notation avec du Markdown et autres.\n\n\n\nMathieu, Edouard, Hannah Ritchie, Esteban Ortiz-Ospina, Max Roser, Joe Hasell, Cameron Appel, Charlie Giattino, and Lucas Rodés-Guirao. 2021. “A Global Database of COVID-19 Vaccinations.” Nature Human Behaviour 5 (7): 947–53. https://doi.org/10.1038/s41562-021-01122-8.\n\n\n\n\n",
-      "last_modified": "2021-12-04T10:14:53-05:00"
+      "contents": "\n\nContents\nDifférents niveaux de titres\nAppeler les données de Our World in Data\n\nVous pouvez maintenant importer et travailler sur vos données, comme celles de Mathieu et al. (2021).\nDifférents niveaux de titres\nDans vos différents documents, assurez-vous de bien utiliser la notation avec du Markdown et autres.\nAppeler les données de Our World in Data\ndata_URL <- read.csv(“https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv”) write.csv(data_URL, file = paste(‘data/raw/vaccination_,’Sys.Date()‘.csv’))\ndf_vaccination <- data_URL\n\n\n\nMathieu, Edouard, Hannah Ritchie, Esteban Ortiz-Ospina, Max Roser, Joe Hasell, Cameron Appel, Charlie Giattino, and Lucas Rodés-Guirao. 2021. “A Global Database of COVID-19 Vaccinations.” Nature Human Behaviour 5 (7): 947–53. https://doi.org/10.1038/s41562-021-01122-8.\n\n\n\n\n",
+      "last_modified": "2021-12-04T11:49:06-05:00"
     },
     {
       "path": "3-exploration.html",
@@ -35,7 +35,7 @@
       "author": [
         {
           "name": {},
-          "url": "https://github.com/votre-username"
+          "url": "https://github.com/stephanielapierre"
         }
       ],
       "date": "`r Sys.Date()`",
