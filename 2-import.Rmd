@@ -36,3 +36,10 @@ Vous pouvez maintenant importer et travailler sur vos données, comme celles de 
 
 Dans vos différents documents, assurez-vous de bien utiliser la notation avec du Markdown et autres. 
 
+
+### Appeler les données de Our World in Data
+
+data_URL <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
+write.csv(data_URL, file = paste('data/raw/vaccination_',Sys.Date()'.csv'))
+
+df_vaccination <- data_URL
