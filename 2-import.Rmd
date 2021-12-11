@@ -28,6 +28,7 @@ output: distill::distill_article
 ```{r setup, include=FALSE}
 source("R/data-download.R", local = knitr::knit_global())             # Script pour le téléchargement des données
 source("R/opening-data.R", local = knitr::knit_global())              # Script pour l'ouverture et le traitement des données
+source("R/merge-data.R", local = knitr::knit_global())              # Script pour la fusion des données
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -46,5 +47,16 @@ Finir avec une HEAD de la base merger
 Répondre aux questions des consignes
 
 
+comparaison de la vaccination par 100 habitants
+```{r}
+df$test <- round(df$total_vaccinations/df$Population*100, 2)
+df$test2 <- df$test-df$total_vaccinations_per_hundred
+df$test3 <- all.equal(df$total_vaccinations_per_hundred, df$test)
 
+summary(df$total_vaccinations_per_hundred)
+summary(df$test)
+summary(df$test2)
+
+if (df$test2 != 0){df$test2}
+```
 
