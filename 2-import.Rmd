@@ -32,6 +32,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r, include=FALSE}
 library(tidyverse)
+library(readxl)
+library(dplyr)
 ```
 
 Vous pouvez maintenant importer et travailler sur vos données, comme celles de @mathieu2021.
@@ -45,8 +47,10 @@ Dans vos différents documents, assurez-vous de bien utiliser la notation avec d
 ### Appeler les données de Our World in Data
 
 ```{r}
-
-df_vaccination <- as_tibble(data_URL)
+vac_file <- list.files("data/raw/", pattern ="vaccination")
+df_vaccination <- read.csv(paste0("data/raw/", vac_file))
+df_vaccination <- as_tibble(df_vaccination)
+rm(vac_file)
 
 df_vaccination$location <- as.factor(df_vaccination$location)
 df_vaccination$iso_code <- as.factor(df_vaccination$iso_code)
@@ -65,18 +69,53 @@ df_vaccination$type_location <- as.factor(df_vaccination$type_location)
 ```
 
 
-### Appeler les données de population de GapMinder
+### Ouvrir les données de GapMinder
 
-Data for regions by year
+Population
 ```{r}
-data_URL <- range_read("https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/edit#gid=1003383399", "data-for-regions-by-year")
-write.csv(data_URL, file = paste('data/raw/pop-region_', Sys.Date(), '.csv'))
+# Population
+pop_file <- list.files("data/raw/", pattern ="population")
+df_pop_regions <- read_excel(paste0("data/raw/", pop_file), sheet = "data-for-regions-by-year")
+df_pop_country <- read_excel(paste0("data/raw/", pop_file), sheet = "data-for-countries-etc-by-year")
+df_pop_regions <- as_tibble(df_pop_regions)
+df_pop_country <- as_tibble(df_pop_country)
+rm(pop_file)
 
-df_pop_region <- as_tibble(data_URL)
+df_pop_country$geo <- as.factor(df_pop_country$geo)
+df_pop_country$name <- as.factor(df_pop_country$name)
+df_pop_regions$geo <- as.factor(df_pop_regions$geo)
+df_pop_regions$name <- as.factor(df_pop_regions$name)
+```
 
-data_URL <- read_sheet("https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/edit#gid=176703676")
-write.csv(data_URL, file = paste('data/raw/pop-country_', Sys.Date(), '.csv'))
 
-df_pop_region <- as_tibble(data_URL)
-````
+Produit intérieur brut (PIB)
+```{r}
+# PIB
+pib_file <- list.files("data/raw/", pattern ="pib")
+df_pib_regions <- read_excel(paste0("data/raw/", pib_file), sheet = "data-for-regions-by-year")
+df_pib_country <- read_excel(paste0("data/raw/", pib_file), sheet = "data-for-countries-etc-by-year")
+df_pib_regions <- as_tibble(df_pib_regions)
+df_pib_country <- as_tibble(df_pib_country)
+rm(pib_file)
 
+df_pib_country$geo <- as.factor(df_pib_country$geo)
+df_pib_country$name <- as.factor(df_pib_country$name)
+df_pib_regions$geo <- as.factor(df_pib_regions$geo)
+df_pib_regions$name <- as.factor(df_pib_regions$name)
+```
+
+Espérance de vie
+```{r}
+# Life expectancy
+life_file <- list.files("data/raw/", pattern ="life-expectancy")
+df_life.exp_regions <- read_excel(paste0("data/raw/", life_file), sheet = "data-for-regions-by-year")
+df_life.exp_country <- read_excel(paste0("data/raw/", life_file), sheet = "data-for-countries-etc-by-year")
+df_life.exp_regions <- as_tibble(df_life.exp_regions)
+df_life.exp_country <- as_tibble(df_life.exp_country)
+rm(life_file)
+
+df_life.exp_country$geo <- as.factor(df_life.exp_country$geo)
+df_life.exp_country$name <- as.factor(df_life.exp_country$name)
+df_life.exp_regions$geo <- as.factor(df_life.exp_regions$geo)
+df_life.exp_regions$name <- as.factor(df_life.exp_regions$name)
+```
