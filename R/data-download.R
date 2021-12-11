@@ -1,9 +1,22 @@
 ### Script pour le téléchargement des données 
 
-## Our world in data 
-# Données sur la vaccination
-data_URL <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
-write.csv(data_URL, file = paste0('data/raw/vaccination_', Sys.Date(), '.csv'))
+library(tidyverse)
+
+### Our world in data ###
+## Données sur la vaccination ##
+# Les données relatives à la vaccination sont téléchargées quotidiennement.
+
+# Extraction de la date du téléchargement des données
+vac_file <- list.files("data/raw/", pattern ="vaccination")
+date_vac_file <- str_sub(vac_file, 13, 22)
+
+# Conditionnel pour vérifier les données doivent être téléchargées
+if (date_vac_file < Sys.Date()){
+    data_URL <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
+    write.csv(data_URL, file = paste0('data/raw/vaccination_', Sys.Date(), '.csv'))
+    file.remove(paste0('data/raw/vaccination_', date_vac_file, '.csv'))         # On enleve les données old
+}
+
 
 ## Gapminder
 # Poupulation
@@ -21,5 +34,6 @@ download.file("https://docs.google.com/spreadsheets/d/11mulzUH3_cueq-V9D5KIlo9oH
 filenames <- list.files("data/raw/", pattern ="vaccination")
 
 
+file.remove("data/raw/population_ 2021-12-07 .xlsx")
 x <- file.info(".gitignore")
 x$ctime
