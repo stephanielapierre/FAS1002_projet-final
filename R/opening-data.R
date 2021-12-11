@@ -25,6 +25,8 @@ df_vaccination$region <- as.factor(df_vaccination$region)
 
 # On renomme la variable iso_code pour faciliter la fusion entre les jeux de données
 names(df_vaccination)[names(df_vaccination) == "iso_code"] <- "geo"
+df_vaccination$geo <- str_to_lower(df_vaccination$geo)
+
 
 
 # Ouverture des données sur la population
