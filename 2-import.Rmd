@@ -27,6 +27,7 @@ output: distill::distill_article
 
 ```{r setup, include=FALSE}
 source("R/data-download.R", local = knitr::knit_global())             # Script pour le téléchargement des données
+source("R/opening-data.R", local = knitr::knit_global())              # Script pour l'ouverture et le traitement des données
 knitr::opts_chunk$set(echo = FALSE)
 ```
 

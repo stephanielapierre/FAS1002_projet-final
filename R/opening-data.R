@@ -70,4 +70,3 @@ df_life.exp_country$geo <- as.factor(df_life.exp_country$geo)
 df_life.exp_country$name <- as.factor(df_life.exp_country$name)
 df_life.exp_regions$geo <- as.factor(df_life.exp_regions$geo)
 df_life.exp_regions$name <- as.factor(df_life.exp_regions$name)
-
