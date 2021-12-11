@@ -39,6 +39,9 @@ library(dplyr)
 
 Vous pouvez maintenant importer et travailler sur vos données, comme celles de @mathieu2021.
 
+TO DO : Ajouter une présentation des sources de données et des données utiliser.
+
+
 
 
 
