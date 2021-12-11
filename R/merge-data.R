@@ -9,10 +9,11 @@ library(tidyverse)
 
 df_vaccination$time <- as.numeric(str_sub(df_vaccination$date, 1, 4))
 
-
 # Fusion des données de vaccination et de population
-df <- left_join(
-        df_vaccination,
-        df_pop,
-#        by = c('geo', 'time')
-)
+df <- left_join(df_vaccination, df_pop)
+
+# Ajout des données du PIB
+df <- left_join(df, df_pib)
+
+# Ajout des données de l'espérance de vie
+df <- left_join(df, df_esperance)
