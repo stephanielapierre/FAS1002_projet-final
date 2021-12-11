@@ -27,11 +27,6 @@ rm(vac_file, date_vac_file)
 # Les données relatives de Gapminder sont téléchargées une fois par mois.
 
 ## Poupulation ##
-download.file("https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/export?format=xlsx", 
-              destfile = paste0('data/raw/population_', Sys.Date(), '.xlsx'))
-
-download.file("https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/export?format=xlsx", 
-              destfile = paste0('data/raw/population_2021-11-01.xlsx'))
 
 # Extraction de la date du téléchargement des données
 pop_file <- list.files("data/raw/", pattern ="population")
@@ -51,11 +46,6 @@ rm(pop_file, date_pop_file, pop_mois)
 
 
 ## Produit intérieur brut (PIB) ##
-download.file("https://docs.google.com/spreadsheets/d/1h3z8u0ykcUum8P9FV8EHF9fszDYr7iPDZQ-fgE3ecls/export?format=xlsx", 
-              destfile = paste0('data/raw/pib_', Sys.Date(), '.xlsx'))
-
-download.file("https://docs.google.com/spreadsheets/d/1h3z8u0ykcUum8P9FV8EHF9fszDYr7iPDZQ-fgE3ecls/export?format=xlsx", 
-              destfile = paste0('data/raw/pib_2021-11-01.xlsx'))
 
 # Extraction de la date du téléchargement des données
 pib_file <- list.files("data/raw/", pattern ="pib")
@@ -74,12 +64,6 @@ rm(pib_file, date_pib_file, pib_mois)
 
 
 ## Espérance de vie ##
-
-download.file("https://docs.google.com/spreadsheets/d/11mulzUH3_cueq-V9D5KIlo9oHE9YYZrUSeVyCin7_rM/export?format=xlsx", 
-              destfile = paste0('data/raw/life-expectancy_', Sys.Date(), '.xlsx'))
-
-download.file("https://docs.google.com/spreadsheets/d/11mulzUH3_cueq-V9D5KIlo9oHE9YYZrUSeVyCin7_rM/export?format=xlsx", 
-              destfile = paste0('data/raw/life-expectancy_2021-11-01.xlsx'))
 
 # Extraction de la date du téléchargement des données
 life_file <- list.files("data/raw/", pattern ="life-expectancy")

@@ -26,10 +26,12 @@ output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
+source("R/data-download.R", local = knitr::knit_global())             # Script pour le téléchargement des données
 knitr::opts_chunk$set(echo = FALSE)
+```
 
+```{r, include=FALSE}
 library(tidyverse)
-
 ```
 
 Vous pouvez maintenant importer et travailler sur vos données, comme celles de @mathieu2021.
@@ -43,8 +45,6 @@ Dans vos différents documents, assurez-vous de bien utiliser la notation avec d
 ### Appeler les données de Our World in Data
 
 ```{r}
-data_URL <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
-write.csv(data_URL, file = paste('data/raw/vaccination_', Sys.Date(), '.csv'))
 
 df_vaccination <- as_tibble(data_URL)
 
