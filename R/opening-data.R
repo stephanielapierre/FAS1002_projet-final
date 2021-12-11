@@ -23,6 +23,8 @@ df_vaccination$region <- str_replace(df_vaccination$region, "TRUE", "continent")
 df_vaccination$region <- str_replace(df_vaccination$region, "FALSE", "pays")
 df_vaccination$region <- as.factor(df_vaccination$region)
 
+# On renomme la variable iso_code pour faciliter la fusion entre les jeux de données
+names(df_vaccination)[names(df_vaccination) == "iso_code"] <- "geo"
 
 
 # Ouverture des données sur la population

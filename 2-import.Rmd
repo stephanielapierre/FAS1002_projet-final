@@ -41,7 +41,9 @@ Vous pouvez maintenant importer et travailler sur vos données, comme celles de 
 
 TO DO : Ajouter une présentation des sources de données et des données utiliser.
 
+Finir avec une HEAD de la base merger
 
+Répondre aux questions des consignes
 
 
 
