@@ -139,14 +139,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta name="citation_online_date" content="2021/12/12"/>
   <meta name="citation_publication_date" content="2021/12/12"/>
   <meta name="citation_author" content="Stéphanie Lapierre"/>
-  <meta name="citation_author_institution" content="FAS1002"/>
   <!--/radix_placeholder_meta_tags-->
   
   <meta name="citation_reference" content="citation_title=A global database of COVID-19 vaccinations;citation_publication_date=2021;citation_volume=5;citation_doi=10.1038/s41562-021-01122-8;citation_issn=2397-3374;citation_author=Edouard Mathieu;citation_author=Hannah Ritchie;citation_author=Esteban Ortiz-Ospina;citation_author=Max Roser;citation_author=Joe Hasell;citation_author=Cameron Appel;citation_author=Charlie Giattino;citation_author=Lucas Rodés-Guirao"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Importation et manipulation des données"]},{"type":"character","attributes":{},"value":["Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses\n"]},{"type":"character","attributes":{},"value":["2021-12-12"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]},{"type":"character","attributes":{},"value":["FAS1002"]},{"type":"character","attributes":{},"value":["https://admission.umontreal.ca/programmes/microprogramme-de-1er-cycle-en-analyse-des-megadonnees-en-sciences-humaines-et-sociales/structure-du-programme/"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","Installation","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Importation et manipulation des données"]},{"type":"character","attributes":{},"value":["Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses\n"]},{"type":"character","attributes":{},"value":["2021-12-12"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["devtools::install_github(\"crsh/citr\")"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2452,7 +2451,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Importation et manipulation des données","description":"Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses","authors":[{"author":"Stéphanie Lapierre","authorURL":"https://github.com/stephanielapierre","affiliation":"FAS1002","affiliationURL":"https://admission.umontreal.ca/programmes/microprogramme-de-1er-cycle-en-analyse-des-megadonnees-en-sciences-humaines-et-sociales/structure-du-programme/","orcidID":""}],"publishedDate":"2021-12-12T00:00:00.000-05:00","citationText":"Lapierre, 2021"}
+{"title":"Importation et manipulation des données","description":"Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses","authors":[{"author":"Stéphanie Lapierre","authorURL":"https://github.com/stephanielapierre","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-12-12T00:00:00.000-05:00","citationText":"Lapierre, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2536,234 +2535,15 @@ Aide pour le site
 <h1 id="jeux-de-données">Jeux de données</h1>
 <p>On va commencer par constituer une base de données pour 2021</p>
 <ul>
-<li>Comme les données sur la vaccination sont quotidionnes et qu’il y a certain délais pour certains pays, les données datant d’il y a un mois sont utilisées
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-Show code
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>month</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/weekday.POSIXt.html'>months</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>df2021</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>df</span><span class='op'>$</span><span class='va'>date</span> <span class='op'>==</span> <span class='va'>month</span><span class='op'>)</span>
-</code></pre>
-</div></li>
+<li>Comme les données sur la vaccination sont quotidionnes et qu’il y a certain délais pour certains pays, les données datant d’il y a un mois sont utilisées</li>
 </ul>
-</details>
-</div>
 <p>TO DO : TÉLÉCHARGEMENT DES DONNÉES</p>
 <h1 id="validité-des-valeurs">Validité des valeurs</h1>
 <p>Afin de vérifier la validité des valeurs, on compare la valeur de la variable <code>total_vaccinations_per_hundred</code> qui est fourni par Our World in Data avec une nouvelle variable qu’on obtient en prenant la population de 2021 estimé par Gapminder.</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-Show code
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Subset pour simplifier le jeu de données (on enleve des variables)</span>
-<span class='va'>df_vac_100hab</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>df2021</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name"</span>, <span class='st'>"region"</span>, <span class='st'>"total_vaccinations_per_hundred"</span>, <span class='st'>"total_vaccinations"</span>, <span class='st'>"population"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># Calcul la nouvelle variable</span>
-<span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>calcul</span> <span class='op'>&lt;-</span> <span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>total_vaccinations</span><span class='op'>/</span><span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>population</span><span class='op'>*</span><span class='fl'>100</span>     <span class='co'># Calcul la variable</span>
-<span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>calcul</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>calcul</span>, <span class='fl'>2</span><span class='op'>)</span>                  <span class='co'># Arrondie pour garder 2 décimales</span>
-
-<span class='co'># On ajoute fait la comparaison entre la variable existante et calculée</span>
-<span class='va'>df_vac_100hab</span> <span class='op'>&lt;-</span> <span class='va'>df_vac_100hab</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"match"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>total_vaccinations_per_hundred</span> <span class='op'>==</span> <span class='va'>calcul</span>, <span class='st'>"Correct"</span>,<span class='st'>"Incorrect"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># Sommaire</span>
-<span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>match</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>match</span><span class='op'>)</span>
-
-<span class='co'># On extrait les données Correct et les NA (pour l'analyse)</span>
-<span class='va'>correct</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>df_vac_100hab</span>, <span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>match</span> <span class='op'>==</span> <span class='st'>"Correct"</span><span class='op'>)</span>
-<span class='va'>na</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>df_vac_100hab</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>match</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># On extrait les données Incorrect</span>
-<span class='va'>incorrect</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>df_vac_100hab</span>, <span class='va'>df_vac_100hab</span><span class='op'>$</span><span class='va'>match</span> <span class='op'>==</span> <span class='st'>"Incorrect"</span><span class='op'>)</span>
-<span class='va'>incorrect</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>incorrect</span>, <span class='st'>"name"</span>, <span class='st'>"region"</span>, <span class='st'>"total_vaccinations_per_hundred"</span>, <span class='st'>"calcul"</span><span class='op'>)</span>
-
-<span class='co'># On calcule la différence si les données sont Incorrect</span>
-<span class='va'>incorrect</span><span class='op'>$</span><span class='va'>difference</span> <span class='op'>&lt;-</span> <span class='va'>incorrect</span><span class='op'>$</span><span class='va'>total_vaccinations_per_hundred</span> <span class='op'>-</span> <span class='va'>incorrect</span><span class='op'>$</span><span class='va'>calcul</span>
-<span class='va'>incorrect</span><span class='op'>$</span><span class='va'>difference</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>incorrect</span><span class='op'>$</span><span class='va'>difference</span><span class='op'>)</span>
-<span class='va'>incorrect</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>incorrect</span>, <span class='va'>incorrect</span><span class='op'>$</span><span class='va'>difference</span><span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-</div>
 <p>Le jeux de données de données de 2021 contient 210 observations (des pays ou des continents).</p>
 <p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour 118 observations. Ceci est le résultat de valeurs manquantes pour le vaccination ou la population.</p>
 <p>Pour 84 des observations, il n’y a pas de différence entre la valeur de la variable <code>total_vaccinations_per_hundred</code> de Our World in Data et celle calculées. Alors que pour 8 observations, il y a une différence entre la valeur de OWID et la valeur calculée.</p>
 <p>Voici le tableau qui présente les 8 pays ou continents pour lesquels le taux de vaccination par 100 habitants de Our World In Data est différent que celui qui est calculé.</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-Show code
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>incorrect</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kbl.html'>kbl</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_styling.html'>kable_styling</a></span><span class='op'>(</span>bootstrap_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"striped"</span>, <span class='st'>"hover"</span>, <span class='st'>"condensed"</span><span class='op'>)</span>, full_width <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-name
-</th>
-<th style="text-align:left;">
-region
-</th>
-<th style="text-align:right;">
-total_vaccinations_per_hundred
-</th>
-<th style="text-align:right;">
-calcul
-</th>
-<th style="text-align:right;">
-difference
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:left;">
-continent
-</td>
-<td style="text-align:right;">
-15.57
-</td>
-<td style="text-align:right;">
-15.59
-</td>
-<td style="text-align:right;">
-0.02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-United States
-</td>
-<td style="text-align:left;">
-pays
-</td>
-<td style="text-align:right;">
-134.27
-</td>
-<td style="text-align:right;">
-133.91
-</td>
-<td style="text-align:right;">
-0.36
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:left;">
-continent
-</td>
-<td style="text-align:right;">
-107.80
-</td>
-<td style="text-align:right;">
-109.21
-</td>
-<td style="text-align:right;">
-1.41
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-France
-</td>
-<td style="text-align:left;">
-pays
-</td>
-<td style="text-align:right;">
-149.89
-</td>
-<td style="text-align:right;">
-154.78
-</td>
-<td style="text-align:right;">
-4.89
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-New Zealand
-</td>
-<td style="text-align:left;">
-pays
-</td>
-<td style="text-align:right;">
-140.08
-</td>
-<td style="text-align:right;">
-147.63
-</td>
-<td style="text-align:right;">
-7.55
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Israel
-</td>
-<td style="text-align:left;">
-pays
-</td>
-<td style="text-align:right;">
-172.61
-</td>
-<td style="text-align:right;">
-182.46
-</td>
-<td style="text-align:right;">
-9.85
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Europe
-</td>
-<td style="text-align:left;">
-continent
-</td>
-<td style="text-align:right;">
-119.32
-</td>
-<td style="text-align:right;">
-105.03
-</td>
-<td style="text-align:right;">
-14.29
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Malta
-</td>
-<td style="text-align:left;">
-pays
-</td>
-<td style="text-align:right;">
-175.04
-</td>
-<td style="text-align:right;">
-204.02
-</td>
-<td style="text-align:right;">
-28.98
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <p>En considérant que le nombre de pays ou de continent qui présente une valeur différente est petit, il est possible de conclure que les données sont valides.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">

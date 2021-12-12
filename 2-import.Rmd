@@ -21,7 +21,7 @@ citation_url: https://fas1002.github.io/FAS1002_projet-final
 # Inclure les références que vous utilisez dans vos rapports
 # dans un fichier biblio.bib. Je conseille Zotero pour construire
 # ce fichier ou d'utiliser le package citr dans RStudio.
-# Installation: devtools::install_github("crsh/citr")
+Installation: devtools::install_github("crsh/citr")
 bibliography: references.bib
 output: distill::distill_article
 ---
@@ -56,7 +56,7 @@ Finir avec une HEAD de la base merger
 On va commencer par constituer une base de données pour 2021
 
 - Comme les données sur la vaccination sont quotidionnes et qu'il y a certain délais pour certains pays, les données datant d'il y a un mois sont utilisées 
-```{r}
+```{r, include=FALSE}
 month <- Sys.Date() - months(1)
 df2021 <- filter(df, df$date == month)
 ```
@@ -67,7 +67,7 @@ TO DO : TÉLÉCHARGEMENT DES DONNÉES
 # Validité des valeurs
 Afin de vérifier la validité des valeurs, on compare la valeur de la variable `total_vaccinations_per_hundred` qui est fourni par Our World in Data avec une nouvelle variable qu'on obtient en prenant la population de 2021 estimé par Gapminder.
 
-```{r}
+```{r, include=FALSE}
 # Subset pour simplifier le jeu de données (on enleve des variables)
 df_vac_100hab <- select(df2021, c("name", "region", "total_vaccinations_per_hundred", "total_vaccinations", "population"))
 
@@ -104,7 +104,7 @@ Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la va
 Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour lesquels 
 le taux de vaccination par 100 habitants de Our World In Data est différent que celui qui est calculé.
 
-```{r}
+```{r, include=FALSE}
 incorrect %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
