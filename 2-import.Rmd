@@ -64,6 +64,8 @@ df2021 <- filter(df, df$date == month)
 TO DO : TÉLÉCHARGEMENT DES DONNÉES
 
 
+# Variable continent? - Comment présenter?
+
 # Validité des valeurs
 Afin de vérifier la validité des valeurs, on compare la valeur de la variable `total_vaccinations_per_hundred` qui est fourni par Our World in Data avec une nouvelle variable qu'on obtient en prenant la population de 2021 estimé par Gapminder.
 
@@ -111,3 +113,7 @@ incorrect %>%
 ```
 
 En considérant que le nombre de pays ou de continent qui présente une valeur différente est petit, il est possible de conclure que les données sont valides.
+
+```{r, include=FALSE}
+source("R/processed-data.R", local = knitr::knit_global())             # Script pour enregistrer les données
+```
