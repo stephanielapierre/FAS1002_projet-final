@@ -31,6 +31,32 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Que le plaisir commence
+
+```{r, include=FALSE}
+# Ouverture des données sur la vaccination
+vac_file <- list.files("data/processed/", pattern ="df")
+df <- read.csv(paste0("data/processed/", vac_file))
+rm(vac_file)
+```
+
+```{r, include=FALSE}
+# Ouverture des données 2021, une ligne par pays/continent
+vac_file <- list.files("data/processed/", pattern ="data_year")
+df2021 <- read.csv(paste0("data/processed/", vac_file))
+rm(vac_file)
+```
+
+
+### Statistiques descritives des données de 2021
+
+```{r, include=FALSE}
+summary(df2021)
+```
+
+
+
+
 ## Un peu d'interactivité pour le plaisir!
 
 ```{r map, layout = "l-page"}
