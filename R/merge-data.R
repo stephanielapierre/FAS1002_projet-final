@@ -18,14 +18,20 @@ df <- left_join(df, df_pib)
 # Ajout des données de l'espérance de vie
 df <- left_join(df, df_esperance)
 
-# Conserver seulement les colonnes uniques
-df <- select(df, )
-
 # Renommer les colonnes pour avoir la même nomenclature
 df <- rename(df, 
     population = `Population`,
     income_per_person = `Income per person`,
     gdp = `GDP total`,
     growth_gdp_per_capita = `GDP per capita growth (%)`,
-    life_expectancy = `Life expectancy`
+    life_expectancy = `Life expectancy`,
+    year = `time`
 )
+
+# Enlever la colonne location
+df <- select(df, -c("location"))
+
+# Organisation des colonnes
+df <- df %>% relocate(name, .before = geo)
+df <- df %>% relocate(region, .before = date)
+df <- df %>% relocate(year, .after = date)
