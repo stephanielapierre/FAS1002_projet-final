@@ -18,10 +18,14 @@ df_vaccination$date <- as.Date(df_vaccination$date)
 
 # La variable `location` contient autant des pays que des régions. 
 # Afin de pouvoir distinguer les pays des régions, il faut ajouter une nouvelle variable. 
-df_vaccination$type_location <- str_detect(df_vaccination$iso_code, "OWID_")
-df_vaccination$type_location <- str_replace(df_vaccination$type_location, "TRUE", "region")
-df_vaccination$type_location <- str_replace(df_vaccination$type_location, "FALSE", "country")
-df_vaccination$type_location <- as.factor(df_vaccination$type_location)
+df_vaccination$region <- str_detect(df_vaccination$iso_code, "OWID_")
+df_vaccination$region <- str_replace(df_vaccination$region, "TRUE", "continent")
+df_vaccination$region <- str_replace(df_vaccination$region, "FALSE", "pays")
+df_vaccination$region <- as.factor(df_vaccination$region)
+
+# On renomme la variable iso_code pour faciliter la fusion entre les jeux de données
+names(df_vaccination)[names(df_vaccination) == "iso_code"] <- "geo"
+df_vaccination$geo <- str_to_lower(df_vaccination$geo)
 
 
 
@@ -29,31 +33,49 @@ df_vaccination$type_location <- as.factor(df_vaccination$type_location)
 pop_file <- list.files("data/raw/", pattern ="population")
 df_pop_regions <- read_excel(paste0("data/raw/", pop_file), sheet = "data-for-regions-by-year")
 df_pop_country <- read_excel(paste0("data/raw/", pop_file), sheet = "data-for-countries-etc-by-year")
-df_pop_regions <- as_tibble(df_pop_regions)
-df_pop_country <- as_tibble(df_pop_country)
 rm(pop_file)
 
-# Traitement des variables sur la population
-df_pop_country$geo <- as.factor(df_pop_country$geo)
-df_pop_country$name <- as.factor(df_pop_country$name)
-df_pop_regions$geo <- as.factor(df_pop_regions$geo)
-df_pop_regions$name <- as.factor(df_pop_regions$name)
+# Ajout de la variable région (continent ou pays)
+df_pop_country$region <- "pays"
+df_pop_regions$region <- "continent"
 
+# Fusion des dataframe Pays et Continent
+df_pop <- bind_rows(df_pop_country, df_pop_regions)
+df_pop <- as_tibble(df_pop)
+
+# Traitement des variables sur la population
+df_pop$geo <- as.factor(df_pop$geo)
+df_pop$name <- as.factor(df_pop$name)
+df_pop$region <- as.factor(df_pop$region)
+
+# Drop les dataframe Pays et Continent
+rm(df_pop_country, df_pop_regions)
 
 
 # Ouverture des données sur le PIB
 pib_file <- list.files("data/raw/", pattern ="pib")
 df_pib_regions <- read_excel(paste0("data/raw/", pib_file), sheet = "data-for-regions-by-year")
-df_pib_country <- read_excel(paste0("data/raw/", pib_file), sheet = "data-for-countries-etc-by-year")
-df_pib_regions <- as_tibble(df_pib_regions)
-df_pib_country <- as_tibble(df_pib_country)
+df_pib_country <- read_excel(paste0("data/raw/", pib_file), 
+                             sheet = "data-for-countries-etc-by-year",
+                             skip = 1,
+                             col_names = c("geo", "name", "time", "Income per person", "GDP total", "GDP per capita growth (%)"))
 rm(pib_file)
 
+# Ajout de la variable région (continent ou pays)
+df_pib_country$region <- "pays"
+df_pib_regions$region <- "continent"
+
+# Fusion des dataframe Pays et Continent
+df_pib <- bind_rows(df_pib_country, df_pib_regions)
+df_pib <- as_tibble(df_pib)
+
 # Traitement des variables sur le PIB
-df_pib_country$geo <- as.factor(df_pib_country$geo)
-df_pib_country$name <- as.factor(df_pib_country$name)
-df_pib_regions$geo <- as.factor(df_pib_regions$geo)
-df_pib_regions$name <- as.factor(df_pib_regions$name)
+df_pib$geo <- as.factor(df_pib$geo)
+df_pib$name <- as.factor(df_pib$name)
+df_pib$region <- as.factor(df_pib$region)
+
+# Drop les dataframe Pays et Continent
+rm(df_pib_country, df_pib_regions)
 
 
 
@@ -61,13 +83,21 @@ df_pib_regions$name <- as.factor(df_pib_regions$name)
 life_file <- list.files("data/raw/", pattern ="life-expectancy")
 df_life.exp_regions <- read_excel(paste0("data/raw/", life_file), sheet = "data-for-regions-by-year")
 df_life.exp_country <- read_excel(paste0("data/raw/", life_file), sheet = "data-for-countries-etc-by-year")
-df_life.exp_regions <- as_tibble(df_life.exp_regions)
-df_life.exp_country <- as_tibble(df_life.exp_country)
 rm(life_file)
 
-# Traitement des variables sur l'espérance de vie
-df_life.exp_country$geo <- as.factor(df_life.exp_country$geo)
-df_life.exp_country$name <- as.factor(df_life.exp_country$name)
-df_life.exp_regions$geo <- as.factor(df_life.exp_regions$geo)
-df_life.exp_regions$name <- as.factor(df_life.exp_regions$name)
+# Ajout de la variable région (continent ou pays)
+df_life.exp_country$region <- "pays"
+df_life.exp_regions$region <- "continent"
+
+# Fusion des dataframe Pays et Continent
+df_esperance <- bind_rows(df_life.exp_country, df_life.exp_regions)
+df_esperance <- as_tibble(df_esperance)
+
+# Traitement des variables sur le PIB
+df_esperance$geo <- as.factor(df_esperance$geo)
+df_esperance$name <- as.factor(df_esperance$name)
+df_esperance$region <- as.factor(df_esperance$region)
+
+# Drop les dataframe Pays et Continent
+rm(df_life.exp_country, df_life.exp_regions)
 

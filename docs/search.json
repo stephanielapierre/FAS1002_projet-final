@@ -25,8 +25,8 @@
         }
       ],
       "date": "`r Sys.Date()`",
-      "contents": "\nVous pouvez maintenant importer et travailler sur vos données, comme celles de Mathieu et al. (2021).\n\n\n\nMathieu, Edouard, Hannah Ritchie, Esteban Ortiz-Ospina, Max Roser, Joe Hasell, Cameron Appel, Charlie Giattino, and Lucas Rodés-Guirao. 2021. “A Global Database of COVID-19 Vaccinations.” Nature Human Behaviour 5 (7): 947–53. https://doi.org/10.1038/s41562-021-01122-8.\n\n\n\n\n",
-      "last_modified": "2021-12-11T13:42:04-05:00"
+      "contents": "\nVous pouvez maintenant importer et travailler sur vos données, comme celles de Mathieu et al. (2021).\nTO DO : Ajouter une présentation des sources de données et des données utiliser.\nFinir avec une HEAD de la base merger\nRépondre aux questions des consignes\ncomparaison de la vaccination par 100 habitants\n\n\nShow code\n\ndf$test <- round(df$total_vaccinations/df$Population*100, 2)\ndf$test2 <- df$test-df$total_vaccinations_per_hundred\ndf$test3 <- all.equal(df$total_vaccinations_per_hundred, df$test)\n\nsummary(df$total_vaccinations_per_hundred)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n   0.00    8.35   42.74   58.07  101.53  303.22   29691 \n\nShow code\n\nsummary(df$test)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n   0.00    7.65   39.12   55.54   95.06  255.29   37163 \n\nShow code\n\nsummary(df$test2)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n -40.79    0.00    0.00    0.09    0.00   31.70   37163 \n\nShow code\n\nif (df$test2 != 0){df$test2}\n\n\n\n\n\n\nMathieu, Edouard, Hannah Ritchie, Esteban Ortiz-Ospina, Max Roser, Joe Hasell, Cameron Appel, Charlie Giattino, and Lucas Rodés-Guirao. 2021. “A Global Database of COVID-19 Vaccinations.” Nature Human Behaviour 5 (7): 947–53. https://doi.org/10.1038/s41562-021-01122-8.\n\n\n\n\n",
+      "last_modified": "2021-12-12T10:26:34-05:00"
     },
     {
       "path": "3-exploration.html",

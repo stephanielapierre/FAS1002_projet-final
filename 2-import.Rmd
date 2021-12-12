@@ -1,7 +1,8 @@
 ---
-title: "Importation des données"
+title: "Importation et manipulation des données"
 description: | 
-  Cette section a pour objectif de présenter les données utilisées dans ce rapport ainsi que leur source.
+  Cette section présente les données utilisées dans ce rapport ainsi que les 
+  manipulations qui ont été nécessaire pour préparer les données aux analyses
 date: "`r Sys.Date()`"
 # Modifier les détails que vous voulez
 author:
@@ -28,7 +29,7 @@ output: distill::distill_article
 ```{r setup, include=FALSE}
 source("R/data-download.R", local = knitr::knit_global())             # Script pour le téléchargement des données
 source("R/opening-data.R", local = knitr::knit_global())              # Script pour l'ouverture et le traitement des données
-source("R/merge-data.R", local = knitr::knit_global())              # Script pour la fusion des données
+source("R/merge-data.R", local = knitr::knit_global())                # Script pour la fusion des données
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -49,7 +50,8 @@ Répondre aux questions des consignes
 
 comparaison de la vaccination par 100 habitants
 ```{r}
-df$test <- round(df$total_vaccinations/df$Population*100, 2)
+df$test <- df$total_vaccinations/df$Population*100
+df$test <- round(df$test, 2)
 df$test2 <- df$test-df$total_vaccinations_per_hundred
 df$test3 <- all.equal(df$total_vaccinations_per_hundred, df$test)
 
