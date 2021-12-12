@@ -13,7 +13,7 @@ rm(vac_file)
 
 # Traitement des variables sur la vaccination
 df_vaccination$location <- as.factor(df_vaccination$location)
-df_vaccination$iso_code <- as.factor(df_vaccination$iso_code)
+
 df_vaccination$date <- as.Date(df_vaccination$date)
 
 # La variable `location` contient autant des pays que des régions. 
@@ -26,8 +26,33 @@ df_vaccination$region <- as.factor(df_vaccination$region)
 # On renomme la variable iso_code pour faciliter la fusion entre les jeux de données
 names(df_vaccination)[names(df_vaccination) == "iso_code"] <- "geo"
 df_vaccination$geo <- str_to_lower(df_vaccination$geo)
+df_vaccination$geo <- as.factor(df_vaccination$geo)
 
+# Correction des codes de géographies
+df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_afr", "africa")
+df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_asi", "asia")
+df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_eur", "europe")
+df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_nam", "north america")
+# the americas?
+df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_oce", "oceania")
+df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_sam", "south america")
+df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_wrl", "world")
 
+# Enlever des observations non pertinentes
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_hic")      #owid_hic High income
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_lic")      #owid_lic Low income
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_lmc")      #owid_lmc Low middle income
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_umc")      #owid_umc Upper middle income
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_eng")      #owid_eng England
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_nir")      #owid_nir Northern Ireland
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_sct")      #owid_sct Scotland
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_wls")      #owid_wls Wales
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_eun")      #owid_eun Union européenne
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_kos")      #owid_kos Kosovo
+df_vaccination <- filter(df_vaccination, df_vaccination$geo != "owid_cyn")      #owid_cyn North Cyprus
+
+# Traitement facteur de la variable geo
+df_vaccination$geo <- as.factor(df_vaccination$geo)
 
 # Ouverture des données sur la population
 pop_file <- list.files("data/raw/", pattern ="population")

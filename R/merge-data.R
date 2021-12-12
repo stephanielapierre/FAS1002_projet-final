@@ -28,6 +28,10 @@ df <- rename(df,
     year = `time`
 )
 
+# Remplacer les NA de la variable NAME par les valeurs de la colonne LOCATION
+df <- df %>% mutate(name = coalesce(name, location))
+
+
 # Enlever la colonne location
 df <- select(df, -c("location"))
 

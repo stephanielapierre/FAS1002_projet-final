@@ -37,28 +37,77 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(readxl)
 library(dplyr)
+library(kableExtra)
 ```
 
 Vous pouvez maintenant importer et travailler sur vos données, comme celles de @mathieu2021.
 
+# Données utilisées
 TO DO : Ajouter une présentation des sources de données et des données utiliser.
 
 Finir avec une HEAD de la base merger
 
-Répondre aux questions des consignes
+
+# Importation et traitement de données
 
 
-comparaison de la vaccination par 100 habitants
+
+# Jeux de données
+On va commencer par constituer une base de données pour 2021
+
+- Comme les données sur la vaccination sont quotidionnes et qu'il y a certain délais pour certains pays, les données datant d'il y a un mois sont utilisées 
 ```{r}
-df$test <- df$total_vaccinations/df$Population*100
-df$test <- round(df$test, 2)
-df$test2 <- df$test-df$total_vaccinations_per_hundred
-df$test3 <- all.equal(df$total_vaccinations_per_hundred, df$test)
-
-summary(df$total_vaccinations_per_hundred)
-summary(df$test)
-summary(df$test2)
-
-if (df$test2 != 0){df$test2}
+month <- Sys.Date() - months(1)
+df2021 <- filter(df, df$date == month)
 ```
 
+TO DO : TÉLÉCHARGEMENT DES DONNÉES
+
+
+# Validité des valeurs
+Afin de vérifier la validité des valeurs, on compare la valeur de la variable `total_vaccinations_per_hundred` qui est fourni par Our World in Data avec une nouvelle variable qu'on obtient en prenant la population de 2021 estimé par Gapminder.
+
+```{r}
+# Subset pour simplifier le jeu de données (on enleve des variables)
+df_vac_100hab <- select(df2021, c("name", "region", "total_vaccinations_per_hundred", "total_vaccinations", "population"))
+
+# Calcul la nouvelle variable
+df_vac_100hab$calcul <- df_vac_100hab$total_vaccinations/df_vac_100hab$population*100     # Calcul la variable
+df_vac_100hab$calcul <- round(df_vac_100hab$calcul, 2)                  # Arrondie pour garder 2 décimales
+
+# On ajoute fait la comparaison entre la variable existante et calculée
+df_vac_100hab <- df_vac_100hab %>% mutate("match" = ifelse(total_vaccinations_per_hundred == calcul, "Correct","Incorrect"))
+
+# Sommaire
+df_vac_100hab$match <- as.factor(df_vac_100hab$match)
+
+# On extrait les données Correct et les NA (pour l'analyse)
+correct <- filter(df_vac_100hab, df_vac_100hab$match == "Correct")
+na <- filter(df_vac_100hab, is.na(df_vac_100hab$match))
+
+# On extrait les données Incorrect
+incorrect <- filter(df_vac_100hab, df_vac_100hab$match == "Incorrect")
+incorrect <- select(incorrect, "name", "region", "total_vaccinations_per_hundred", "calcul")
+
+# On calcule la différence si les données sont Incorrect
+incorrect$difference <- incorrect$total_vaccinations_per_hundred - incorrect$calcul
+incorrect$difference <- abs(incorrect$difference)
+incorrect <- arrange(incorrect, incorrect$difference)
+```
+
+Le jeux de données de données de 2021 contient `r nrow(df_vac_100hab)` observations (des pays ou des continents).
+
+Il faut d'abord noter qu'il n'est pas possible d'effectuer de comparaison pour `r nrow(na)` observations. Ceci est le résultat de valeurs manquantes pour le vaccination ou la population. 
+
+Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la valeur de la variable `total_vaccinations_per_hundred` de Our World in Data et celle calculées. Alors que pour `r nrow(incorrect)` observations, il y a une différence entre la valeur de OWID et la valeur calculée.
+
+Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour lesquels 
+le taux de vaccination par 100 habitants de Our World In Data est différent que celui qui est calculé.
+
+```{r}
+incorrect %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+En considérant que le nombre de pays ou de continent qui présente une valeur différente est petit, il est possible de conclure que les données sont valides.
