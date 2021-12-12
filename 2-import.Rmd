@@ -11,8 +11,8 @@ author:
     url: https://github.com/stephanielapierre
     # les champs d'affiliation sont optionnels, vous pouvez les
     # comment out en ajoutant un # devant.
-    affiliation: FAS1002
-    affiliation_url: https://admission.umontreal.ca/programmes/microprogramme-de-1er-cycle-en-analyse-des-megadonnees-en-sciences-humaines-et-sociales/structure-du-programme/
+    # affiliation: FAS1002
+    # affiliation_url: https://admission.umontreal.ca/programmes/microprogramme-de-1er-cycle-en-analyse-des-megadonnees-en-sciences-humaines-et-sociales/structure-du-programme/
     # changer pour votre propre orcid id
     # https://orcid.org/ pour vous inscrire.
     # orcid_id: 0000-0000-0000-0000
