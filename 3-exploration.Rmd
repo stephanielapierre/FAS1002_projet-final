@@ -28,30 +28,41 @@ output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
+source("R/opening-processed-data.R", local = knitr::knit_global())              # Script pour l'ouverture des données traitées
 knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(dplyr)
+library(kableExtra)
 ```
 
 ## Que le plaisir commence
 
-```{r, include=FALSE}
-# Ouverture des données sur la vaccination
-vac_file <- list.files("data/processed/", pattern ="df")
-df <- read.csv(paste0("data/processed/", vac_file))
-rm(vac_file)
-```
 
-```{r, include=FALSE}
-# Ouverture des données 2021, une ligne par pays/continent
-vac_file <- list.files("data/processed/", pattern ="data_year")
-df2021 <- read.csv(paste0("data/processed/", vac_file))
-rm(vac_file)
-```
 
 
 ### Statistiques descritives des données de 2021
 
 ```{r, include=FALSE}
 summary(df2021)
+
+pop_pays <- filter(df2021, df2021$region == "pays")
+sum_pop <- pop_pays %>% summarise(
+  Moyenne = mean(`population`, na.rm = TRUE),
+  Médiane = median(`population`, na.rm = TRUE),
+  Minimum = min(`population`, na.rm = TRUE),
+  Maximum = max(`population`, na.rm = TRUE))
+
+pop_continent <- filter(df2021, df2021$region == "continent")
+sum_pop <- pop_continent %>% summarise(
+  Moyenne = mean(`population`, na.rm = TRUE),
+  Médiane = median(`population`, na.rm = TRUE),
+  Minimum = min(`population`, na.rm = TRUE),
+  Maximum = max(`population`, na.rm = TRUE))
+
+summary(df)
 ```
 
 
