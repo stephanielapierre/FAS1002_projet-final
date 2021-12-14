@@ -1,5 +1,7 @@
 ### Script pour l'ouverture des données traitées
 
+library(tidyverse)
+
 # Ouverture des données sur la vaccination
 vac_file <- list.files("data/processed/", pattern ="df")
 df <- read.csv(paste0("data/processed/", vac_file))

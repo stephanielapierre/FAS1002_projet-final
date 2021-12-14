@@ -32,3 +32,5 @@ if (date_processed_file < Sys.Date()){
     write.csv(df, paste0('data/processed/df_', Sys.Date(), '.csv'), row.names = FALSE)
     file.remove(paste0('data/processed/df_', date_processed_file, '.csv'))         # On enleve les données old
 }
+
+rm(date_processed_file, month, processed_file)

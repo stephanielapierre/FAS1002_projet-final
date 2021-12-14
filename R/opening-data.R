@@ -3,6 +3,7 @@
 library(tidyverse)
 library(readxl)
 library(dplyr)
+library(gapminder)
 
 
 # Ouverture des données sur la vaccination
@@ -126,3 +127,10 @@ df_esperance$region <- as.factor(df_esperance$region)
 # Drop les dataframe Pays et Continent
 rm(df_life.exp_country, df_life.exp_regions)
 
+
+
+# Extraction d'une liste des pays par continent à partir des données du package Gapminder
+
+gapminder <- gapminder::gapminder
+gapminder <- filter(gapminder, gapminder$year == 2007)
+gapminder <- select(gapminder, c("country", "continent"))
