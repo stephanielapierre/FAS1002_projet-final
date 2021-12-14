@@ -12,6 +12,9 @@ df_vaccination$time <- as.numeric(str_sub(df_vaccination$date, 1, 4))
 # Fusion des données de vaccination et de population
 df <- left_join(df_vaccination, df_pop)
 
+# Ajout des données des pays par continent (gapminder)
+df <- left_join(df, df_geo)
+
 # Ajout des données du PIB
 df <- left_join(df, df_pib)
 
@@ -25,7 +28,8 @@ df <- rename(df,
     gdp = `GDP total`,
     growth_gdp_per_capita = `GDP per capita growth (%)`,
     life_expectancy = `Life expectancy`,
-    year = `time`
+    year = `time`,
+    continent = `four_regions`
 )
 
 # Remplacer les NA de la variable NAME par les valeurs de la colonne LOCATION
@@ -39,3 +43,4 @@ df <- select(df, -c("location"))
 df <- df %>% relocate(name, .before = geo)
 df <- df %>% relocate(region, .before = date)
 df <- df %>% relocate(year, .after = date)
+df <- df %>% relocate(continent, .before = date)
