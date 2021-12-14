@@ -12,6 +12,7 @@ rm(vac_file)
 df$name <- as.factor(df$name)
 df$geo <- as.factor(df$geo)
 df$region <- as.factor(df$region)
+df$continent <- as.factor(df$continent)
 df$date <- as.Date(df$date)
 
 
@@ -25,4 +26,5 @@ rm(vac_file)
 df2021$name <- as.factor(df2021$name)
 df2021$geo <- as.factor(df2021$geo)
 df2021$region <- as.factor(df2021$region)
+df2021$continent <- as.factor(df2021$continent)
 df2021$date <- as.Date(df2021$date)

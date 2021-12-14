@@ -106,7 +106,7 @@ Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la va
 Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour lesquels 
 le taux de vaccination par 100 habitants de Our World In Data est différent que celui qui est calculé.
 
-```{r, include=FALSE}
+```{r}
 incorrect %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)

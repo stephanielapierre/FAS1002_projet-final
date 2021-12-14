@@ -40,8 +40,55 @@ library(kableExtra)
 
 ## Que le plaisir commence
 
+### Portrait des données sur la vaccination
 
+```{r, include=FALSE}
+max_date <- max(df$date)
+df_recent_pays <- filter(df, df$date == max_date)
+df_recent_pays <- filter(df_recent_pays, df_recent_pays$region == "pays")
+df_recent_pays <- df_recent_pays %>% drop_na(continent)
 
+sommaire <- df_recent_pays %>% summarise(
+  "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
+  "Doses de rappel" = mean(`total_boosters`, na.rm = TRUE),
+  "Personnes vaccinées" = mean(`people_vaccinated`, na.rm = TRUE),
+  "Personnes pleinement vaccinées" = mean(`people_fully_vaccinated`, na.rm = TRUE),
+  "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE), 1)
+)
+
+sommaire2 <- df_recent_pays %>% group_by(df_recent_pays$continent) %>% summarise(
+  "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
+  "Doses de rappel" = mean(`total_boosters`, na.rm = TRUE),
+  "Personnes vaccinées" = mean(`people_vaccinated`, na.rm = TRUE),
+  "Personnes pleinement vaccinées" = mean(`people_fully_vaccinated`, na.rm = TRUE),
+  "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE), 1)
+)
+
+#Formattage du tableau 
+sommaire2 <- rename(sommaire2, Continent = `df_recent_pays$continent`)
+sommaire2$Continent <- str_replace(sommaire2$Continent, "_", " ")
+sommaire2$Continent <- str_to_title(sommaire2$Continent)
+```
+
+Les données les plus récentes contenus dans la base données datent du `r max_date` 
+et portent sur `r nrow(df_recent_pays)` pays. Voici un tableau présentant la 
+moyenne par pays pour certains indicateurs.
+
+**Données sur la vaccination, moyenne par pays, `r max_date`**
+```{r}
+sommaire %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+Afin de tenir compte des particularités entre les différentes régions du monde voici le même tableau dans lequel les pays sont regroupés par continent.
+
+**Données sur la vaccination, moyenne par continent, `r max_date`**
+```{r}
+sommaire2 %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
 
 ### Statistiques descritives des données de 2021
 

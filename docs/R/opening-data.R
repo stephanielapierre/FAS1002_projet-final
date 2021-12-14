@@ -3,6 +3,7 @@
 library(tidyverse)
 library(readxl)
 library(dplyr)
+library(gapminder)
 
 
 # Ouverture des données sur la vaccination
@@ -126,3 +127,17 @@ df_esperance$region <- as.factor(df_esperance$region)
 # Drop les dataframe Pays et Continent
 rm(df_life.exp_country, df_life.exp_regions)
 
+
+
+# Liste des pays par continent Gapminder
+# download.file("https://docs.google.com/spreadsheets/d/1qHalit8sXC0R8oVXibc2wa2gY7bkwGzOybEMTWp-08o/export?format=xlsx", 
+#               destfile = "data/raw/geographies.xlsx")
+geo_file <- list.files("data/raw/", pattern ="geographies")
+df_geo <- read_excel(paste0("data/raw/", geo_file), sheet = "list-of-countries-etc")
+rm(geo_file)
+
+# Séparation des Amériques
+df_geo$four_regions <- ifelse(df_geo$four_regions == "americas", df_geo$eight_regions, df_geo$four_regions)
+
+# On conserve seulement les colonnes d'intérêt
+df_geo <- select(df_geo, c(1, 2, 3))
