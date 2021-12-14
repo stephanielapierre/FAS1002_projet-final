@@ -48,6 +48,10 @@ df_recent_pays <- filter(df, df$date == max_date)
 df_recent_pays <- filter(df_recent_pays, df_recent_pays$region == "pays")
 df_recent_pays <- df_recent_pays %>% drop_na(continent)
 
+df_recent_pays <- rename(df_recent_pays, Continent = `continent`)
+df_recent_pays$Continent <- str_replace(df_recent_pays$Continent, "_", " ")
+df_recent_pays$Continent <- str_to_title(df_recent_pays$Continent)
+
 sommaire <- df_recent_pays %>% summarise(
   "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
   "Doses de rappel" = mean(`total_boosters`, na.rm = TRUE),
@@ -56,7 +60,7 @@ sommaire <- df_recent_pays %>% summarise(
   "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE), 1)
 )
 
-sommaire2 <- df_recent_pays %>% group_by(df_recent_pays$continent) %>% summarise(
+sommaire2 <- df_recent_pays %>% group_by(df_recent_pays$Continent) %>% summarise(
   "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
   "Doses de rappel" = mean(`total_boosters`, na.rm = TRUE),
   "Personnes vaccinées" = mean(`people_vaccinated`, na.rm = TRUE),
@@ -65,9 +69,7 @@ sommaire2 <- df_recent_pays %>% group_by(df_recent_pays$continent) %>% summarise
 )
 
 #Formattage du tableau 
-sommaire2 <- rename(sommaire2, Continent = `df_recent_pays$continent`)
-sommaire2$Continent <- str_replace(sommaire2$Continent, "_", " ")
-sommaire2$Continent <- str_to_title(sommaire2$Continent)
+sommaire2 <- rename(sommaire2, Continent = `df_recent_pays$Continent`)
 ```
 
 Les données les plus récentes contenus dans la base données datent du `r max_date` 
@@ -89,6 +91,119 @@ sommaire2 %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
+
+Déjà avec ce tableau, il est possible de constater que les données varient 
+beaucoup d'un continent à l'autre. Mais qu'en est-il si un prend les données 
+des différents pays à l'intérieur d'un continent. 
+
+Observons maintenant la distribution des pays selon la variable Personnes pleinement vaccinées par 100 habitants.
+
+```{r}
+ggplot(df_recent_pays) +
+  aes(x = Continent, y = people_fully_vaccinated_per_hundred) +
+  geom_boxplot(shape = "circle") +
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
+  labs(
+    x = "Continent",
+    y = "Personnes pleinements vaccinées par 100 habitants",
+    title = "Distribution des personnes pleinements vaccinées par 100 habitants"
+  ) +
+  theme_light() +
+   theme(plot.title = element_text(face = "bold"))
+```
+
+Ce graphique de boîtes à moustaches illustre bien la distribution des pays à
+l'intérieur des continents. L'Afrique, l'Asie et l'Europe se démarquent avec des 
+pays qui qui se retrouve répartie sur toute la distribution. 
+
+
+## Et nos autres variables...
+
+```{r, include=FALSE}
+df2021_clean <- filter(df2021, df2021$region == "pays")
+df2021_clean <- df2021_clean %>% drop_na(continent)
+
+df2021_clean <- rename(df2021_clean, Continent = `continent`)
+df2021_clean$Continent <- str_replace(df2021_clean$Continent, "_", " ")
+df2021_clean$Continent <- str_to_title(df2021_clean$Continent)
+
+# Population
+s_pop <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+  Médiane = median(`population`, na.rm = TRUE),
+  Moyenne = mean(`population`, na.rm = TRUE),
+  "Écart type" = sd(`population`, na.rm = TRUE),
+  Minimum = min(`population`, na.rm = TRUE),
+  Maximum = max(`population`, na.rm = TRUE)
+)
+
+# Espérance de vie
+s_life <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+  Médiane = round(median(`life_expectancy`, na.rm = TRUE), 1),
+  Moyenne = round(mean(`life_expectancy`, na.rm = TRUE), 1),
+  "Écart type" = round(sd(`life_expectancy`, na.rm = TRUE), 1),
+  Minimum = round(min(`life_expectancy`, na.rm = TRUE), 1),
+  Maximum = round(max(`life_expectancy`, na.rm = TRUE), 1)
+)
+
+# PIB
+s_pib <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+  Médiane = median(`gdp`, na.rm = TRUE),
+  Moyenne = mean(`gdp`, na.rm = TRUE),
+  "Écart type" = sd(`gdp`, na.rm = TRUE),
+  Minimum = min(`gdp`, na.rm = TRUE),
+  Maximum = max(`gdp`, na.rm = TRUE)
+)
+
+# PIB par habitant
+s_pib_capita <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+  Médiane = round(median(`income_per_person`, na.rm = TRUE), 0),
+  Moyenne = round(mean(`income_per_person`, na.rm = TRUE), 0),
+  "Écart type" = round(sd(`income_per_person`, na.rm = TRUE), 0),
+  Minimum = round(min(`income_per_person`, na.rm = TRUE), 0),
+  Maximum = round(max(`income_per_person`, na.rm = TRUE), 0)
+)
+
+#Formattage du tableau 
+s_pop <- rename(s_pop, Continent = `df2021_clean$Continent`)
+s_life <- rename(s_life, Continent = `df2021_clean$Continent`)
+s_pib <- rename(s_pib, Continent = `df2021_clean$Continent`)
+s_pib_capita <- rename(s_pib_capita, Continent = `df2021_clean$Continent`)
+```
+
+Voici les tableaux présentants les statistiques descritives des autres variables 
+disponibles dans le jeu de données.
+
+**Données sur la population, moyenne par continent, 2021**
+```{r}
+s_pop %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+**Données sur l'espérance de vie, moyenne par continent, 2021**
+```{r}
+s_life %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+**Données sur le PIB estimé, moyenne par continent, 2021**
+```{r}
+s_pib %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+**Données sur le PIB par habitant estimé, moyenne par continent, 2021**
+```{r}
+s_pib_capita %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+
+
+
 
 ### Statistiques descritives des données de 2021
 
