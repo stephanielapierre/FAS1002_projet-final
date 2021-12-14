@@ -42,6 +42,14 @@ library(kableExtra)
 
 ### Portrait des données sur la vaccination
 
+```{r}
+test <- df %>% group_by(df$name) %>% summarise(
+  "Données la plus récente" = max(`date`, na.rm = TRUE)
+)
+```
+
+
+
 ```{r, include=FALSE}
 max_date <- max(df$date)
 df_recent_pays <- filter(df, df$date == max_date)
@@ -147,11 +155,11 @@ s_life <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
 
 # PIB
 s_pib <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
-  Médiane = median(`gdp`, na.rm = TRUE),
-  Moyenne = mean(`gdp`, na.rm = TRUE),
-  "Écart type" = sd(`gdp`, na.rm = TRUE),
-  Minimum = min(`gdp`, na.rm = TRUE),
-  Maximum = max(`gdp`, na.rm = TRUE)
+  Médiane = round(median(`gdp`, na.rm = TRUE), 1),
+  Moyenne = round(mean(`gdp`, na.rm = TRUE), 1),
+  "Écart type" = round(sd(`gdp`, na.rm = TRUE), 1),
+  Minimum = round(min(`gdp`, na.rm = TRUE), 1),
+  Maximum = round(max(`gdp`, na.rm = TRUE), 1)
 )
 
 # PIB par habitant
@@ -187,7 +195,7 @@ s_life %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-**Données sur le PIB estimé, moyenne par continent, 2021**
+**Données sur le PIB réel estimé (G$), moyenne par continent, 2021**
 ```{r}
 s_pib %>%
   kbl() %>%

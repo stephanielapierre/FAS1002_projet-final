@@ -34,7 +34,6 @@ df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_afr", "africa")
 df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_asi", "asia")
 df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_eur", "europe")
 df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_nam", "north america")
-# the americas?
 df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_oce", "oceania")
 df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_sam", "south america")
 df_vaccination$geo <- str_replace(df_vaccination$geo, "owid_wrl", "world")
@@ -103,6 +102,8 @@ df_pib$region <- as.factor(df_pib$region)
 # Drop les dataframe Pays et Continent
 rm(df_pib_country, df_pib_regions)
 
+# PIB en milliards de dollars (M$)
+df_pib$`GDP total` <- df_pib$`GDP total` / 1000000000
 
 
 # Ouverture des données sur l'espérance de vie
