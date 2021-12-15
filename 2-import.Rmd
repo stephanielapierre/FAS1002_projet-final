@@ -65,6 +65,10 @@ quotidienne, les pays ne mettent pas leurs données à jour la même fréquence.
 df_update <- df %>% 
   group_by(df$name) %>%
   slice(which.max(date))
+
+df_update <- df_update %>%
+  ungroup() %>%
+  select(-`df$name`)
 ```
 
 TO DO : TÉLÉCHARGEMENT DES DONNÉES
@@ -73,11 +77,15 @@ TO DO : TÉLÉCHARGEMENT DES DONNÉES
 # Variable continent? - Comment présenter?
 
 # Validité des valeurs
-Comme mentionné plus haut, notre jeu de données set Afin de vérifier la validité des valeurs, on compare la valeur de la variable `total_vaccinations_per_hundred` qui est fourni par Our World in Data avec une nouvelle variable qu'on obtient en prenant la population de 2021 estimé par Gapminder.
+Comme mentionné plus haut, notre jeu de données est constitué à partir de deux 
+sources (Our World in Data et Gapminder). Afin de vérifier la validité des 
+données, nous comparons la valeur de la variable `total_vaccinations_per_hundred`, 
+qui est fourni par Our World in Data, avec une nouvelle variable que nous 
+obtenous à partir de la population de 2021 estimé par Gapminder.
 
 ```{r, include=FALSE}
 # Subset pour simplifier le jeu de données (on enleve des variables)
-df_vac_100hab <- select(df2021, c("name", "region", "total_vaccinations_per_hundred", "total_vaccinations", "population"))
+df_vac_100hab <- select(df_update, c("name", "region", "continent", "total_vaccinations_per_hundred", "total_vaccinations", "population"))
 
 # Calcul la nouvelle variable
 df_vac_100hab$calcul <- df_vac_100hab$total_vaccinations/df_vac_100hab$population*100     # Calcul la variable
@@ -95,22 +103,38 @@ na <- filter(df_vac_100hab, is.na(df_vac_100hab$match))
 
 # On extrait les données Incorrect
 incorrect <- filter(df_vac_100hab, df_vac_100hab$match == "Incorrect")
-incorrect <- select(incorrect, "name", "region", "total_vaccinations_per_hundred", "calcul")
+incorrect <- select(incorrect, "name", "region", "continent", "total_vaccinations_per_hundred", "calcul")
 
 # On calcule la différence si les données sont Incorrect
 incorrect$difference <- incorrect$total_vaccinations_per_hundred - incorrect$calcul
 incorrect$difference <- abs(incorrect$difference)
 incorrect <- arrange(incorrect, incorrect$difference)
+
+#Formattage
+incorrect <- rename(incorrect, 
+                    Nom = `name`,
+                    "Pays ou Continent" = `region`,
+                    Continent = `continent`,
+                    "Vaccination par 100 hab. (OWID)" = `total_vaccinations_per_hundred`,
+                    "Vaccination par 100 hab. (calculé)" = `calcul`,
+                    Différence = `difference`)
 ```
 
-Le jeux de données de données de 2021 contient `r nrow(df_vac_100hab)` observations (des pays ou des continents).
+Le jeu de données des données les plus récentes contient `r nrow(df_vac_100hab)` 
+observations (des pays ou des continents).
 
-Il faut d'abord noter qu'il n'est pas possible d'effectuer de comparaison pour `r nrow(na)` observations. Ceci est le résultat de valeurs manquantes pour le vaccination ou la population. 
+Il faut d'abord noter qu'il n'est pas possible d'effectuer de comparaison pour 
+`r nrow(na)` observations. Ceci est dû à des valeurs manquantes pour la 
+vaccination ou la population. 
 
-Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la valeur de la variable `total_vaccinations_per_hundred` de Our World in Data et celle calculées. Alors que pour `r nrow(incorrect)` observations, il y a une différence entre la valeur de OWID et la valeur calculée.
+Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la 
+valeur de la variable `total_vaccinations_per_hundred` de Our World in Data et 
+celle calculée. Alors que pour `r nrow(incorrect)` observations, il y a une 
+différence entre la valeur de OWID et la valeur calculée.
 
-Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour lesquels 
-le taux de vaccination par 100 habitants de Our World In Data est différent que celui qui est calculé.
+Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour 
+lesquels le taux de vaccination par 100 habitants de OWID est différent que 
+celui qui est calculé.
 
 ```{r}
 incorrect %>%
@@ -118,7 +142,8 @@ incorrect %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-En considérant que le nombre de pays ou de continent qui présente une valeur différente est petit, il est possible de conclure que les données sont valides.
+En considérant que le nombre de pays ou de continent qui présente une valeur 
+différente est petit, il est possible de conclure que les données sont valides.
 
 ```{r, include=FALSE}
 source("R/processed-data.R", local = knitr::knit_global())             # Script pour enregistrer les données

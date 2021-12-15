@@ -1,19 +1,19 @@
 ### Script pour enregistrer les données traitées ###
 
 
-## Jeu de données 2021, une ligne par pays/continent ##
+## Jeu de données plus plus récentes, une ligne par pays/continent ##
 
 # Si on fait des corrections dans les données et qu'on veut enregister
-# write.csv(df2021, paste0('data/processed/data_year_', Sys.Date(), '.csv'), row.names = FALSE)
+# write.csv(df_update, paste0('data/processed/data_update_', Sys.Date(), '.csv'), row.names = FALSE)
 
 # Extraction de la date dernier enregistrement des données
-processed_file <- list.files("data/processed/", pattern ="data_year")
-date_processed_file <- str_sub(processed_file, 11, 20)
+processed_file <- list.files("data/processed/", pattern ="data_update")
+date_processed_file <- str_sub(processed_file, 13, 22)
 
 # Conditionnel pour vérifier les données doivent être enregistrées
 if (date_processed_file < Sys.Date()){
-    write.csv(df2021, paste0('data/processed/data_year_', Sys.Date(), '.csv'), row.names = FALSE)
-    file.remove(paste0('data/processed/data_year_', date_processed_file, '.csv'))         # On enleve les données old
+    write.csv(df_update, paste0('data/processed/data_update_', Sys.Date(), '.csv'), row.names = FALSE)
+    file.remove(paste0('data/processed/data_update_', date_processed_file, '.csv'))         # On enleve les données old
 }
 
 

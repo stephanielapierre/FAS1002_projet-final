@@ -142,3 +142,7 @@ df_geo$four_regions <- ifelse(df_geo$four_regions == "americas", df_geo$eight_re
 
 # On conserve seulement les colonnes d'intérêt
 df_geo <- select(df_geo, c(1, 2, 3))
+
+# Formattage des continents
+df_geo$four_regions <- str_replace(df_geo$four_regions, "_", " ")
+df_geo$four_regions <- str_to_title(df_geo$four_regions)

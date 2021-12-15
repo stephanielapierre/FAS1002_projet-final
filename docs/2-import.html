@@ -2534,18 +2534,16 @@ Aide pour le site
 <p>Finir avec une HEAD de la base merger</p>
 <h1 id="importation-et-traitement-de-données">Importation et traitement de données</h1>
 <h1 id="jeux-de-données">Jeux de données</h1>
-<p>On va commencer par constituer une base de données pour 2021</p>
-<ul>
-<li>Comme les données sur la vaccination sont quotidionnes et qu’il y a certain délais pour certains pays, les données datant d’il y a un mois sont utilisées</li>
-</ul>
+<p>Maintenant que notre jeu de données complet à été constitué, nous nous allons créer un nouveau jeu de données contenant seulement les données les plus récentes. En effet, bien que les données sur la vaccination soient disponibles sur une base quotidienne, les pays ne mettent pas leurs données à jour la même fréquence.</p>
+<p><em>Cette aspect sera exploré plus en détails dans la section Exploration des données </em></p>
 <p>TO DO : TÉLÉCHARGEMENT DES DONNÉES</p>
 <h1 id="variable-continent---comment-présenter">Variable continent? - Comment présenter?</h1>
 <h1 id="validité-des-valeurs">Validité des valeurs</h1>
-<p>Afin de vérifier la validité des valeurs, on compare la valeur de la variable <code>total_vaccinations_per_hundred</code> qui est fourni par Our World in Data avec une nouvelle variable qu’on obtient en prenant la population de 2021 estimé par Gapminder.</p>
-<p>Le jeux de données de données de 2021 contient 209 observations (des pays ou des continents).</p>
-<p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour 106 observations. Ceci est le résultat de valeurs manquantes pour le vaccination ou la population.</p>
-<p>Pour 94 des observations, il n’y a pas de différence entre la valeur de la variable <code>total_vaccinations_per_hundred</code> de Our World in Data et celle calculées. Alors que pour 9 observations, il y a une différence entre la valeur de OWID et la valeur calculée.</p>
-<p>Voici le tableau qui présente les 9 pays ou continents pour lesquels le taux de vaccination par 100 habitants de Our World In Data est différent que celui qui est calculé.</p>
+<p>Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (Our World in Data et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable <code>total_vaccinations_per_hundred</code>, qui est fourni par Our World in Data, avec une nouvelle variable que nous obtenous à partir de la population de 2021 estimé par Gapminder.</p>
+<p>Le jeu de données des données les plus récentes contient 224 observations (des pays ou des continents).</p>
+<p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour 32 observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population.</p>
+<p>Pour 181 des observations, il n’y a pas de différence entre la valeur de la variable <code>total_vaccinations_per_hundred</code> de Our World in Data et celle calculée. Alors que pour 11 observations, il y a une différence entre la valeur de OWID et la valeur calculée.</p>
+<p>Voici le tableau qui présente les 11 pays ou continents pour lesquels le taux de vaccination par 100 habitants de OWID est différent que celui qui est calculé.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2562,19 +2560,22 @@ Show code
 <thead>
 <tr>
 <th style="text-align:left;">
-name
+Nom
 </th>
 <th style="text-align:left;">
-region
+Pays ou Continent
+</th>
+<th style="text-align:left;">
+Continent
 </th>
 <th style="text-align:right;">
-total_vaccinations_per_hundred
+Vaccination par 100 hab. (OWID)
 </th>
 <th style="text-align:right;">
-calcul
+Vaccination par 100 hab. (calculé)
 </th>
 <th style="text-align:right;">
-difference
+Différence
 </th>
 </tr>
 </thead>
@@ -2586,11 +2587,14 @@ Africa
 <td style="text-align:left;">
 continent
 </td>
-<td style="text-align:right;">
-15.76
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
-15.78
+19.58
+</td>
+<td style="text-align:right;">
+19.60
 </td>
 <td style="text-align:right;">
 0.02
@@ -2603,14 +2607,17 @@ United States
 <td style="text-align:left;">
 pays
 </td>
-<td style="text-align:right;">
-134.80
+<td style="text-align:left;">
+America North
 </td>
 <td style="text-align:right;">
-134.43
+146.19
 </td>
 <td style="text-align:right;">
-0.37
+145.79
+</td>
+<td style="text-align:right;">
+0.40
 </td>
 </tr>
 <tr>
@@ -2620,14 +2627,17 @@ Asia
 <td style="text-align:left;">
 continent
 </td>
-<td style="text-align:right;">
-108.81
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
-110.24
+123.48
 </td>
 <td style="text-align:right;">
-1.43
+125.10
+</td>
+<td style="text-align:right;">
+1.62
 </td>
 </tr>
 <tr>
@@ -2637,14 +2647,17 @@ France
 <td style="text-align:left;">
 pays
 </td>
-<td style="text-align:right;">
-150.13
+<td style="text-align:left;">
+Europe
 </td>
 <td style="text-align:right;">
-155.04
+166.95
 </td>
 <td style="text-align:right;">
-4.91
+172.41
+</td>
+<td style="text-align:right;">
+5.46
 </td>
 </tr>
 <tr>
@@ -2654,14 +2667,17 @@ New Zealand
 <td style="text-align:left;">
 pays
 </td>
-<td style="text-align:right;">
-140.90
+<td style="text-align:left;">
+Asia
 </td>
 <td style="text-align:right;">
-148.49
+154.17
 </td>
 <td style="text-align:right;">
-7.59
+162.48
+</td>
+<td style="text-align:right;">
+8.31
 </td>
 </tr>
 <tr>
@@ -2671,14 +2687,37 @@ Israel
 <td style="text-align:left;">
 pays
 </td>
-<td style="text-align:right;">
-172.74
+<td style="text-align:left;">
+Asia
 </td>
 <td style="text-align:right;">
-182.59
+175.85
 </td>
 <td style="text-align:right;">
-9.85
+185.88
+</td>
+<td style="text-align:right;">
+10.03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Singapore
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+174.00
+</td>
+<td style="text-align:right;">
+160.93
+</td>
+<td style="text-align:right;">
+13.07
 </td>
 </tr>
 <tr>
@@ -2688,14 +2727,17 @@ Europe
 <td style="text-align:left;">
 continent
 </td>
-<td style="text-align:right;">
-120.06
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
-105.69
+136.01
 </td>
 <td style="text-align:right;">
-14.37
+119.73
+</td>
+<td style="text-align:right;">
+16.28
 </td>
 </tr>
 <tr>
@@ -2705,14 +2747,17 @@ Serbia
 <td style="text-align:left;">
 pays
 </td>
-<td style="text-align:right;">
-108.87
+<td style="text-align:left;">
+Europe
 </td>
 <td style="text-align:right;">
-86.02
+117.52
 </td>
 <td style="text-align:right;">
-22.85
+92.85
+</td>
+<td style="text-align:right;">
+24.67
 </td>
 </tr>
 <tr>
@@ -2722,14 +2767,37 @@ Malta
 <td style="text-align:left;">
 pays
 </td>
-<td style="text-align:right;">
-176.07
+<td style="text-align:left;">
+Europe
 </td>
 <td style="text-align:right;">
-205.22
+193.27
 </td>
 <td style="text-align:right;">
-29.15
+225.27
+</td>
+<td style="text-align:right;">
+32.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cyprus
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:right;">
+157.73
+</td>
+<td style="text-align:right;">
+116.26
+</td>
+<td style="text-align:right;">
+41.47
 </td>
 </tr>
 </tbody>
