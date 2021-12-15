@@ -17,7 +17,7 @@ df$date <- as.Date(df$date)
 
 
 # Ouverture des données 2021, une ligne par pays/continent
-vac_file <- list.files("data/processed/", pattern ="data_year")
+vac_file <- list.files("data/processed/", pattern ="data_update")
 df2021 <- read.csv(paste0("data/processed/", vac_file))
 df2021 <- as_tibble(df2021)
 rm(vac_file)

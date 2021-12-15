@@ -40,13 +40,19 @@ library(kableExtra)
 
 ## Que le plaisir commence
 
-### Portrait des données sur la vaccination
+## Vaccination à travers le monde
 
-```{r}
-test <- df %>% group_by(df$name) %>% summarise(
-  "Données la plus récente" = max(`date`, na.rm = TRUE)
-)
-```
+
+###Les plus récentes données de la vaccination
+
+*une analyse de la variable date (min, max,)*
+*graph de la distribution des dates*
+
+### Les données sur la vaccination
+
+*tableau sommaire des indicateurs de la vaccination*
+*on va faire un summarise de chaque variable puis, on fait faire un rowbind pour tout avoir dans un tableau*
+
 
 
 

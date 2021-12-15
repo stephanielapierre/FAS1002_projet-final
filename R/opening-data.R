@@ -104,6 +104,7 @@ rm(df_pib_country, df_pib_regions)
 
 # PIB en milliards de dollars (M$)
 df_pib$`GDP total` <- df_pib$`GDP total` / 1000000000
+df_pib$`GDP total` <- round(df_pib$`GDP total`, 3)
 
 
 # Ouverture des données sur l'espérance de vie
