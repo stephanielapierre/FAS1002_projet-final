@@ -53,12 +53,18 @@ Finir avec une HEAD de la base merger
 
 
 # Jeux de données
-On va commencer par constituer une base de données pour 2021
 
-- Comme les données sur la vaccination sont quotidionnes et qu'il y a certain délais pour certains pays, les données datant d'il y a un mois sont utilisées 
+Maintenant que notre jeu de données complet à été constitué, nous nous allons
+créer un nouveau jeu de données contenant seulement les données les plus récentes. 
+En effet, bien que les données sur la vaccination soient disponibles sur une base 
+quotidienne, les pays ne mettent pas leurs données à jour la même fréquence. 
+
+*Cette aspect sera exploré plus en détails dans la section Exploration des données *
+  
 ```{r, include=FALSE}
-month <- Sys.Date() - months(1)
-df2021 <- filter(df, df$date == month)
+df_update <- df %>% 
+  group_by(df$name) %>%
+  slice(which.max(date))
 ```
 
 TO DO : TÉLÉCHARGEMENT DES DONNÉES
@@ -67,7 +73,7 @@ TO DO : TÉLÉCHARGEMENT DES DONNÉES
 # Variable continent? - Comment présenter?
 
 # Validité des valeurs
-Afin de vérifier la validité des valeurs, on compare la valeur de la variable `total_vaccinations_per_hundred` qui est fourni par Our World in Data avec une nouvelle variable qu'on obtient en prenant la population de 2021 estimé par Gapminder.
+Comme mentionné plus haut, notre jeu de données set Afin de vérifier la validité des valeurs, on compare la valeur de la variable `total_vaccinations_per_hundred` qui est fourni par Our World in Data avec une nouvelle variable qu'on obtient en prenant la population de 2021 estimé par Gapminder.
 
 ```{r, include=FALSE}
 # Subset pour simplifier le jeu de données (on enleve des variables)
