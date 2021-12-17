@@ -116,8 +116,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <link rel="icon" type="image/png" href="static/images/FAS1002.png"/>
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-12-14"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-12-14"/>
+  <meta property="article:published" itemprop="datePublished" content="2021-12-17"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-12-17"/>
   <meta name="article:author" content="Stéphanie Lapierre"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -136,8 +136,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta name="citation_title" content="FAS1002 - Projet final: Importation et manipulation des données"/>
   <meta name="citation_fulltext_html_url" content="https://fas1002.github.io/FAS1002_projet-final"/>
   <meta name="citation_fulltext_world_readable" content=""/>
-  <meta name="citation_online_date" content="2021/12/14"/>
-  <meta name="citation_publication_date" content="2021/12/14"/>
+  <meta name="citation_online_date" content="2021/12/17"/>
+  <meta name="citation_publication_date" content="2021/12/17"/>
   <meta name="citation_author" content="Stéphanie Lapierre"/>
   <!--/radix_placeholder_meta_tags-->
   
@@ -145,7 +145,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","Installation","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Importation et manipulation des données"]},{"type":"character","attributes":{},"value":["Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses\n"]},{"type":"character","attributes":{},"value":["2021-12-14"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["devtools::install_github(\"crsh/citr\")"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","Installation","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Importation et manipulation des données"]},{"type":"character","attributes":{},"value":["Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses\n"]},{"type":"character","attributes":{},"value":["2021-12-17"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["devtools::install_github(\"crsh/citr\")"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2451,7 +2451,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Importation et manipulation des données","description":"Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses","authors":[{"author":"Stéphanie Lapierre","authorURL":"https://github.com/stephanielapierre","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-12-14T00:00:00.000-05:00","citationText":"Lapierre, 2021"}
+{"title":"Importation et manipulation des données","description":"Cette section présente les données utilisées dans ce rapport ainsi que les \nmanipulations qui ont été nécessaire pour préparer les données aux analyses","authors":[{"author":"Stéphanie Lapierre","authorURL":"https://github.com/stephanielapierre","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-12-17T00:00:00.000-05:00","citationText":"Lapierre, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2512,7 +2512,7 @@ Aide pour le site
   
   true
   
-<br/>2021-12-14
+<br/>2021-12-17
 </div>
 
 <div class="d-article">
@@ -2541,8 +2541,8 @@ Aide pour le site
 <h1 id="validité-des-valeurs">Validité des valeurs</h1>
 <p>Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (Our World in Data et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable <code>total_vaccinations_per_hundred</code>, qui est fourni par Our World in Data, avec une nouvelle variable que nous obtenous à partir de la population de 2021 estimé par Gapminder.</p>
 <p>Le jeu de données des données les plus récentes contient 224 observations (des pays ou des continents).</p>
-<p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour 32 observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population.</p>
-<p>Pour 181 des observations, il n’y a pas de différence entre la valeur de la variable <code>total_vaccinations_per_hundred</code> de Our World in Data et celle calculée. Alors que pour 11 observations, il y a une différence entre la valeur de OWID et la valeur calculée.</p>
+<p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour 31 observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population.</p>
+<p>Pour 182 des observations, il n’y a pas de différence entre la valeur de la variable <code>total_vaccinations_per_hundred</code> de Our World in Data et celle calculée. Alors que pour 11 observations, il y a une différence entre la valeur de OWID et la valeur calculée.</p>
 <p>Voici le tableau qui présente les 11 pays ou continents pour lesquels le taux de vaccination par 100 habitants de OWID est différent que celui qui est calculé.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2591,10 +2591,10 @@ continent
 NA
 </td>
 <td style="text-align:right;">
-19.58
+20.34
 </td>
 <td style="text-align:right;">
-19.60
+20.36
 </td>
 <td style="text-align:right;">
 0.02
@@ -2611,13 +2611,13 @@ pays
 America North
 </td>
 <td style="text-align:right;">
-146.19
+147.60
 </td>
 <td style="text-align:right;">
-145.79
+147.19
 </td>
 <td style="text-align:right;">
-0.40
+0.41
 </td>
 </tr>
 <tr>
@@ -2631,13 +2631,13 @@ continent
 NA
 </td>
 <td style="text-align:right;">
-123.48
+125.05
 </td>
 <td style="text-align:right;">
-125.10
+126.69
 </td>
 <td style="text-align:right;">
-1.62
+1.64
 </td>
 </tr>
 <tr>
@@ -2651,13 +2651,13 @@ pays
 Europe
 </td>
 <td style="text-align:right;">
-166.95
+170.63
 </td>
 <td style="text-align:right;">
-172.41
+176.21
 </td>
 <td style="text-align:right;">
-5.46
+5.58
 </td>
 </tr>
 <tr>
@@ -2671,13 +2671,13 @@ pays
 Asia
 </td>
 <td style="text-align:right;">
-154.17
+155.42
 </td>
 <td style="text-align:right;">
-162.48
+163.80
 </td>
 <td style="text-align:right;">
-8.31
+8.38
 </td>
 </tr>
 <tr>
@@ -2691,13 +2691,13 @@ pays
 Asia
 </td>
 <td style="text-align:right;">
-175.85
+176.53
 </td>
 <td style="text-align:right;">
-185.88
+186.60
 </td>
 <td style="text-align:right;">
-10.03
+10.07
 </td>
 </tr>
 <tr>
@@ -2731,13 +2731,13 @@ continent
 NA
 </td>
 <td style="text-align:right;">
-136.01
+138.07
 </td>
 <td style="text-align:right;">
-119.73
+121.54
 </td>
 <td style="text-align:right;">
-16.28
+16.53
 </td>
 </tr>
 <tr>
@@ -2751,13 +2751,13 @@ pays
 Europe
 </td>
 <td style="text-align:right;">
-117.52
+117.88
 </td>
 <td style="text-align:right;">
-92.85
+93.13
 </td>
 <td style="text-align:right;">
-24.67
+24.75
 </td>
 </tr>
 <tr>
@@ -2771,13 +2771,13 @@ pays
 Europe
 </td>
 <td style="text-align:right;">
-193.27
+194.27
 </td>
 <td style="text-align:right;">
-225.27
+226.44
 </td>
 <td style="text-align:right;">
-32.00
+32.17
 </td>
 </tr>
 <tr>
@@ -2791,13 +2791,13 @@ pays
 Europe
 </td>
 <td style="text-align:right;">
-157.73
+161.39
 </td>
 <td style="text-align:right;">
-116.26
+118.96
 </td>
 <td style="text-align:right;">
-41.47
+42.43
 </td>
 </tr>
 </tbody>
@@ -2830,7 +2830,7 @@ Mathieu, Edouard, Hannah Ritchie, Esteban Ortiz-Ospina, Max Roser, Joe Hasell, C
 <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/FAS1002/FAS1002_projet-final">https://github.com/FAS1002/FAS1002_projet-final</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
 <h3 id="citation">Citation</h3>
 <p>For attribution, please cite this work as</p>
-<pre class="citation-appendix short">Lapierre (2021, Dec. 14). FAS1002 - Projet final: Importation et manipulation des données. Retrieved from https://fas1002.github.io/FAS1002_projet-final</pre>
+<pre class="citation-appendix short">Lapierre (2021, Dec. 17). FAS1002 - Projet final: Importation et manipulation des données. Retrieved from https://fas1002.github.io/FAS1002_projet-final</pre>
 <p>BibTeX citation</p>
 <pre class="citation-appendix long">@misc{lapierre2021importation,
   author = {Lapierre, Stéphanie},

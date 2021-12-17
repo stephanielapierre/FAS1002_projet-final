@@ -33,4 +33,8 @@ if (date_processed_file < Sys.Date()){
     file.remove(paste0('data/processed/df_', date_processed_file, '.csv'))         # On enleve les données old
 }
 
+
+# Nettoyage de l'environnement
 rm(date_processed_file, month, processed_file)
+rm(df, df_esperance, df_geo, df_pib, df_pop, df_update, df_vac_100hab, df_vaccination)
+rm(incorrect, na, correct)
