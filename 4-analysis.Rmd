@@ -35,62 +35,101 @@ knitr::opts_chunk$set(echo = FALSE)
 ```{r, include=FALSE}
 library(tidyverse)
 library(dplyr)
+library(ggthemes)
 library(kableExtra)
 ```
 
-
 ```{r, include=FALSE}
-df2021_pays <- filter(df2021, df2021$region == "pays")  
-ggplot(df2021, 
-      aes(total_vaccinations_per_hundred, income_per_person, col=continent)) + 
-      geom_point() + 
-      ggtitle("Nuage de points de la vaccination par 100 habitant et du PIB par habitant")
+# Jeux de données récentes, avec seulement les pays
+df_pays <- filter(df2021, df2021$region == "pays")  
+df_pays <- select(df_pays, -c("region"))
+# Enlever les pays qui on NA dans continent, (principalement des îles de pays)
+df_pays <- df_pays[!is.na(df_pays$continent),]
 ```
 
-```{r, include=FALSE}
-ggplot(df2021, 
-      aes(total_vaccinations_per_hundred, population, col=continent)) + 
-      geom_point() + 
-      ggtitle("Nuage de points de la vaccination par 100 habitant et de la population")
-```
 
 ```{r, include=FALSE}
-ggplot(df2021, 
-      aes(total_vaccinations_per_hundred, life_expectancy, col=continent)) + 
+ggplot(df_pays, 
+      aes(people_fully_vaccinated_per_hundred, income_per_person, col=continent)) + 
       geom_point() + 
-      ggtitle("Nuage de points de la vaccination par 100 habitant et de l'espérance de vie")
+      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et du PIB par hab.") +
+      theme_economist() +
+      theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma", size = 14),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
 ```
 
-```{r, include=FALSE}
-ggplot(df2021, 
-      aes(total_vaccinations_per_hundred, gdp, col=continent)) + 
-      geom_point() + 
-      ggtitle("Nuage de points de la vaccination par 100 habitant et du PIB")
-```
 
 ```{r, include=FALSE}
-ggplot(df2021, 
-      aes(total_vaccinations_per_hundred, growth_gdp_per_capita, col=continent)) + 
+ggplot(df_pays, 
+      aes(people_fully_vaccinated_per_hundred, life_expectancy, col=continent)) + 
       geom_point() + 
-      ggtitle("Nuage de points de la vaccination par 100 habitant et de croissance du PIB par habitant")
+      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et l'espérance de vie") +
+      theme_economist() +
+      theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma", size = 14),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
 ```
+
+
+```{r, include=FALSE}
+ggplot(df_pays, 
+      aes(people_fully_vaccinated_per_hundred, growth_gdp_per_capita, col=continent)) + 
+      geom_point() + 
+      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et la croissance du PIB par hab.") +
+      theme_economist() +
+      theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma", size = 14),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
+```
+
+On essaye la corrélation
+```{r, include=FALSE}
+df_corr <- select(df_pays, c(14, 15, 19:23))
+correlation <- round(cor(df_corr, use = "complete"), 2)
+```
+
+```{r}
+correlation %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+
+
+
 
 
 ```{r, include=FALSE}
 # Data preparation 
-df2021_pays <- filter(df2021, df2021$region == "pays") 
-df2021_pays <- select(df2021_pays, c(1, 15, 20:24))
-df2021_pays <- na.omit(df2021_pays)                 # pas de données manquantes
+# df2021_pays <- filter(df2021, df2021$region == "pays") 
+# df2021_pays <- select(df2021_pays, c(1, 15, 20:24))
+# df2021_pays <- na.omit(df2021_pays)                 # pas de données manquantes
 
 # standardisation des données
-df2021_pays$people_fully_vaccinated_per_hundred <- scale(df2021_pays$people_fully_vaccinated_per_hundred)    
-df2021_pays$population <- scale(df2021_pays$population) 
-df2021_pays$income_per_person <- scale(df2021_pays$income_per_person) 
-df2021_pays$gdp <- scale(df2021_pays$gdp) 
-df2021_pays$growth_gdp_per_capita <- scale(df2021_pays$growth_gdp_per_capita) 
-df2021_pays$life_expectancy <- scale(df2021_pays$life_expectancy) 
+# df2021_pays$people_fully_vaccinated_per_hundred <- scale(df2021_pays$people_fully_vaccinated_per_hundred)    
+# df2021_pays$population <- scale(df2021_pays$population) 
+# df2021_pays$income_per_person <- scale(df2021_pays$income_per_person) 
+# df2021_pays$gdp <- scale(df2021_pays$gdp) 
+# df2021_pays$growth_gdp_per_capita <- scale(df2021_pays$growth_gdp_per_capita) 
+# df2021_pays$life_expectancy <- scale(df2021_pays$life_expectancy) 
 
 set.seed(666)
-k3 <- kmeans(df2021_pays[!is.na(df2021_pays)], 3)
-str(k3)
+# k3 <- kmeans(df2021_pays[!is.na(df2021_pays)], 3)
+# str(k3)
 ```
