@@ -1,9 +1,9 @@
 ---
 title: "Exploration des données"
 description: | 
-  Cette section présente les données contenus dans le jeu de données. Elle 
-  permet   notamment de prendre connaissance des statistiques relatives aux 
-  variables d'intérêt.
+  Cette section présente les données contenues dans le jeu de données. Elle 
+  permet notamment de prendre connaissance des statistiques relatives aux 
+  différentes variables d'intérêt et de visualiser leur distribution.
 date: "`r Sys.Date()`"
 # Modifier les détails que vous voulez
 author:
@@ -34,13 +34,113 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r, include=FALSE}
 library(tidyverse)
+library(lubridate)
 library(dplyr)
+library(ggplot2)
+library(ggthemes)
 library(kableExtra)
 ```
 
-## Que le plaisir commence
+```{r, include=FALSE}
+# Jeux de données récentes, avec seulement les pays
+df_pays <- filter(df2021, df2021$region == "pays")  
+df_pays <- select(df_pays, -c("region"))
+# Enlever les pays qui on NA dans continent, (principalement des îles de pays)
+df_pays <- df_pays[!is.na(df_pays$continent),]
+```
 
-## Vaccination à travers le monde
+## La vaccination à travers le monde
+
+Comme mentionné dans la section Importation et manipulation des données, les 
+données sur la vaccination sont disponibles sur une base quotidienne, mais tous 
+les pays ne procéde pas à la mise à jour de leurs données avec la même fréquence. 
+
+Commençons par analyser la distribution des pays selon la plus récente 
+observation en lien avec la vaccination.
+
+```{r}
+ggplot(df_pays, aes(date, fill = continent)) +
+  geom_histogram() +
+  scale_x_date(name = "Date de l'observation") +
+  scale_y_continuous(name = "Fréquence") +
+  ggtitle("Distribution des pays selon la plus récente observation") +
+  theme_economist() +
+  theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma"),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
+```
+
+En analysant le graphique de la distribution des pays, le premier est que la 
+majorité des observations sont datées après le mois de novembre. Il y a 
+toutefois quelques pays dont les données les plus récentes se détachent des 
+autres. De quel pays s'agit-il?
+
+```{r, include=FALSE}
+# Préparation pour les données plus vieilles
+old_date <- Sys.Date() %m-% months(1) 
+old <- filter(df_pays, df_pays$date < old_date)
+old <- select(old, c(1, 3, 4))
+old <- arrange(old, old$date)
+
+#Formattage
+old <- rename(old, 
+                Pays = `name`,
+                Continent = `continent`,
+                "Observation la plus récente" = `date`)
+```
+
+```{r}
+old %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+
+```{r, include=FALSE}
+# Préparation pour les données plus plus récente
+old_date <- Sys.Date() %m-% months(1) 
+new <- filter(df_pays, df_pays$date > old_date)
+new <- select(new, c(1, 3, 4))
+# Différence entre la date de l'observation et la date du jour
+new$difference <- Sys.Date() - new$date
+```
+
+Si on exclus les `r nrow(old)` pays qui ont des observations qui datent de plus 
+d'un mois, on obtient des observations dont la date varie entre le 
+`r min(new$date)` et le `r max(new$date)`, avec le `r mean(new$date)` comme date 
+moyenne. En d'autre mots, l'écart varie de `r min(new$difference)` à 
+`r max(new$difference)` jours avec une moyenne de `r mean(new$difference)`. 
+Visuellement, voici la distribution : 
+
+```{r}
+ggplot(new, aes(date, fill = continent)) +
+  geom_histogram() +
+  scale_x_date(name = "Date de l'observation") +
+  scale_y_continuous(name = "Fréquence") +
+  ggtitle("Distribution des pays selon la plus récente observation") +
+  theme_economist() +
+  theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma"),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
+```
+
+
+
+```{r, include=FALSE}
+summary(df_pays$date)
+
+```
+
 
 
 ###Les plus récentes données de la vaccination
