@@ -351,8 +351,8 @@ ggplot(df_pays) +
     y = "Personnes pleinements vaccinées par 100 habitants",
     title = "Distribution des personnes pleinements vaccinées par 100 habitants"
   ) +
-  theme_light() +
-   theme(plot.title = element_text(face = "bold"))
+  theme_economist() +
+   theme(plot.title = element_text(face = "bold", size = 14))
 ```
 
 Ce graphique de boîtes à moustaches illustre bien la distribution des pays à
@@ -366,26 +366,20 @@ ggplot(df_pays) +
   geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
   labs(
     x = "Continent",
-    y = "Doses de rappels administrés par 100 habitants",
+    y = "Doses de rappels administrés par 100 hab.",
     title = "Distribution des doses de rappels administrés par 100 habitants"
   ) +
-  theme_light() +
-   theme(plot.title = element_text(face = "bold"))
+  theme_economist() +
+   theme(plot.title = element_text(face = "bold", size = 14))
 ```
 
 
 ## Et nos autres variables...
 
 ```{r, include=FALSE}
-df2021_clean <- filter(df2021, df2021$region == "pays")
-df2021_clean <- df2021_clean %>% drop_na(continent)
-
-df2021_clean <- rename(df2021_clean, Continent = `continent`)
-df2021_clean$Continent <- str_replace(df2021_clean$Continent, "_", " ")
-df2021_clean$Continent <- str_to_title(df2021_clean$Continent)
 
 # Population
-s_pop <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+s_pop <- df_pays %>% group_by(df_pays$continent) %>% summarise(
   Médiane = median(`population`, na.rm = TRUE),
   Moyenne = mean(`population`, na.rm = TRUE),
   "Écart type" = sd(`population`, na.rm = TRUE),
@@ -394,7 +388,7 @@ s_pop <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
 )
 
 # Espérance de vie
-s_life <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+s_life <- df_pays %>% group_by(df_pays$continent) %>% summarise(
   Médiane = round(median(`life_expectancy`, na.rm = TRUE), 1),
   Moyenne = round(mean(`life_expectancy`, na.rm = TRUE), 1),
   "Écart type" = round(sd(`life_expectancy`, na.rm = TRUE), 1),
@@ -403,7 +397,7 @@ s_life <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
 )
 
 # PIB
-s_pib <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+s_pib <- df_pays %>% group_by(df_pays$continent) %>% summarise(
   Médiane = round(median(`gdp`, na.rm = TRUE), 1),
   Moyenne = round(mean(`gdp`, na.rm = TRUE), 1),
   "Écart type" = round(sd(`gdp`, na.rm = TRUE), 1),
@@ -412,7 +406,7 @@ s_pib <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
 )
 
 # PIB par habitant
-s_pib_capita <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
+s_pib_capita <- df_pays %>% group_by(df_pays$continent) %>% summarise(
   Médiane = round(median(`income_per_person`, na.rm = TRUE), 0),
   Moyenne = round(mean(`income_per_person`, na.rm = TRUE), 0),
   "Écart type" = round(sd(`income_per_person`, na.rm = TRUE), 0),
@@ -421,66 +415,95 @@ s_pib_capita <- df2021_clean %>% group_by(df2021_clean$Continent) %>% summarise(
 )
 
 #Formattage du tableau 
-s_pop <- rename(s_pop, Continent = `df2021_clean$Continent`)
-s_life <- rename(s_life, Continent = `df2021_clean$Continent`)
-s_pib <- rename(s_pib, Continent = `df2021_clean$Continent`)
-s_pib_capita <- rename(s_pib_capita, Continent = `df2021_clean$Continent`)
+s_pop <- rename(s_pop, Continent = `df_pays$continent`)
+s_life <- rename(s_life, Continent = `df_pays$continent`)
+s_pib <- rename(s_pib, Continent = `df_pays$continent`)
+s_pib_capita <- rename(s_pib_capita, Continent = `df_pays$continent`)
 ```
 
-Voici les tableaux présentants les statistiques descritives des autres variables 
-disponibles dans le jeu de données.
+Voici les tableaux présentants les statistiques descritives et les graphiques de 
+distributions des autres variables disponibles dans le jeu de données.
 
-**Données sur la population, moyenne par continent, 2021**
+**Statistiques descriptive de la variable population**
 ```{r}
 s_pop %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-**Données sur l'espérance de vie, moyenne par continent, 2021**
+```{r}
+ggplot(df_pays) +
+  aes(x = continent, y = population) +
+  geom_boxplot(shape = "circle") +
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
+  labs(
+    y = "Population",
+    title = "Distribution des pays selon la population"
+  ) +
+  theme_economist() +
+   theme(plot.title = element_text(face = "bold", size = 14))
+```
+
+
+**Statistiques descriptive de la variable espérance de vie**
 ```{r}
 s_life %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-**Données sur le PIB réel estimé (G$), moyenne par continent, 2021**
+```{r}
+ggplot(df_pays) +
+  aes(x = continent, y = life_expectancy) +
+  geom_boxplot(shape = "circle") +
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
+  labs(
+    y = "Espérance de vie",
+    title = "Distribution des pays selon l'espérance de vie"
+  ) +
+  theme_economist() +
+   theme(plot.title = element_text(face = "bold", size = 14))
+```
+
+
+**Statistiques descriptive de la variable PIB réel estimé (G$)**
 ```{r}
 s_pib %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-**Données sur le PIB par habitant estimé, moyenne par continent, 2021**
+```{r}
+ggplot(df_pays) +
+  aes(x = continent, y = gdp) +
+  geom_boxplot(shape = "circle") +
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
+  labs(
+    y = "PIB réel estimé",
+    title = "Distribution des pays selon le PIB réel estimé (G$)"
+  ) +
+  theme_economist() +
+   theme(plot.title = element_text(face = "bold", size = 14))
+```
+
+
+**Statistiques descriptive de la variable PIB par habitant estimé**
 ```{r}
 s_pib_capita %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-
-
-
-
-### Statistiques descritives des données de 2021
-
-```{r, include=FALSE}
-summary(df2021)
-
-pop_pays <- filter(df2021, df2021$region == "pays")
-sum_pop <- pop_pays %>% summarise(
-  Moyenne = mean(`population`, na.rm = TRUE),
-  Médiane = median(`population`, na.rm = TRUE),
-  Minimum = min(`population`, na.rm = TRUE),
-  Maximum = max(`population`, na.rm = TRUE))
-
-pop_continent <- filter(df2021, df2021$region == "continent")
-sum_pop <- pop_continent %>% summarise(
-  Moyenne = mean(`population`, na.rm = TRUE),
-  Médiane = median(`population`, na.rm = TRUE),
-  Minimum = min(`population`, na.rm = TRUE),
-  Maximum = max(`population`, na.rm = TRUE))
-
-summary(df)
+```{r}
+ggplot(df_pays) +
+  aes(x = continent, y = income_per_person) +
+  geom_boxplot(shape = "circle") +
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
+  labs(
+    y = "PIB réel estimé par habitant",
+    title = "Distribution des pays selon le PIB réel estimé par habitant"
+  ) +
+  theme_economist() +
+   theme(plot.title = element_text(face = "bold", size = 14))
 ```
 

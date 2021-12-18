@@ -2503,10 +2503,7 @@ Aide pour le site
 <li><a href="#les-données-les-plus-récentes">Les données les plus récentes</a></li>
 <li><a href="#les-statistiques-sur-la-vaccination">Les statistiques sur la vaccination</a></li>
 <li><a href="#pays-versus-continent">Pays versus continent</a></li>
-<li><a href="#et-nos-autres-variables">Et nos autres variables…</a>
-<ul>
-<li><a href="#statistiques-descritives-des-données-de-2021">Statistiques descritives des données de 2021</a></li>
-</ul></li>
+<li><a href="#et-nos-autres-variables">Et nos autres variables…</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -3135,7 +3132,7 @@ Ensemble des pays
 </tbody>
 </table>
 </div>
-<p>Déjà avec ce tableau, il est possible de constater que les données varient beaucoup d’un continent à l’autre. Mais qu’en est-il si un prend les données des différents pays à l’intérieur d’un continent.</p>
+<p>Déjà avec ce tableau, il est possible de constater que les données varient beaucoup d’un continent à l’autre.</p>
 <p>Observons maintenant la distribution des pays selon la variable Personnes pleinement vaccinées par 100 habitants.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3152,17 +3149,39 @@ Show code
     y <span class='op'>=</span> <span class='st'>"Personnes pleinements vaccinées par 100 habitants"</span>,
     title <span class='op'>=</span> <span class='st'>"Distribution des personnes pleinements vaccinées par 100 habitants"</span>
   <span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_light</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
 <p><img src="3-exploration_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
 </div>
 <p>Ce graphique de boîtes à moustaches illustre bien la distribution des pays à l’intérieur des continents. L’Afrique, l’Asie et l’Europe se démarquent avec des pays qui qui se retrouve répartie sur toute la distribution.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_pays</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>continent</span>, y <span class='op'>=</span> <span class='va'>total_boosters_per_hundred</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span>shape <span class='op'>=</span> <span class='st'>"circle"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_jitter.html'>position_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span>, height <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, color <span class='op'>=</span> <span class='st'>"#440154"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Continent"</span>,
+    y <span class='op'>=</span> <span class='st'>"Doses de rappels administrés par 100 hab."</span>,
+    title <span class='op'>=</span> <span class='st'>"Distribution des doses de rappels administrés par 100 habitants"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="3-exploration_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
+</div>
 <h2 id="et-nos-autres-variables">Et nos autres variables…</h2>
-<p>Voici les tableaux présentants les statistiques descritives des autres variables disponibles dans le jeu de données.</p>
-<strong>Données sur la population, moyenne par continent, 2021</strong>
+<p>Voici les tableaux présentants les statistiques descritives et les graphiques de distributions des autres variables disponibles dans le jeu de données.</p>
+<strong>Statistiques descriptive de la variable population</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3302,7 +3321,29 @@ Europe
 </tbody>
 </table>
 </div>
-<strong>Données sur l’espérance de vie, moyenne par continent, 2021</strong>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_pays</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>continent</span>, y <span class='op'>=</span> <span class='va'>population</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span>shape <span class='op'>=</span> <span class='st'>"circle"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_jitter.html'>position_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span>, height <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, color <span class='op'>=</span> <span class='st'>"#440154"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Continent"</span>,
+    y <span class='op'>=</span> <span class='st'>"Population"</span>,
+    title <span class='op'>=</span> <span class='st'>"Distribution des pays selon la population"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="3-exploration_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+</div>
+<strong>Statistiques descriptive de la variable espérance de vie</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3442,7 +3483,29 @@ Europe
 </tbody>
 </table>
 </div>
-<strong>Données sur le PIB réel estimé (G$), moyenne par continent, 2021</strong>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_pays</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>continent</span>, y <span class='op'>=</span> <span class='va'>life_expectancy</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span>shape <span class='op'>=</span> <span class='st'>"circle"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_jitter.html'>position_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span>, height <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, color <span class='op'>=</span> <span class='st'>"#440154"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Continent"</span>,
+    y <span class='op'>=</span> <span class='st'>"Espérance de vie"</span>,
+    title <span class='op'>=</span> <span class='st'>"Distribution des pays selon l'espérance de vie"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="3-exploration_files/figure-html5/unnamed-chunk-21-1.png" width="624" /></p>
+</div>
+<strong>Statistiques descriptive de la variable PIB réel estimé (G$)</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3582,7 +3645,29 @@ Europe
 </tbody>
 </table>
 </div>
-<strong>Données sur le PIB par habitant estimé, moyenne par continent, 2021</strong>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_pays</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>continent</span>, y <span class='op'>=</span> <span class='va'>gdp</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span>shape <span class='op'>=</span> <span class='st'>"circle"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_jitter.html'>position_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span>, height <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, color <span class='op'>=</span> <span class='st'>"#440154"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Continent"</span>,
+    y <span class='op'>=</span> <span class='st'>"PIB réel estimé"</span>,
+    title <span class='op'>=</span> <span class='st'>"Distribution des pays selon le PIB réel estimé"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="3-exploration_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
+</div>
+<strong>Statistiques descriptive de la variable PIB par habitant estimé</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3722,7 +3807,28 @@ Europe
 </tbody>
 </table>
 </div>
-<h3 id="statistiques-descritives-des-données-de-2021">Statistiques descritives des données de 2021</h3>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_pays</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>continent</span>, y <span class='op'>=</span> <span class='va'>income_per_person</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span>shape <span class='op'>=</span> <span class='st'>"circle"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_jitter.html'>position_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span>, height <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, color <span class='op'>=</span> <span class='st'>"#440154"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Continent"</span>,
+    y <span class='op'>=</span> <span class='st'>"PIB réel estimé par habitant"</span>,
+    title <span class='op'>=</span> <span class='st'>"Distribution des pays selon le PIB réel estimé par habitant"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="3-exploration_files/figure-html5/unnamed-chunk-25-1.png" width="624" /></p>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

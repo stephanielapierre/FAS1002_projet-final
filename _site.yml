@@ -39,8 +39,10 @@ navbar:
       href: 2-import.html
     - text: "Exploration"
       href: 3-exploration.html
+    - text: "Analyse"
+      href: 4-analysis.html
     - text: "Visualisation"
-      href: 3-exploration.html
+      href: 5-visualisation.html
     - text: "Contact"
       href: contact.html
 
