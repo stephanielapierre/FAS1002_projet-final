@@ -142,71 +142,208 @@ rm(old, new, old_date)
 
 ## Les statistiques sur la vaccination
 
+Toujours en utilisant le jeu de données avec les observations les plus récentes 
+par pays, explorons maintenant les statistiques descriptives des données sur la 
+vaccination.
 *tableau sommaire des indicateurs de la vaccination*
 *on va faire un summarise de chaque variable puis, on fait faire un rowbind pour tout avoir dans un tableau*
 
-
-
-
 ```{r, include=FALSE}
-max_date <- max(df$date)
-df_recent_pays <- filter(df, df$date == max_date)
-df_recent_pays <- filter(df_recent_pays, df_recent_pays$region == "pays")
-df_recent_pays <- df_recent_pays %>% drop_na(continent)
-
-df_recent_pays <- rename(df_recent_pays, Continent = `continent`)
-df_recent_pays$Continent <- str_replace(df_recent_pays$Continent, "_", " ")
-df_recent_pays$Continent <- str_to_title(df_recent_pays$Continent)
-
-sommaire <- df_recent_pays %>% summarise(
-  "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
-  "Doses de rappel" = mean(`total_boosters`, na.rm = TRUE),
-  "Personnes vaccinées" = mean(`people_vaccinated`, na.rm = TRUE),
-  "Personnes pleinement vaccinées" = mean(`people_fully_vaccinated`, na.rm = TRUE),
-  "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE), 1)
+# Vaccins administrés     `total_vaccinations`
+total_vaccinations <- df_pays %>% summarise(
+  Minimum = min(`total_vaccinations`, na.rm = TRUE),
+  Maximum = max(`total_vaccinations`, na.rm = TRUE),
+  Moyenne = mean(`total_vaccinations`, na.rm = TRUE),
+  "Écart type" = sd(`total_vaccinations`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`total_vaccinations`))
 )
 
-sommaire2 <- df_recent_pays %>% group_by(df_recent_pays$Continent) %>% summarise(
-  "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
-  "Doses de rappel" = mean(`total_boosters`, na.rm = TRUE),
-  "Personnes vaccinées" = mean(`people_vaccinated`, na.rm = TRUE),
-  "Personnes pleinement vaccinées" = mean(`people_fully_vaccinated`, na.rm = TRUE),
-  "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE), 1)
+total_vaccinations$Variable <- "Vaccins administrés"
+
+# Vaccins administrés par 100 hab.    `total_vaccinations_per_hundred`
+total_vaccinations_per_hundred<- df_pays %>% summarise(
+  Minimum = min(`total_vaccinations_per_hundred`, na.rm = TRUE),
+  Maximum = max(`total_vaccinations_per_hundred`, na.rm = TRUE),
+  Moyenne = mean(`total_vaccinations_per_hundred`, na.rm = TRUE),
+  "Écart type" = sd(`total_vaccinations_per_hundred`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`total_vaccinations_per_hundred`))
 )
 
-#Formattage du tableau 
-sommaire2 <- rename(sommaire2, Continent = `df_recent_pays$Continent`)
+total_vaccinations_per_hundred$Variable <- "Vaccins administrés par 100 hab."
+
+# Doses de rappels administrées    `total_boosters`
+total_boosters <- df_pays %>% summarise(
+  Minimum = min(`total_boosters`, na.rm = TRUE),
+  Maximum = max(`total_boosters`, na.rm = TRUE),
+  Moyenne = mean(`total_boosters`, na.rm = TRUE),
+  "Écart type" = sd(`total_boosters`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`total_boosters`))
+)
+
+total_boosters$Variable <- "Doses de rappels administrées"
+
+# Doses de rappels administrées par 100 hab.   `total_boosters_per_hundred`
+total_boosters_per_hundred <- df_pays %>% summarise(
+  Minimum = min(`total_boosters_per_hundred`, na.rm = TRUE),
+  Maximum = max(`total_boosters_per_hundred`, na.rm = TRUE),
+  Moyenne = mean(`total_boosters_per_hundred`, na.rm = TRUE),
+  "Écart type" = sd(`total_boosters_per_hundred`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`total_boosters_per_hundred`))
+)
+
+total_boosters_per_hundred$Variable <- "Doses de rappels administrées par 100 hab."
+
+# Personnes vaccinées     `people_vaccinated`
+people_vaccinated <- df_pays %>% summarise(
+  Minimum = min(`people_vaccinated`, na.rm = TRUE),
+  Maximum = max(`people_vaccinated`, na.rm = TRUE),
+  Moyenne = mean(`people_vaccinated`, na.rm = TRUE),
+  "Écart type" = sd(`people_vaccinated`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`people_vaccinated`))
+)
+
+people_vaccinated$Variable <- "Personnes vaccinées"
+
+# Personnes vaccinées par 100 hab.     `people_vaccinated_per_hundred`
+people_vaccinated_per_hundred <- df_pays %>% summarise(
+  Minimum = min(`people_vaccinated_per_hundred`, na.rm = TRUE),
+  Maximum = max(`people_vaccinated_per_hundred`, na.rm = TRUE),
+  Moyenne = mean(`people_vaccinated_per_hundred`, na.rm = TRUE),
+  "Écart type" = sd(`people_vaccinated_per_hundred`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`people_vaccinated_per_hundred`))
+)
+
+people_vaccinated_per_hundred$Variable <- "Personnes vaccinées par 100 hab."
+
+# Personnes pleinement vaccinées     `people_fully_vaccinated`
+people_fully_vaccinated <- df_pays %>% summarise(
+  Minimum = min(`people_fully_vaccinated`, na.rm = TRUE),
+  Maximum = max(`people_fully_vaccinated`, na.rm = TRUE),
+  Moyenne = mean(`people_fully_vaccinated`, na.rm = TRUE),
+  "Écart type" = sd(`people_fully_vaccinated`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`people_fully_vaccinated`))
+)
+
+people_fully_vaccinated$Variable <- "Personnes pleinement vaccinées"
+
+# Personnes pleinement vaccinées par 100 hab.    `people_fully_vaccinated_per_hundred`
+people_fully_vaccinated_per_hundred <- df_pays %>% summarise(
+  Minimum = min(`people_fully_vaccinated_per_hundred`, na.rm = TRUE),
+  Maximum = max(`people_fully_vaccinated_per_hundred`, na.rm = TRUE),
+  Moyenne = mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE),
+  "Écart type" = sd(`people_fully_vaccinated_per_hundred`, na.rm = TRUE),
+  "Données manquantes" = sum(is.na(`people_fully_vaccinated_per_hundred`))
+)
+
+people_fully_vaccinated_per_hundred$Variable <- "Personnes pleinement vaccinées par 100 hab."
+
+sommaire <- bind_rows(total_vaccinations, total_vaccinations_per_hundred, total_boosters, total_boosters_per_hundred, people_vaccinated, people_vaccinated_per_hundred, people_fully_vaccinated, people_fully_vaccinated_per_hundred)
+
+sommaire$Minimum <- round(sommaire$Minimum, 0)
+sommaire$Maximum<- round(sommaire$Maximum, 0)
+sommaire$Moyenne <- round(sommaire$Moyenne, 0)
+sommaire$`Écart type` <- round(sommaire$`Écart type`, 0)
+
+sommaire <- sommaire %>% relocate(Variable, .before = Minimum)
 ```
 
-Les données les plus récentes contenus dans la base données datent du `r max_date` 
-et portent sur `r nrow(df_recent_pays)` pays. Voici un tableau présentant la 
-moyenne par pays pour certains indicateurs.
-
-**Données sur la vaccination, moyenne par pays, `r max_date`**
+*Statistiques descriptives des données sur la vaccination, selon l'observation la plus récente chauqe pays*
 ```{r}
 sommaire %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-Afin de tenir compte des particularités entre les différentes régions du monde voici le même tableau dans lequel les pays sont regroupés par continent.
+**Analyse du tableau**
+**rappeler le nombre d'observation **
+**Notamment, beaucoup de disparités**
+**Plus 125 pays, les doses se rappels ne sont pas commencer**
 
-**Données sur la vaccination, moyenne par continent, `r max_date`**
+## Pays versus continent
+
+Les statistiques précédentes sont trés intéressantes. Toutefois, les statistiques 
+ont été calculées sur les données de l'ensemble des pays. En considérant qu'il y 
+a beaucoup de différentes entre les différentes régions du monde, il serait 
+intéressant de voir comment les statistiques changent quand on les groupent par 
+continent. 
+
+
+```{r, include=FALSE}
+mean <- df_pays %>% summarise(
+  "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
+  "Doses de rappels administrés" = mean(`total_boosters`, na.rm = TRUE),
+  "Personnes vaccinées" = mean(`people_vaccinated`, na.rm = TRUE),
+  "Personnes pleinement vaccinées" = mean(`people_fully_vaccinated`, na.rm = TRUE),
+)
+
+mean$`df_pays$continent` <- "Ensemble des pays"
+mean <- mean %>% relocate(`df_pays$continent`, .before = `Vaccins administrés`)
+
+mean_c <- df_pays %>% group_by(df_pays$continent) %>% summarise(
+  "Vaccins administrés" = mean(`total_vaccinations`, na.rm = TRUE),
+  "Doses de rappels administrés" = mean(`total_boosters`, na.rm = TRUE),
+  "Personnes vaccinées" = mean(`people_vaccinated`, na.rm = TRUE),
+  "Personnes pleinement vaccinées" = mean(`people_fully_vaccinated`, na.rm = TRUE),
+)
+
+mean_ens <- bind_rows(mean_c, mean)
+mean_ens <- rename(mean_ens, Continent = `df_pays$continent`)
+
+```
+
+**Données sur la vaccination, moyenne**
 ```{r}
-sommaire2 %>%
+mean_ens %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
+
+```{r, include=FALSE}
+mean100 <- df_pays %>% summarise(
+  "Vaccins administrés par 100 hab." = round(mean(`total_vaccinations_per_hundred`, na.rm = TRUE), 1),
+  "Doses de rappels administrés par 100 hab." = round(mean(`total_boosters_per_hundred`, na.rm = TRUE), 1),
+  "Personnes vaccinées par 100 hab." = round(mean(`people_vaccinated_per_hundred`, na.rm = TRUE), 1),
+  "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE), 1)
+)
+
+mean100$`df_pays$continent` <- "Ensemble des pays"
+mean100 <- mean100 %>% relocate(`df_pays$continent`, .before = `Vaccins administrés par 100 hab.`)
+
+mean100_c <- df_pays %>% group_by(df_pays$continent) %>% summarise(
+  "Vaccins administrés par 100 hab." = round(mean(`total_vaccinations_per_hundred`, na.rm = TRUE), 1),
+  "Doses de rappels administrés par 100 hab." = round(mean(`total_boosters_per_hundred`, na.rm = TRUE), 1),
+  "Personnes vaccinées par 100 hab." = round(mean(`people_vaccinated_per_hundred`, na.rm = TRUE), 1),
+  "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`, na.rm = TRUE), 1)
+)
+
+mean100_ens <- bind_rows(mean100_c, mean100)
+mean100_ens <- rename(mean100_ens, Continent = `df_pays$continent`)
+```
+
+**Données sur la vaccination par 100 habitants, moyenne**
+```{r}
+mean100_ens %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+```
+
+
+
+
+
+
+
+
+
 Déjà avec ce tableau, il est possible de constater que les données varient 
-beaucoup d'un continent à l'autre. Mais qu'en est-il si un prend les données 
-des différents pays à l'intérieur d'un continent. 
+beaucoup d'un continent à l'autre.
 
 Observons maintenant la distribution des pays selon la variable Personnes pleinement vaccinées par 100 habitants.
 
 ```{r}
-ggplot(df_recent_pays) +
-  aes(x = Continent, y = people_fully_vaccinated_per_hundred) +
+ggplot(df_pays) +
+  aes(x = continent, y = people_fully_vaccinated_per_hundred) +
   geom_boxplot(shape = "circle") +
   geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
   labs(
@@ -221,6 +358,20 @@ ggplot(df_recent_pays) +
 Ce graphique de boîtes à moustaches illustre bien la distribution des pays à
 l'intérieur des continents. L'Afrique, l'Asie et l'Europe se démarquent avec des 
 pays qui qui se retrouve répartie sur toute la distribution. 
+
+```{r}
+ggplot(df_pays) +
+  aes(x = continent, y = total_boosters_per_hundred) +
+  geom_boxplot(shape = "circle") +
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4, color = "#440154") +
+  labs(
+    x = "Continent",
+    y = "Doses de rappels administrés par 100 habitants",
+    title = "Distribution des doses de rappels administrés par 100 habitants"
+  ) +
+  theme_light() +
+   theme(plot.title = element_text(face = "bold"))
+```
 
 
 ## Et nos autres variables...
@@ -332,51 +483,4 @@ sum_pop <- pop_continent %>% summarise(
 
 summary(df)
 ```
-
-
-
-
-## Un peu d'interactivité pour le plaisir!
-
-```{r map, layout = "l-page"}
-library(leaflet)
-leaflet() %>%
-  addTiles() %>%
-  addMarkers(lng=174.768, lat=-36.852, popup="Là où R est né") %>%
-  addProviderTiles(providers$Stamen.Watercolor)
-```
-
-
-## Peut-être que ça vous inspirera!
-
-```{r plotly}
-library(plotly)
-library(gapminder)
-df <- gapminder
-
-fig <- df %>%
-  plot_ly(
-    x = ~ gdpPercap,
-    y = ~ lifeExp,
-    size = ~ pop,
-    color = ~ continent,
-    frame = ~ year,
-    text = ~ country,
-    hoverinfo = "text",
-    type = 'scatter',
-    mode = 'markers',
-    width = "100%",
-    height = 600
-  )
-
-fig <- fig %>% layout(xaxis = list(type = "log"))
-
-fig <- fig %>%
-  animation_button(
-    x = 0, xanchor = "left", y = -0.15, yanchor = "bottom"
-  )
-
-fig
-```
-
 
