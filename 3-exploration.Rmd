@@ -49,8 +49,9 @@ df_pays <- select(df_pays, -c("region"))
 df_pays <- df_pays[!is.na(df_pays$continent),]
 ```
 
-## La vaccination à travers le monde
+# La vaccination à travers le monde
 
+## Les données les plus récentes
 Comme mentionné dans la section Importation et manipulation des données, les 
 données sur la vaccination sont disponibles sur une base quotidienne, mais tous 
 les pays ne procéde pas à la mise à jour de leurs données avec la même fréquence. 
@@ -68,7 +69,7 @@ ggplot(df_pays, aes(date, fill = continent)) +
   theme(legend.position = "top", legend.direction = "horizontal",
         legend.box = "horizontal",
         legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma"),
+        plot.title = element_text(family="Tahoma", size = 14),
         text = element_text(family = "Tahoma"),
         axis.title = element_text(size = 10),
         legend.text = element_text(size = 10),
@@ -111,11 +112,11 @@ new$difference <- Sys.Date() - new$date
 ```
 
 Si on exclus les `r nrow(old)` pays qui ont des observations qui datent de plus 
-d'un mois, on obtient des observations dont la date varie entre le 
-`r min(new$date)` et le `r max(new$date)`, avec le `r mean(new$date)` comme date 
-moyenne. En d'autre mots, l'écart varie de `r min(new$difference)` à 
-`r max(new$difference)` jours avec une moyenne de `r mean(new$difference)`. 
-Visuellement, voici la distribution : 
+d'un mois, on obtient des observations dont la date varie entre le `r min(new$date)` 
+et le `r max(new$date)`, avec le `r mean(new$date)` comme date moyenne. En d'autre 
+mots, l'écart varie de `r min(new$difference)` à `r max(new$difference)` jours 
+avec une moyenne de `r round(mean(new$difference), 0)` jours. Visuellement, 
+voici la distribution : 
 
 ```{r}
 ggplot(new, aes(date, fill = continent)) +
@@ -127,28 +128,19 @@ ggplot(new, aes(date, fill = continent)) +
   theme(legend.position = "top", legend.direction = "horizontal",
         legend.box = "horizontal",
         legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma"),
+        plot.title = element_text(family="Tahoma", size = 14),
         text = element_text(family = "Tahoma"),
         axis.title = element_text(size = 10),
         legend.text = element_text(size = 10),
         legend.title= element_blank())
 ```
 
-
-
 ```{r, include=FALSE}
-summary(df_pays$date)
-
+rm(old, new, old_date)
 ```
 
 
-
-###Les plus récentes données de la vaccination
-
-*une analyse de la variable date (min, max,)*
-*graph de la distribution des dates*
-
-### Les données sur la vaccination
+## Les statistiques sur la vaccination
 
 *tableau sommaire des indicateurs de la vaccination*
 *on va faire un summarise de chaque variable puis, on fait faire un rowbind pour tout avoir dans un tableau*

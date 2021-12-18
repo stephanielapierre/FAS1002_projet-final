@@ -1,0 +1,96 @@
+---
+title: "Visualisation des données"
+description: | 
+  Cette section présente les données contenues dans le jeu de données. Elle 
+  permet notamment de prendre connaissance des statistiques relatives aux 
+  différentes variables d'intérêt et de visualiser leur distribution.
+date: "`r Sys.Date()`"
+# Modifier les détails que vous voulez
+author:
+  - first_name: "Stéphanie"
+    last_name: "Lapierre"
+    url: https://github.com/stephanielapierre
+    # les champs d'affiliation sont optionnels, vous pouvez les
+    # comment out en ajoutant un # devant.
+    # affiliation: FAS1002
+    # affiliation_url: https://admission.umontreal.ca/programmes/microprogramme-de-1er-cycle-en-analyse-des-megadonnees-en-sciences-humaines-et-sociales/structure-du-programme/
+    # changer pour votre propre orcid id
+    # https://orcid.org/ pour vous inscrire.
+    # orcid_id: 0000-0000-0000-0000
+# Changer pour votre propre URL si jamais quelqu'un vous cite!
+citation_url: https://fas1002.github.io/FAS1002_projet-final
+# Inclure les références que vous utilisez dans vos rapports
+# dans un fichier biblio.bib. Je conseille Zotero pour construire
+# ce fichier ou d'utiliser le package citr dans RStudio.
+# Installation: devtools::install_github("crsh/citr")
+bibliography: references.bib
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+source("R/opening-processed-data.R", local = knitr::knit_global())              # Script pour l'ouverture des données traitées
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(kableExtra)
+```
+
+```{r, include=FALSE}
+# Jeux de données récentes, avec seulement les pays
+df_pays <- filter(df2021, df2021$region == "pays")  
+df_pays <- select(df_pays, -c("region"))
+# Enlever les pays qui on NA dans continent, (principalement des îles de pays)
+df_pays <- df_pays[!is.na(df_pays$continent),]
+```
+
+
+## Un peu d'interactivité pour le plaisir!
+
+```{r map, layout = "l-page"}
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng=174.768, lat=-36.852, popup="Là où R est né") %>%
+  addProviderTiles(providers$Stamen.Watercolor)
+```
+
+
+## Peut-être que ça vous inspirera!
+
+```{r plotly}
+library(plotly)
+library(gapminder)
+df <- gapminder
+
+fig <- df %>%
+  plot_ly(
+    x = ~ gdpPercap,
+    y = ~ lifeExp,
+    size = ~ pop,
+    color = ~ continent,
+    frame = ~ year,
+    text = ~ country,
+    hoverinfo = "text",
+    type = 'scatter',
+    mode = 'markers',
+    width = "100%",
+    height = 600
+  )
+
+fig <- fig %>% layout(xaxis = list(type = "log"))
+
+fig <- fig %>%
+  animation_button(
+    x = 0, xanchor = "left", y = -0.15, yanchor = "bottom"
+  )
+
+fig
+```
+
+
