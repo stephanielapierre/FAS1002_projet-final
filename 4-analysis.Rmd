@@ -39,7 +39,7 @@ library(kableExtra)
 library(broom)
 ```
 
-# Analyse par grappes
+# L'analyse des données
 
 Pour analyser notre jeu de données sur la vaccination, nous aurans recours aux 
 analyses par grappes (*cluster analysis* ou *clustering* en anglais). L'objectif 
@@ -64,7 +64,9 @@ Pour nos analyses, nous utilisons le jeux de données des données les plus
 récentes en lien avec la vaccination. Pour simplifier les analyses, nous avons 
 éliminer toutes observations comportants des valeurs manquantes.
 
-# Corrélation
+# Préparation de l'analyse par grappes
+
+## Corrélation
 
 La première étape de notre analyse consiste à vérifier la corrélation entre les 
 variables qui seront utilisées pour l'analyse par grappes. Comme mentionné dans 
@@ -122,7 +124,7 @@ La bonne nouvelle, c'est qu'aucun de ces coefficients ne dépassent le seuil de 
 Nous pouvons donc procéder à l'analyse par grappes avec des variables.
 
 
-# Standardisation des variables
+## Standardisation des variables
 
 La prochaine étape de l'analyse est de s'assurer de standardiser les données. 
 En effet, comme l'objectif de l'analyse par grappes est de regrouper ensemble 
@@ -273,4 +275,56 @@ moyenne de 0 et un écart type de 1.
 stat_norm %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+
+# Analyse par grappes
+
+L'analyse par grappes présentée ici est grandement inspiré et adapté de 
+@silge_getting_2021. Dans cette démonstration, Julia Silge présente une 
+application de l'analyse par grappes avec la méthode des k-means. 
+
+## Nos premières grappes
+
+Il est généralement recommander de commencer une analyse par grappe avec la 
+méthode des k-means avec 3 grappes. Silge recommande ensuite d'utiliser la fonction `tidy()` du package *broom* (compris dans les *tidymodels*) afin de visualiser les résultats de cette première analyse.
+
+
+```{r}
+vaccination_clust <- kmeans(select(df_analysis, -name), centers = 3) 
+summary(vaccination_clust)
+
+library(broom)
+tidy(vaccination_clust)
+```
+
+```{r, include=FALSE}
+
+
+augment(vaccination_clust, df_analysis) %>%       # on lie les clusters avec la db originale
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster)) +
+  geom_point()
+
+kclusts <-
+  tibble(k = 1:9) %>%
+  mutate(
+    kclust = map(k, ~ kmeans(select(df_analysis, -name), .x)),
+    glanced = map(kclust, glance),
+  )
+
+kclusts %>%
+  unnest(cols = c(glanced)) %>%
+  ggplot(aes(k, tot.withinss)) +
+  geom_line(alpha = 0.5, size = 1.2, color = "midnightblue") +
+  geom_point(size = 2, color = "midnightblue")
+
+final_clust <- kmeans(select(df_analysis, -name), centers = 4)
+
+library(plotly)
+
+p <- augment(final_clust, df_analysis) %>%
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster, name = name)) +
+  geom_point()
+
+ggplotly(p, height = 500)
 ```
