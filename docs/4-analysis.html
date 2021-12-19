@@ -85,11 +85,32 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
 
   <!--radix_placeholder_meta_tags-->
   <title>FAS1002 - Projet final: Analyses des données des données</title>
 
-  <meta property="description" itemprop="description" content="Cette section présente les données contenus dans le jeu de données. Elle &#10;permet   notamment de prendre connaissance des statistiques relatives aux &#10;variables d&#39;intérêt."/>
+  <meta property="description" itemprop="description" content="Cette section présente les analyses réalisées pour produire des grappes de &#10;pays en fonction de différentes variables."/>
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/png" href="static/images/FAS1002.png"/>
@@ -102,14 +123,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="FAS1002 - Projet final: Analyses des données des données"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Cette section présente les données contenus dans le jeu de données. Elle &#10;permet   notamment de prendre connaissance des statistiques relatives aux &#10;variables d&#39;intérêt."/>
+  <meta property="og:description" content="Cette section présente les analyses réalisées pour produire des grappes de &#10;pays en fonction de différentes variables."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="FAS1002 - Projet final"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="FAS1002 - Projet final: Analyses des données des données"/>
-  <meta property="twitter:description" content="Cette section présente les données contenus dans le jeu de données. Elle &#10;permet   notamment de prendre connaissance des statistiques relatives aux &#10;variables d&#39;intérêt."/>
+  <meta property="twitter:description" content="Cette section présente les analyses réalisées pour produire des grappes de &#10;pays en fonction de différentes variables."/>
 
   <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
   <meta name="citation_title" content="FAS1002 - Projet final: Analyses des données des données"/>
@@ -120,10 +141,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta name="citation_author" content="Stéphanie Lapierre"/>
   <!--/radix_placeholder_meta_tags-->
   
+  <meta name="citation_reference" content="citation_title=Établir des groupes de régions économiques comparables au Canada : Une analyse par grappes;citation_publication_date=2016;citation_publisher=CIRANO;citation_number=2016s-52;citation_author=Marcelin Lapierre"/>
+  <meta name="citation_reference" content="citation_title=Getting started with k-means and #TidyTuesday employment status;citation_publication_date=2021;citation_author=Julia Silge"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Analyses des données des données"]},{"type":"character","attributes":{},"value":["Cette section présente les données contenus dans le jeu de données. Elle \npermet   notamment de prendre connaissance des statistiques relatives aux \nvariables d'intérêt.\n"]},{"type":"character","attributes":{},"value":["2021-12-19"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Analyses des données des données"]},{"type":"character","attributes":{},"value":["Cette section présente les analyses réalisées pour produire des grappes de \npays en fonction de différentes variables.\n"]},{"type":"character","attributes":{},"value":["2021-12-19"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2429,7 +2452,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Analyses des données des données","description":"Cette section présente les données contenus dans le jeu de données. Elle \npermet   notamment de prendre connaissance des statistiques relatives aux \nvariables d'intérêt.","authors":[{"author":"Stéphanie Lapierre","authorURL":"https://github.com/stephanielapierre","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-12-19T00:00:00.000-05:00","citationText":"Lapierre, 2021"}
+{"title":"Analyses des données des données","description":"Cette section présente les analyses réalisées pour produire des grappes de \npays en fonction de différentes variables.","authors":[{"author":"Stéphanie Lapierre","authorURL":"https://github.com/stephanielapierre","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-12-19T00:00:00.000-05:00","citationText":"Lapierre, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2484,7 +2507,7 @@ Aide pour le site
 <h1>Analyses des données des données</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Cette section présente les données contenus dans le jeu de données. Elle permet notamment de prendre connaissance des statistiques relatives aux variables d’intérêt.</p></p>
+<p><p>Cette section présente les analyses réalisées pour produire des grappes de pays en fonction de différentes variables.</p></p>
 </div>
 
 <div class="d-byline">
@@ -2495,16 +2518,37 @@ Aide pour le site
 </div>
 
 <div class="d-article">
-<p>On essaye la corrélation</p>
+<p>Pour analyser notre jeu de données sur la vaccination, nous aurans recours aux analyses par grappes (<em>cluster analysis</em> ou <em>clustering</em> en anglais). L’objectif de ce type d’analyses est de regrouper les observations, les pays dans le cas présent, qui présentent le plus de similitude en fonction de certains caractéristiques. Plus précisément, nous allons créer des groupes de pays comparables selon leur profils de vaccination et des indicateurs comme la population, le PIB et l’espérance de vie.</p>
+<p>Pour réaliser notre analyse, nous nous inspirons des méthodologies présentées dans <span class="citation" data-cites="lapierre_etablir_2016"><a href="#ref-lapierre_etablir_2016" role="doc-biblioref">Lapierre</a> (<a href="#ref-lapierre_etablir_2016" role="doc-biblioref">2016</a>)</span> et <span class="citation" data-cites="silge_getting_2021"><a href="#ref-silge_getting_2021" role="doc-biblioref">Silge</a> (<a href="#ref-silge_getting_2021" role="doc-biblioref">2021</a>)</span>.</p>
+<p>La première étape de notre analyse consiste à vérifier la corrélation entre les variables qui seront utilisées pour l’analyse par grappes. Comme mentionné dans <span class="citation" data-cites="lapierre_etablir_2016"><a href="#ref-lapierre_etablir_2016" role="doc-biblioref">Lapierre</a> (<a href="#ref-lapierre_etablir_2016" role="doc-biblioref">2016</a>)</span>, les coefficients de corrélation ne devraient pas dépasser 0,8.</p>
+<p>À titre de rappel, le coefficient de corrélation mesure la relation deux variables. Plus il est prêt de 1 (-1), plus la relation entre les deux variables est linéaire et positive (négative).</p>
+<strong>Relation entre les personnes pleinement vaccinées par 100 hab. et l’espérance de vie</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>correlation</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>graph1</span>
+</code></pre>
+</div>
+</details>
+<p><img src="4-analysis_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>Par exemple, le graphique ci-haut illustre cette relation entre les variables <em>personnes pleinement vaccinées par 100 hab.</em> (<code>people_fully_vaccinated_per_hundred</code>) et <em>espérance de vie</em> (<code>life_expectancy</code>). Le coefficient de corrélation de 0.79. confirme ce que nous montre le graphiqu, c’est-à-dire qu’il y a une forte relation positive entre les deux variables.</p>
+<p>À l’opposé, le coeffcient de corrélation des variables <em>population</em> (<code>population</code>) et <em>espérance de vie</em> (<code>life_expectancy</code>) est de -0.03, indiquant une très faible relation négative.</p>
+<strong>Coefficient de corrélation</strong>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>correlation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='va'>df_corr</span>, use <span class='op'>=</span> <span class='st'>"complete"</span><span class='op'>)</span>, <span class='fl'>2</span><span class='op'>)</span>   <span class='co'>#Calcul de la table de corrélation</span>
+
+<span class='va'>correlation</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kbl.html'>kbl</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_styling.html'>kable_styling</a></span><span class='op'>(</span>bootstrap_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"striped"</span>, <span class='st'>"hover"</span>, <span class='st'>"condensed"</span><span class='op'>)</span>, latex_options <span class='op'>=</span> <span class='st'>"scale_down"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_styling.html'>kable_styling</a></span><span class='op'>(</span>bootstrap_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"striped"</span>, <span class='st'>"hover"</span>, <span class='st'>"condensed"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -2517,9 +2561,6 @@ Show code
 people_fully_vaccinated_per_hundred
 </th>
 <th style="text-align:right;">
-total_boosters_per_hundred
-</th>
-<th style="text-align:right;">
 population
 </th>
 <th style="text-align:right;">
@@ -2527,9 +2568,6 @@ income_per_person
 </th>
 <th style="text-align:right;">
 gdp
-</th>
-<th style="text-align:right;">
-growth_gdp_per_capita
 </th>
 <th style="text-align:right;">
 life_expectancy
@@ -2545,48 +2583,16 @@ people_fully_vaccinated_per_hundred
 1.00
 </td>
 <td style="text-align:right;">
-0.59
+-0.01
 </td>
 <td style="text-align:right;">
--0.02
+0.74
 </td>
 <td style="text-align:right;">
-0.54
+0.19
 </td>
 <td style="text-align:right;">
-0.04
-</td>
-<td style="text-align:right;">
--0.05
-</td>
-<td style="text-align:right;">
-0.55
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-total_boosters_per_hundred
-</td>
-<td style="text-align:right;">
-0.59
-</td>
-<td style="text-align:right;">
-1.00
-</td>
-<td style="text-align:right;">
--0.05
-</td>
-<td style="text-align:right;">
-0.46
-</td>
-<td style="text-align:right;">
-0.05
-</td>
-<td style="text-align:right;">
--0.05
-</td>
-<td style="text-align:right;">
-0.40
+0.79
 </td>
 </tr>
 <tr>
@@ -2594,25 +2600,19 @@ total_boosters_per_hundred
 population
 </td>
 <td style="text-align:right;">
--0.02
-</td>
-<td style="text-align:right;">
--0.05
+-0.01
 </td>
 <td style="text-align:right;">
 1.00
 </td>
 <td style="text-align:right;">
-0.08
-</td>
-<td style="text-align:right;">
-0.88
-</td>
-<td style="text-align:right;">
 -0.03
 </td>
 <td style="text-align:right;">
--0.09
+0.60
+</td>
+<td style="text-align:right;">
+-0.03
 </td>
 </tr>
 <tr>
@@ -2620,13 +2620,10 @@ population
 income_per_person
 </td>
 <td style="text-align:right;">
-0.54
+0.74
 </td>
 <td style="text-align:right;">
-0.46
-</td>
-<td style="text-align:right;">
-0.08
+-0.03
 </td>
 <td style="text-align:right;">
 1.00
@@ -2635,10 +2632,7 @@ income_per_person
 0.28
 </td>
 <td style="text-align:right;">
--0.13
-</td>
-<td style="text-align:right;">
-0.62
+0.72
 </td>
 </tr>
 <tr>
@@ -2646,13 +2640,10 @@ income_per_person
 gdp
 </td>
 <td style="text-align:right;">
-0.04
+0.19
 </td>
 <td style="text-align:right;">
-0.05
-</td>
-<td style="text-align:right;">
-0.88
+0.60
 </td>
 <td style="text-align:right;">
 0.28
@@ -2661,36 +2652,7 @@ gdp
 1.00
 </td>
 <td style="text-align:right;">
--0.04
-</td>
-<td style="text-align:right;">
-0.05
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-growth_gdp_per_capita
-</td>
-<td style="text-align:right;">
--0.05
-</td>
-<td style="text-align:right;">
--0.05
-</td>
-<td style="text-align:right;">
--0.03
-</td>
-<td style="text-align:right;">
--0.13
-</td>
-<td style="text-align:right;">
--0.04
-</td>
-<td style="text-align:right;">
-1.00
-</td>
-<td style="text-align:right;">
-0.06
+0.18
 </td>
 </tr>
 <tr>
@@ -2698,22 +2660,16 @@ growth_gdp_per_capita
 life_expectancy
 </td>
 <td style="text-align:right;">
-0.55
+0.79
 </td>
 <td style="text-align:right;">
-0.40
+-0.03
 </td>
 <td style="text-align:right;">
--0.09
+0.72
 </td>
 <td style="text-align:right;">
-0.62
-</td>
-<td style="text-align:right;">
-0.05
-</td>
-<td style="text-align:right;">
-0.06
+0.18
 </td>
 <td style="text-align:right;">
 1.00
@@ -2722,7 +2678,23 @@ life_expectancy
 </tbody>
 </table>
 </div>
+<p>Ce sont les combinaisons suivantes qui présentent les coefficients de corrélation les plus élevé :</p>
+<ul>
+<li><code>people_fully_vaccinated_per_hundred</code> et <code>income_per_person</code></li>
+<li><code>people_fully_vaccinated_per_hundred</code> et <code>life_expectancy</code></li>
+<li><code>income_per_person</code> et <code>life_expectancy</code></li>
+<li><code>gdp</code> et <code>population</code></li>
+</ul>
+<p>La bonne nouvelle, c’est qu’aucun de ces coefficients ne dépassent le seuil de 0.8. Nous pouvons donc procéder à l’analyse par grappes avec des variables.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-lapierre_etablir_2016" class="csl-entry" role="doc-biblioentry">
+Lapierre, Marcelin, Stéphanie et Joanis. 2016. <span>“Établir Des Groupes de régions économiques Comparables Au <span>Canada</span> : Une Analyse Par Grappes.”</span> Cahier scientifique 2016s-52. CIRANO. <a href="https://cirano.qc.ca/files/publications/2016s-52.pdf">https://cirano.qc.ca/files/publications/2016s-52.pdf</a>.
+</div>
+<div id="ref-silge_getting_2021" class="csl-entry" role="doc-biblioentry">
+Silge, Julia. 2021. <span>“Getting Started with k-Means and #<span>TidyTuesday</span> Employment Status.”</span> <em>Julia Silge</em>. <a href="https://juliasilge.com/blog/kmeans-employment/">https://juliasilge.com/blog/kmeans-employment/</a>.
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

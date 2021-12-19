@@ -50,6 +50,166 @@ df_pays <- df_pays[!is.na(df_pays$continent),]
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ne devraient pas dépasser 0,8.
+```{r, include=FALSE}
+df_norm <- select(df_pays, c(1, 14, 19:21, 23))
+rownames(df_norm) <- df_norm$name
+df_norm <- select(df_norm, -c("name"))
+```
+
+```{r, include=FALSE}
+df_simple <- select(df_pays, c(1, 14, 19:21, 23))
+df_simple <- drop_na(df_simple)
+#mat_simple <- as.matrix(df_simple[,-1])
+#row.names(mat_simple) <- df_simple$name
+
+# standardisation des données
+df_simple$people_fully_vaccinated_per_hundred <- scale(df_simple$people_fully_vaccinated_per_hundred)    
+df_simple$population <- scale(df_simple$population) 
+df_simple$income_per_person <- scale(df_simple$income_per_person) 
+df_simple$gdp <- scale(df_simple$gdp) 
+df_simple$life_expectancy <- scale(df_simple$life_expectancy) 
+
+set.seed(666)
+k3 <- kmeans(df_simple[, 2:6], 3)
+k3
+
+table <- table(k3$cluster, df_simple$name)
+
+k3$cluster <- as.factor(k3$cluster)
+ggplot(df_simple, aes(people_fully_vaccinated_per_hundred, life_expectancy, color=k3$cluster)) +
+  geom_point()
+```
+
+
+```{r, include=FALSE}
+# https://juliasilge.com/blog/kmeans-employment/
+  
+df_simple
+
+vaccination_clust <- kmeans(select(df_simple, -name), centers = 3) 
+summary(vaccination_clust)
+
+library(broom
+        )
+tidy(vaccination_clust)
+
+augment(vaccination_clust, df_simple) %>%       # on lie les clusters avec la db originale
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster)) +
+  geom_point()
+
+kclusts <-
+  tibble(k = 1:9) %>%
+  mutate(
+    kclust = map(k, ~ kmeans(select(df_simple, -name), .x)),
+    glanced = map(kclust, glance),
+  )
+
+kclusts %>%
+  unnest(cols = c(glanced)) %>%
+  ggplot(aes(k, tot.withinss)) +
+  geom_line(alpha = 0.5, size = 1.2, color = "midnightblue") +
+  geom_point(size = 2, color = "midnightblue")
+
+final_clust <- kmeans(select(df_simple, -name), centers = 4)
+
+library(plotly)
+
+p <- augment(final_clust, df_simple) %>%
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster, name = name)) +
+  geom_point()
+
+ggplotly(p, height = 500)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r, include=FALSE}
+ggplot(df_pays, 
+      aes(people_fully_vaccinated_per_hundred, income_per_person, col=continent)) + 
+      geom_point() + 
+      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et du PIB par hab.") +
+      theme_economist() +
+      theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma", size = 14),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
+```
+
+
+```{r, include=FALSE}
+ggplot(df_pays, 
+      aes(people_fully_vaccinated_per_hundred, life_expectancy, col=continent)) + 
+      geom_point() + 
+      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et l'espérance de vie") +
+      theme_economist() +
+      theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma", size = 14),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
+```
+
+
+```{r, include=FALSE}
+ggplot(df_pays, 
+      aes(people_fully_vaccinated_per_hundred, growth_gdp_per_capita, col=continent)) + 
+      geom_point() + 
+      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et la croissance du PIB par hab.") +
+      theme_economist() +
+      theme(legend.position = "top", legend.direction = "horizontal",
+        legend.box = "horizontal",
+        legend.key.size = unit(0.6, "cm"),
+        plot.title = element_text(family="Tahoma", size = 14),
+        text = element_text(family = "Tahoma"),
+        axis.title = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title= element_blank())
+```
+
+
+
 ## Un peu d'interactivité pour le plaisir!
 
 ```{r map, layout = "l-page"}

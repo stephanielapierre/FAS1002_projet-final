@@ -39,6 +39,19 @@ library(kableExtra)
 library(broom)
 ```
 
+# Analyse par grappes
+
+Pour analyser notre jeu de données sur la vaccination, nous aurans recours aux 
+analyses par grappes (*cluster analysis* ou *clustering* en anglais). L'objectif 
+de ce type d'analyses est de regrouper les observations, les pays dans le cas 
+présent, qui présentent le plus de similitude en fonction de certains 
+caractéristiques. Plus précisément, nous allons créer des groupes de pays 
+comparables selon leur profils de vaccination et des indicateurs comme la 
+population, le PIB et l'espérance de vie.
+
+Pour réaliser notre analyse, nous nous inspirons des méthodologies présentées 
+dans @lapierre_etablir_2016 et @silge_getting_2021.
+
 ```{r, include=FALSE}
 # Jeux de données récentes, avec seulement les pays
 df_pays <- filter(df2021, df2021$region == "pays")  
@@ -48,149 +61,59 @@ df_pays <- df_pays[!is.na(df_pays$continent),]
 ```
 
 
-```{r, include=FALSE}
-ggplot(df_pays, 
-      aes(people_fully_vaccinated_per_hundred, income_per_person, col=continent)) + 
-      geom_point() + 
-      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et du PIB par hab.") +
-      theme_economist() +
-      theme(legend.position = "top", legend.direction = "horizontal",
-        legend.box = "horizontal",
-        legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma", size = 14),
-        text = element_text(family = "Tahoma"),
-        axis.title = element_text(size = 10),
-        legend.text = element_text(size = 10),
-        legend.title= element_blank())
-```
+# Corrélation
 
+La première étape de notre analyse consiste à vérifier la corrélation entre les 
+variables qui seront utilisées pour l'analyse par grappes. Comme mentionné dans 
+@lapierre_etablir_2016, les coefficients de corrélation ne devraient pas dépasser 0,8.
+
+À titre de rappel, le coefficient de corrélation mesure la relation deux 
+variables. Plus il est prêt de 1 (-1), plus la relation entre les deux variables 
+est linéaire et positive (négative).
 
 ```{r, include=FALSE}
-ggplot(df_pays, 
-      aes(people_fully_vaccinated_per_hundred, life_expectancy, col=continent)) + 
-      geom_point() + 
-      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et l'espérance de vie") +
-      theme_economist() +
-      theme(legend.position = "top", legend.direction = "horizontal",
-        legend.box = "horizontal",
-        legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma", size = 14),
-        text = element_text(family = "Tahoma"),
-        axis.title = element_text(size = 10),
-        legend.text = element_text(size = 10),
-        legend.title= element_blank())
+df_corr <- select(df_pays, c(14, 19:21, 23))      #Extraction des variables d'intérêt
+df_corr <- drop_na(df_corr)                       #Élimination des NA
+
+graph1 <- ggplot(df_corr, 
+            aes(people_fully_vaccinated_per_hundred, life_expectancy)) + 
+            geom_point(shape = "circle", size = 1.5, colour = "#440154") + 
+            theme_economist()
 ```
 
-
-```{r, include=FALSE}
-ggplot(df_pays, 
-      aes(people_fully_vaccinated_per_hundred, growth_gdp_per_capita, col=continent)) + 
-      geom_point() + 
-      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et la croissance du PIB par hab.") +
-      theme_economist() +
-      theme(legend.position = "top", legend.direction = "horizontal",
-        legend.box = "horizontal",
-        legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma", size = 14),
-        text = element_text(family = "Tahoma"),
-        axis.title = element_text(size = 10),
-        legend.text = element_text(size = 10),
-        legend.title= element_blank())
+**Relation entre les personnes pleinement vaccinées par 100 hab. et l'espérance de vie**
+```{r} 
+graph1
 ```
 
-La méthodologie utilisée pour cette analyse est inspirée de celle présentée dans @lapierre2016.
+Par exemple, le graphique ci-haut illustre cette relation entre les variables 
+*personnes pleinement vaccinées par 100 hab.* (`people_fully_vaccinated_per_hundred`) 
+et *espérance de vie* (`life_expectancy`). Le coefficient de corrélation de 
+`r round(cor(df_corr$people_fully_vaccinated_per_hundred, df_corr$life_expectancy), 2)` 
+confirme ce que nous montre le graphique, c'est-à-dire qu'il y a une forte 
+relation positive entre les deux variables. 
 
+À l'opposé, le coeffcient de corrélation des variables *population* (`population`) 
+et *espérance de vie* (`life_expectancy`) est de 
+`r round(cor(df_corr$population, df_corr$life_expectancy), 2)`, indiquant une 
+très faible relation négative.
 
-La première étape de cette méthodologie est de vérifier la corrélation entre les 
-variables utilsées. Il est également mentionné que les coefficients de corrélation 
-ne devraient pas dépasser 0,8.
-```{r, include=FALSE}
-df_corr <- select(df_pays, c(14, 19:21, 23))
-correlation <- round(cor(df_corr, use = "complete"), 2)
-```
-
-Les combinaisons suivantes présentes des coefficients de corrélation élevé mais 
-ne dépasse pas le seuil du 0,8 :
-
-- people_fully_vaccinated_per_hundred et income_per_person
-- people_fully_vaccinated_per_hundred et life_expectancy
-- income_per_person et life_expectancy
-
-**ajuster la présentation du tableau**
+**Coefficient de corrélation**
 ```{r}
+correlation <- round(cor(df_corr, use = "complete"), 2)   #Calcul de la table de corrélation
+
 correlation %>%
   kbl() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), latex_options = "scale_down")
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-ne devraient pas dépasser 0,8.
-```{r, include=FALSE}
-df_norm <- select(df_pays, c(1, 14, 19:21, 23))
-rownames(df_norm) <- df_norm$name
-df_norm <- select(df_norm, -c("name"))
-```
+Ce sont les combinaisons suivantes qui présentent les coefficients de corrélation 
+les plus élevé :
 
-```{r, include=FALSE}
-df_simple <- select(df_pays, c(1, 14, 19:21, 23))
-df_simple <- drop_na(df_simple)
-#mat_simple <- as.matrix(df_simple[,-1])
-#row.names(mat_simple) <- df_simple$name
+- `people_fully_vaccinated_per_hundred` et `income_per_person`
+- `people_fully_vaccinated_per_hundred` et `life_expectancy`
+- `income_per_person` et `life_expectancy`
+- `gdp` et `population`
 
-# standardisation des données
-df_simple$people_fully_vaccinated_per_hundred <- scale(df_simple$people_fully_vaccinated_per_hundred)    
-df_simple$population <- scale(df_simple$population) 
-df_simple$income_per_person <- scale(df_simple$income_per_person) 
-df_simple$gdp <- scale(df_simple$gdp) 
-df_simple$life_expectancy <- scale(df_simple$life_expectancy) 
-
-set.seed(666)
-k3 <- kmeans(df_simple[, 2:6], 3)
-k3
-
-table <- table(k3$cluster, df_simple$name)
-
-k3$cluster <- as.factor(k3$cluster)
-ggplot(df_simple, aes(people_fully_vaccinated_per_hundred, life_expectancy, color=k3$cluster)) +
-  geom_point()
-```
-
-
-```{r, include=FALSE}
-# https://juliasilge.com/blog/kmeans-employment/
-  
-df_simple
-
-vaccination_clust <- kmeans(select(df_simple, -name), centers = 3) 
-summary(vaccination_clust)
-
-library(broom
-        )
-tidy(vaccination_clust)
-
-augment(vaccination_clust, df_simple) %>%       # on lie les clusters avec la db originale
-  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster)) +
-  geom_point()
-
-kclusts <-
-  tibble(k = 1:9) %>%
-  mutate(
-    kclust = map(k, ~ kmeans(select(df_simple, -name), .x)),
-    glanced = map(kclust, glance),
-  )
-
-kclusts %>%
-  unnest(cols = c(glanced)) %>%
-  ggplot(aes(k, tot.withinss)) +
-  geom_line(alpha = 0.5, size = 1.2, color = "midnightblue") +
-  geom_point(size = 2, color = "midnightblue")
-
-final_clust <- kmeans(select(df_simple, -name), centers = 4)
-
-library(plotly)
-
-p <- augment(final_clust, df_simple) %>%
-  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster, name = name)) +
-  geom_point()
-
-ggplotly(p, height = 500)
-```
+La bonne nouvelle, c'est qu'aucun de ces coefficients ne dépassent le seuil de 0.8.
+Nous pouvons donc procéder à l'analyse par grappes avec des variables.
