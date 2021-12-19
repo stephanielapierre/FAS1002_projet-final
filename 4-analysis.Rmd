@@ -79,16 +79,15 @@ est linéaire et positive (négative).
 ```{r, include=FALSE}
 df_corr <- select(df_pays, c(14, 19:21, 23))      #Extraction des variables d'intérêt
 df_corr <- drop_na(df_corr)                       #Élimination des NA
-
-graph1 <- ggplot(df_corr, 
-            aes(people_fully_vaccinated_per_hundred, life_expectancy)) + 
-            geom_point(shape = "circle", size = 1.5, colour = "#440154") + 
-            theme_economist()
 ```
 
-**Relation entre les personnes pleinement vaccinées par 100 hab. et l'espérance de vie**
-```{r} 
-graph1
+```{r}
+ggplot(df_corr, 
+          aes(people_fully_vaccinated_per_hundred, life_expectancy)) + 
+          geom_point(shape = "circle", size = 1.5, colour = "#440154") + 
+          ggtitle("Relation entre les personnes pleinement vaccinées \npar 100 habitants et l'espérance de vie") +         
+          theme_economist() +
+          theme(title = element_text(size = 9))
 ```
 
 Par exemple, le graphique ci-haut illustre cette relation entre les variables 
@@ -265,7 +264,7 @@ stat_descriptive %>%
 ```
 
 Nous standardisons mainenant nos varaibles d'intérêts en utilisant la fonction 
-`scale` de R. Voici le même tableau que présenté précédement, mais cette fois en 
+`scale()` de R. Voici le même tableau que présenté précédement, mais cette fois en 
 calculant les statistiques descriptives pour nos variables d'intérêt qui ont été 
 standardisés. On peut voir que l'ensemble des variables présentent ainsi une 
 moyenne de 0 et un écart type de 1. 
@@ -287,8 +286,9 @@ application de l'analyse par grappes avec la méthode des k-means.
 ## Nos premières grappes
 
 Il est généralement recommander de commencer une analyse par grappe avec la 
-méthode des k-means avec 3 grappes. Silge recommande ensuite d'utiliser la fonction `tidy()` du package *broom* (compris dans les *tidymodels*) afin de visualiser les résultats de cette première analyse.
-
+méthode des k-means avec 3 grappes. Silge recommande ensuite d'utiliser la 
+fonction `tidy()` du package *broom* (compris dans les *tidymodels*) afin de 
+visualiser les résultats de cette première analyse.
 
 ```{r}
 vaccination_clust <- kmeans(select(df_analysis, -name), centers = 3) 
@@ -298,15 +298,51 @@ library(broom)
 tidy(vaccination_clust)
 ```
 
-```{r, include=FALSE}
+Il est maintenant possible d'observer nos trois grappes en produisant un nuage 
+de points à partir de deux variables. À noter que pour arriver à visualiser nos 
+grappes, il est nécessaire de relier nos grappes avec nos données. Pour se faire, 
+nous utilisons la fonction `augment()`.
 
-
+**Relation entre les personnes pleinement vaccinées par 100 habitants et l'espérance de vie, trois grappes**
+```{r}
 augment(vaccination_clust, df_analysis) %>%       # on lie les clusters avec la db originale
   ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster)) +
-  geom_point()
+  geom_point() +
+  ggtitle("Relation entre les personnes pleinement vaccinées \npar 100 habitants et l'espérance de vie, trois grappes") +
+  theme_economist() +
+  theme(legend.position = "right",
+              legend.key.size = unit(1, "cm"),
+              title = element_text(size = 9),
+              axis.title = element_text(size = 10),
+              legend.text = element_text(size = 10),
+              legend.title=element_text(face = "bold", size = 11))
+```
 
+La lecture du graphique nous indique déjà que l'analyse par grappes est 
+intéressantes pour notre jeu de données. En effet, bien qu'il y ait quelque 
+croisements est certains pays du groupe 1 et du groupe 3, il est évident que 
+les pays tendent à se regrouper selon leur position dans le graphique. Par 
+exemple, les pays du groupe 2 semblent caractérisés par une plus faible 
+proportion de personnes pleinement vaccinées ainsi qu'une plus faible espérance 
+de vie. Pour leur part, les pays du groupe 1 sont à l'opposé avec une plus forte 
+proportion de personnes pleinement vaccinées ainsi qu'une grande espérance de vie.
+
+Il est toutefois possible de constater que nous avons deux points (pays) qui 
+semblent se retrouver en plein milieu du groupe 3. Voyons si nous pouvons 
+raffiner l'analyse par grappe.
+
+## Combien de grappes
+
+Que ce soit par le nombre de grappes à constituer ou par la liste des variables inclurent pour identifier nos grappes, les analyses par grappes releve de l'art autant que de la science. À noter que considérant la nature de ce rapport, nous nous limitions ici à un simple test pour évaluer le nombre de grappes à utilser.
+
+Qu'est-ce qui confirme que trois grappes est le bon nombre de grappes à utiliser en fonction notre jeu de données? 
+
+> One way is to look at the total within-cluster sum of squares and see if it stops dropping off so quickly at some value for k. We can get that from another verb from broom, glance(); let’s try lots of values for k and see what happens to the total sum of squares. @silge_getting_2021
+
+
+```{r}
 kclusts <-
-  tibble(k = 1:9) %>%
+  tibble(k = 1:10) %>%
   mutate(
     kclust = map(k, ~ kmeans(select(df_analysis, -name), .x)),
     glanced = map(kclust, glance),
@@ -315,16 +351,30 @@ kclusts <-
 kclusts %>%
   unnest(cols = c(glanced)) %>%
   ggplot(aes(k, tot.withinss)) +
-  geom_line(alpha = 0.5, size = 1.2, color = "midnightblue") +
-  geom_point(size = 2, color = "midnightblue")
+  geom_line(alpha = 0.5, size = 1.2, colour = "#440154") +
+  geom_point(size = 2, colour = "#440154") +
+  ggtitle("Une aide pour choisir le nombre de grappes") +
+  theme_economist() +
+  theme(title = element_text(size = 9))
+```
 
+L'analyse du graphique semble indiquer que c'est avec quatre grappes que nous 
+analyse sera la plus stable. Ajustons notre analyse par grappes en conséquence. 
+
+```{r}
 final_clust <- kmeans(select(df_analysis, -name), centers = 4)
 
 library(plotly)
 
 p <- augment(final_clust, df_analysis) %>%
   ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster, name = name)) +
-  geom_point()
+  geom_point() +
+  ggtitle("Relation entre les personnes pleinement vaccinées \npar 100 habitants et l'espérance de vie, quatre grappes")
 
 ggplotly(p, height = 500)
 ```
+
+C'est ce qui conclu la partie analyse de ce rapport. Dans la prochaine section, nous produisons quelques visualisations pour explorer les résultats de cette analyse par grappes.
+
+
+

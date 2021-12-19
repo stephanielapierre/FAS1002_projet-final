@@ -106,8 +106,7 @@ df_simple
 vaccination_clust <- kmeans(select(df_simple, -name), centers = 3) 
 summary(vaccination_clust)
 
-library(broom
-        )
+library(broom        )
 tidy(vaccination_clust)
 
 augment(vaccination_clust, df_simple) %>%       # on lie les clusters avec la db originale
