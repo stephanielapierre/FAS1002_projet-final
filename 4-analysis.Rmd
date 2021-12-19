@@ -1,9 +1,8 @@
 ---
 title: "Analyses des données des données"
 description: | 
-  Cette section présente les données contenus dans le jeu de données. Elle 
-  permet   notamment de prendre connaissance des statistiques relatives aux 
-  variables d'intérêt.
+  Cette section présente les analyses réalisées pour produire des grappes de 
+  pays en fonction de différentes variables.
 date: "`r Sys.Date()`"
 # Modifier les détails que vous voulez
 author:
@@ -37,6 +36,7 @@ library(tidyverse)
 library(dplyr)
 library(ggthemes)
 library(kableExtra)
+library(broom)
 ```
 
 ```{r, include=FALSE}
@@ -156,5 +156,41 @@ ggplot(df_simple, aes(people_fully_vaccinated_per_hundred, life_expectancy, colo
 
 
 ```{r, include=FALSE}
+# https://juliasilge.com/blog/kmeans-employment/
+  
+df_simple
 
+vaccination_clust <- kmeans(select(df_simple, -name), centers = 3) 
+summary(vaccination_clust)
+
+library(broom
+        )
+tidy(vaccination_clust)
+
+augment(vaccination_clust, df_simple) %>%       # on lie les clusters avec la db originale
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster)) +
+  geom_point()
+
+kclusts <-
+  tibble(k = 1:9) %>%
+  mutate(
+    kclust = map(k, ~ kmeans(select(df_simple, -name), .x)),
+    glanced = map(kclust, glance),
+  )
+
+kclusts %>%
+  unnest(cols = c(glanced)) %>%
+  ggplot(aes(k, tot.withinss)) +
+  geom_line(alpha = 0.5, size = 1.2, color = "midnightblue") +
+  geom_point(size = 2, color = "midnightblue")
+
+final_clust <- kmeans(select(df_simple, -name), centers = 4)
+
+library(plotly)
+
+p <- augment(final_clust, df_simple) %>%
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster, name = name)) +
+  geom_point()
+
+ggplotly(p, height = 500)
 ```
