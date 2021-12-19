@@ -60,6 +60,9 @@ df_pays <- select(df_pays, -c("region"))
 df_pays <- df_pays[!is.na(df_pays$continent),]
 ```
 
+Pour nos analyses, nous utilisons le jeux de données des données les plus 
+récentes en lien avec la vaccination. Pour simplifier les analyses, nous avons 
+éliminer toutes observations comportants des valeurs manquantes.
 
 # Corrélation
 
@@ -117,3 +120,133 @@ les plus élevé :
 
 La bonne nouvelle, c'est qu'aucun de ces coefficients ne dépassent le seuil de 0.8.
 Nous pouvons donc procéder à l'analyse par grappes avec des variables.
+
+
+# Standardisation des variables
+
+La prochaine étape de l'analyse est de s'assurer de standardiser les données. 
+En effet, comme l'objectif de l'analyse par grappes est de regrouper ensemble 
+les pays les plus similaires, il est important de tenir compte des effets 
+d'échelle. Les variables de *population* et de *PIB* (`gpd`) sont de bons 
+exemples de variables un effet d'échelle pourrait venir influencer les analyses.
+
+```{r, include=FALSE}
+##Préparation des jeux de données pour les analyses
+vaccination <- select(df_pays, c(1, 14, 19:21, 23))
+vaccination <- drop_na(df_simple)
+
+# standardisation des données
+df_analysis <- vaccination
+df_analysis$people_fully_vaccinated_per_hundred <- scale(df_analysis$people_fully_vaccinated_per_hundred)    
+df_analysis$population <- scale(df_analysis$population) 
+df_analysis$income_per_person <- scale(df_analysis$income_per_person) 
+df_analysis$gdp <- scale(df_analysis$gdp) 
+df_analysis$life_expectancy <- scale(df_analysis$life_expectancy)
+```
+
+```{r, include=FALSE}
+# Statistiques descriptives des variables
+people_fully_vaccinated_per_hundred <- df_corr %>% summarise(
+  Minimum = min(`people_fully_vaccinated_per_hundred`),
+  Maximum = max(`people_fully_vaccinated_per_hundred`),
+  Moyenne = mean(`people_fully_vaccinated_per_hundred`),
+  "Écart type" = sd(`people_fully_vaccinated_per_hundred`))
+
+people_fully_vaccinated_per_hundred$Variable <- "Personnes pleinement vaccinées par 100 hab."
+
+population <- df_corr %>% summarise(
+  Minimum = min(`population`),
+  Maximum = max(`population`),
+  Moyenne = mean(`population`),
+  "Écart type" = sd(`population`))
+
+population$Variable <- "Population"
+
+income_per_person <- df_corr %>% summarise(
+  Minimum = min(`income_per_person`),
+  Maximum = max(`income_per_person`),
+  Moyenne = mean(`income_per_person`),
+  "Écart type" = sd(`income_per_person`))
+
+income_per_person$Variable <- "PIB réel estimé par habitant"
+
+gdp <- df_corr %>% summarise(
+  Minimum = min(`gdp`),
+  Maximum = max(`gdp`),
+  Moyenne = mean(`gdp`),
+  "Écart type" = sd(`gdp`))
+
+gdp$Variable <- "PIB réel estimé (G$)"
+
+life_expectancy <- df_corr %>% summarise(
+  Minimum = min(`life_expectancy`),
+  Maximum = max(`life_expectancy`),
+  Moyenne = mean(`life_expectancy`),
+  "Écart type" = sd(`life_expectancy`))
+
+life_expectancy$Variable <- "Espérance de vie"
+
+#Fusion des tables
+stat_descriptive <- bind_rows(people_fully_vaccinated_per_hundred, population, income_per_person, gdp, life_expectancy)
+#Arrondi
+stat_descriptive$Minimum <- round(stat_descriptive$Minimum, 0)
+stat_descriptive$Maximum<- round(stat_descriptive$Maximum, 0)
+stat_descriptive$Moyenne <- round(stat_descriptive$Moyenne, 0)
+stat_descriptive$`Écart type` <- round(stat_descriptive$`Écart type`, 0)
+#Organisation des colonnes
+stat_descriptive <- stat_descriptive %>% relocate(Variable, .before = Minimum)
+```
+
+
+```{r, include=FALSE}
+# Statistiques descriptives des variables STANDARDISÉES
+n_people_fully_vaccinated_per_hundred <- df_analysis %>% summarise(
+  Minimum = min(`people_fully_vaccinated_per_hundred`),
+  Maximum = max(`people_fully_vaccinated_per_hundred`),
+  Moyenne = mean(`people_fully_vaccinated_per_hundred`),
+  "Écart type" = sd(`people_fully_vaccinated_per_hundred`))
+
+n_people_fully_vaccinated_per_hundred$Variable <- "Personnes pleinement vaccinées par 100 hab."
+
+n_population <- df_analysis %>% summarise(
+  Minimum = min(`population`),
+  Maximum = max(`population`),
+  Moyenne = mean(`population`),
+  "Écart type" = sd(`population`))
+
+n_population$Variable <- "Population"
+
+n_income_per_person <- df_analysis %>% summarise(
+  Minimum = min(`income_per_person`),
+  Maximum = max(`income_per_person`),
+  Moyenne = mean(`income_per_person`),
+  "Écart type" = sd(`income_per_person`))
+
+n_income_per_person$Variable <- "PIB réel estimé par habitant"
+
+n_gdp <- df_analysis %>% summarise(
+  Minimum = min(`gdp`),
+  Maximum = max(`gdp`),
+  Moyenne = mean(`gdp`),
+  "Écart type" = sd(`gdp`))
+
+n_gdp$Variable <- "PIB réel estimé (G$)"
+
+n_life_expectancy <- df_analysis %>% summarise(
+  Minimum = min(`life_expectancy`),
+  Maximum = max(`life_expectancy`),
+  Moyenne = mean(`life_expectancy`),
+  "Écart type" = sd(`life_expectancy`))
+
+n_life_expectancy$Variable <- "Espérance de vie"
+
+#Fusion des tables
+stat_norm <- bind_rows(n_people_fully_vaccinated_per_hundred, n_population, n_income_per_person, n_gdp, n_life_expectancy)
+#Arrondi
+stat_norm$Minimum <- round(stat_norm$Minimum, 0)
+stat_norm$Maximum<- round(stat_norm$Maximum, 0)
+stat_norm$Moyenne <- round(stat_norm$Moyenne, 0)
+stat_norm$`Écart type` <- round(stat_norm$`Écart type`, 0)
+#Organisation des colonnes
+stat_norm <- stat_norm %>% relocate(Variable, .before = Minimum)
+```
