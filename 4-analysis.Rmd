@@ -98,22 +98,45 @@ ggplot(df_pays,
         legend.title= element_blank())
 ```
 
-On essaye la corrélation
+La méthodologie utilisée pour cette analyse est inspirée de celle présentée dans @lapierre2016.
+
+
+La première étape de cette méthodologie est de vérifier la corrélation entre les 
+variables utilsées. Il est également mentionné que les coefficients de corrélation 
+ne devraient pas dépasser 0,8.
 ```{r, include=FALSE}
-df_corr <- select(df_pays, c(14, 15, 19:23))
+df_corr <- select(df_pays, c(14, 19:21, 23))
 correlation <- round(cor(df_corr, use = "complete"), 2)
 ```
 
+Les combinaisons suivantes présentes des coefficients de corrélation élevé mais 
+ne dépasse pas le seuil du 0,8 :
+
+- people_fully_vaccinated_per_hundred et income_per_person
+- people_fully_vaccinated_per_hundred et life_expectancy
+- income_per_person et life_expectancy
+
+**ajuster la présentation du tableau**
 ```{r}
 correlation %>%
   kbl() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), latex_options = "scale_down")
 ```
 
+ne devraient pas dépasser 0,8.
+```{r, include=FALSE}
+df_norm <- select(df_pays, c(1, 14, 19:21, 23))
+rownames(df_norm) <- df_norm$name
+df_norm <- select(df_norm, -c("name"))
+```
 
+```{r, include=FALSE}
+df_simple <- select(df_pays, c(1, 14, 19:21, 23))
+df_simple <- drop_na(df_simple)
+mat_simple <- as.matrix(df_simple[,-1])
+row.names(mat_simple) <- df_simple$name
 
-
-
+```
 
 ```{r, include=FALSE}
 # Data preparation 
