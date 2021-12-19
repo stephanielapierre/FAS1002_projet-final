@@ -1,5 +1,5 @@
 ---
-title: "Analyses des données des données"
+title: "Analyses des données"
 description: | 
   Cette section présente les analyses réalisées pour produire des grappes de 
   pays en fonction de différentes variables.
@@ -133,7 +133,7 @@ exemples de variables un effet d'échelle pourrait venir influencer les analyses
 ```{r, include=FALSE}
 ##Préparation des jeux de données pour les analyses
 vaccination <- select(df_pays, c(1, 14, 19:21, 23))
-vaccination <- drop_na(df_simple)
+vaccination <- drop_na(vaccination)
 
 # standardisation des données
 df_analysis <- vaccination
@@ -249,4 +249,28 @@ stat_norm$Moyenne <- round(stat_norm$Moyenne, 0)
 stat_norm$`Écart type` <- round(stat_norm$`Écart type`, 0)
 #Organisation des colonnes
 stat_norm <- stat_norm %>% relocate(Variable, .before = Minimum)
+```
+
+
+Voici d'abord un tableau présentant les statistiques descriptives des varaibles 
+qui nous intéressent pour l'analyse par grappes.
+
+**Statistiques descriptives des variables d'intérêts**
+```{r}
+stat_descriptive %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+Nous standardisons mainenant nos varaibles d'intérêts en utilisant la fonction 
+`scale` de R. Voici le même tableau que présenté précédement, mais cette fois en 
+calculant les statistiques descriptives pour nos variables d'intérêt qui ont été 
+standardisés. On peut voir que l'ensemble des variables présentent ainsi une 
+moyenne de 0 et un écart type de 1. 
+
+**Statistiques descriptives des variables d'intérêts standardisées**
+```{r}
+stat_norm %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
