@@ -133,26 +133,28 @@ df_norm <- select(df_norm, -c("name"))
 ```{r, include=FALSE}
 df_simple <- select(df_pays, c(1, 14, 19:21, 23))
 df_simple <- drop_na(df_simple)
-mat_simple <- as.matrix(df_simple[,-1])
-row.names(mat_simple) <- df_simple$name
-
-```
-
-```{r, include=FALSE}
-# Data preparation 
-# df2021_pays <- filter(df2021, df2021$region == "pays") 
-# df2021_pays <- select(df2021_pays, c(1, 15, 20:24))
-# df2021_pays <- na.omit(df2021_pays)                 # pas de données manquantes
+#mat_simple <- as.matrix(df_simple[,-1])
+#row.names(mat_simple) <- df_simple$name
 
 # standardisation des données
-# df2021_pays$people_fully_vaccinated_per_hundred <- scale(df2021_pays$people_fully_vaccinated_per_hundred)    
-# df2021_pays$population <- scale(df2021_pays$population) 
-# df2021_pays$income_per_person <- scale(df2021_pays$income_per_person) 
-# df2021_pays$gdp <- scale(df2021_pays$gdp) 
-# df2021_pays$growth_gdp_per_capita <- scale(df2021_pays$growth_gdp_per_capita) 
-# df2021_pays$life_expectancy <- scale(df2021_pays$life_expectancy) 
+df_simple$people_fully_vaccinated_per_hundred <- scale(df_simple$people_fully_vaccinated_per_hundred)    
+df_simple$population <- scale(df_simple$population) 
+df_simple$income_per_person <- scale(df_simple$income_per_person) 
+df_simple$gdp <- scale(df_simple$gdp) 
+df_simple$life_expectancy <- scale(df_simple$life_expectancy) 
 
 set.seed(666)
-# k3 <- kmeans(df2021_pays[!is.na(df2021_pays)], 3)
-# str(k3)
+k3 <- kmeans(df_simple[, 2:6], 3)
+k3
+
+table <- table(k3$cluster, df_simple$name)
+
+k3$cluster <- as.factor(k3$cluster)
+ggplot(df_simple, aes(people_fully_vaccinated_per_hundred, life_expectancy, color=k3$cluster)) +
+  geom_point()
+```
+
+
+```{r, include=FALSE}
+
 ```
