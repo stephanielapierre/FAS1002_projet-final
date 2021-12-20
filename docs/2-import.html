@@ -2531,9 +2531,11 @@ Aide pour le site
 <li><a href="#téléchargement-de-données">Téléchargement de données</a></li>
 <li><a href="#préparation-des-données">Préparation des données</a></li>
 </ul></li>
-<li><a href="#jeux-de-données-complet">Jeux de données complet</a></li>
+<li><a href="#jeux-de-données-complet">Jeux de données complet</a>
+<ul>
 <li><a href="#jeux-de-données-les-plus-récentes">Jeux de données les plus récentes</a></li>
 <li><a href="#validité-des-valeurs">Validité des valeurs</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -6376,7 +6378,7 @@ NA
 </table>
 </div>
 </div>
-<h1 id="jeux-de-données-les-plus-récentes">Jeux de données les plus récentes</h1>
+<h2 id="jeux-de-données-les-plus-récentes">Jeux de données les plus récentes</h2>
 <p>Maintenant que notre jeu de données complet a été constitué, nous créons un nouveau jeu de données contenant seulement les données les plus récentes pour chacune des juridictions. En effet, bien que les données sur la vaccination soient disponibles sur une base quotidienne, les pays ne mettent pas tous leurs données à jour la même fréquence.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -6395,7 +6397,7 @@ Show code
 </div>
 </details>
 </div>
-<p>Cette version du jeu de données contient 65419 observations et 24 variables. Voici un extrait des 50 premières lignes du jeu de données.</p>
+<p>Cette version du jeu de données contient 224 observations et 24 variables. Voici un extrait des 50 premières lignes du jeu de données.</p>
 <p><em>À noter que cet aspect sera exploré plus en détails dans la section Exploration des données </em></p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -10195,7 +10197,7 @@ NA
 </table>
 </div>
 </div>
-<h1 id="validité-des-valeurs">Validité des valeurs</h1>
+<h2 id="validité-des-valeurs">Validité des valeurs</h2>
 <p>Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (OWID et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable <code>total_vaccinations_per_hundred</code>, qui est fourni par OWID, avec une nouvelle variable que nous obtenous à partir de la population de 2021 estimé par Gapminder.</p>
 <p>Le jeu de données des données les plus récentes contient 224 observations (des pays ou des continents).</p>
 <p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour les 31 observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population.</p>

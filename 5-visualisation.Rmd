@@ -28,7 +28,7 @@ output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
-source("R/opening-processed-data.R", local = knitr::knit_global())              # Script pour l'ouverture des données traitées
+source("R/opening-processed-data-2.R", local = knitr::knit_global())              # Script pour l'ouverture des données traitées
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -41,13 +41,19 @@ library(ggthemes)
 library(kableExtra)
 ```
 
-```{r, include=FALSE}
-# Jeux de données récentes, avec seulement les pays
-df_pays <- filter(df2021, df2021$region == "pays")  
-df_pays <- select(df_pays, -c("region"))
-# Enlever les pays qui on NA dans continent, (principalement des îles de pays)
-df_pays <- df_pays[!is.na(df_pays$continent),]
-```
+# Idées pour la visualisation
+
+
+- Carte du monde avec les clusters
+
+- Nuage de point interactif avec l'ensemble de cluster
+
+- Puis un prend un seul cluster et les couleurs deviennent les continents
+
+- Puis on change l'espérance de vie par le pib par habitant
+
+
+- Graphique interactif (comme l'exemple, on présente l'évolution de la vaccination dans le temps)
 
 
 
@@ -57,86 +63,38 @@ df_pays <- df_pays[!is.na(df_pays$continent),]
 
 
 
+## Évolution de la vaccination dans le temps
 
-
-
-
-
-
-
-
-
-ne devraient pas dépasser 0,8.
-```{r, include=FALSE}
-df_norm <- select(df_pays, c(1, 14, 19:21, 23))
-rownames(df_norm) <- df_norm$name
-df_norm <- select(df_norm, -c("name"))
-```
-
-```{r, include=FALSE}
-df_simple <- select(df_pays, c(1, 14, 19:21, 23))
-df_simple <- drop_na(df_simple)
-#mat_simple <- as.matrix(df_simple[,-1])
-#row.names(mat_simple) <- df_simple$name
-
-# standardisation des données
-df_simple$people_fully_vaccinated_per_hundred <- scale(df_simple$people_fully_vaccinated_per_hundred)    
-df_simple$population <- scale(df_simple$population) 
-df_simple$income_per_person <- scale(df_simple$income_per_person) 
-df_simple$gdp <- scale(df_simple$gdp) 
-df_simple$life_expectancy <- scale(df_simple$life_expectancy) 
-
-set.seed(666)
-k3 <- kmeans(df_simple[, 2:6], 3)
-k3
-
-table <- table(k3$cluster, df_simple$name)
-
-k3$cluster <- as.factor(k3$cluster)
-ggplot(df_simple, aes(people_fully_vaccinated_per_hundred, life_expectancy, color=k3$cluster)) +
-  geom_point()
-```
-
-
-```{r, include=FALSE}
-# https://juliasilge.com/blog/kmeans-employment/
-  
-df_simple
-
-vaccination_clust <- kmeans(select(df_simple, -name), centers = 3) 
-summary(vaccination_clust)
-
-library(broom        )
-tidy(vaccination_clust)
-
-augment(vaccination_clust, df_simple) %>%       # on lie les clusters avec la db originale
-  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster)) +
-  geom_point()
-
-kclusts <-
-  tibble(k = 1:9) %>%
-  mutate(
-    kclust = map(k, ~ kmeans(select(df_simple, -name), .x)),
-    glanced = map(kclust, glance),
-  )
-
-kclusts %>%
-  unnest(cols = c(glanced)) %>%
-  ggplot(aes(k, tot.withinss)) +
-  geom_line(alpha = 0.5, size = 1.2, color = "midnightblue") +
-  geom_point(size = 2, color = "midnightblue")
-
-final_clust <- kmeans(select(df_simple, -name), centers = 4)
-
+Enfin, voici un graphique qui présente l'évolution dans le temps de la proportion de personnes pleinement vaccinées (par 100 habitants) en relation avec l'espérance de vie.
+```{r plotly}
 library(plotly)
 
-p <- augment(final_clust, df_simple) %>%
-  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster, name = name)) +
-  geom_point()
+timeline <- filter(df, df$region == "pays")
 
-ggplotly(p, height = 500)
+fig <- timeline %>%
+  plot_ly(
+    x = ~ people_fully_vaccinated_per_hundred,
+    y = ~ life_expectancy,
+    size = ~ gdp,
+    color = ~ continent,
+    frame = ~ date,
+    text = ~ name,
+    hoverinfo = "text",
+    type = 'scatter',
+    mode = 'markers',
+    width = "100%",
+    height = 600
+  )
+
+#fig <- fig %>% layout(xaxis = list(type = "log"))
+
+#fig <- fig %>%
+#  animation_button(
+#    x = 0, xanchor = "left", y = -0.15, yanchor = "bottom"
+#  )
+
+fig
 ```
-
 
 
 
