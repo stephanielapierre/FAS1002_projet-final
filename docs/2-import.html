@@ -2521,20 +2521,55 @@ Aide pour le site
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#données-utilisées">Données utilisées</a></li>
-<li><a href="#importation-et-traitement-de-données">Importation et traitement de données</a></li>
-<li><a href="#jeux-de-données">Jeux de données</a></li>
+<li><a href="#données-utilisées">Données utilisées</a>
+<ul>
+<li><a href="#our-world-in-data-owid">Our World in Data (OWID)</a></li>
+<li><a href="#gappminder">Gappminder</a></li>
+</ul></li>
+<li><a href="#traitement-de-données">Traitement de données</a>
+<ul>
+<li><a href="#téléchargement-de-données">Téléchargement de données</a></li>
+<li><a href="#traitement-des-données">Traitement des données</a></li>
+<li><a href="#fusion-des-différents-jeux-de-données">Fusion des différents jeux de données</a></li>
+</ul></li>
+<li><a href="#jeux-de-données-complet">Jeux de données complet</a></li>
 <li><a href="#variable-continent---comment-présenter">Variable continent? - Comment présenter?</a></li>
 <li><a href="#validité-des-valeurs">Validité des valeurs</a></li>
 </ul>
 </nav>
 </div>
-<p>Vous pouvez maintenant importer et travailler sur vos données, comme celles de <span class="citation" data-cites="mathieu2021"><a href="#ref-mathieu2021" role="doc-biblioref">Mathieu et al.</a> (<a href="#ref-mathieu2021" role="doc-biblioref">2021</a>)</span>.</p>
 <h1 id="données-utilisées">Données utilisées</h1>
-<p>TO DO : Ajouter une présentation des sources de données et des données utiliser.</p>
-<p>Finir avec une HEAD de la base merger</p>
-<h1 id="importation-et-traitement-de-données">Importation et traitement de données</h1>
-<h1 id="jeux-de-données">Jeux de données</h1>
+<p>Avant de se lancer dans quelques analyses que ce soit, il faut identifier les données que nous pouvons utiliser. Pour notre analyse, nous recours à deux sources Our World in Data et Gapminder.</p>
+<h2 id="our-world-in-data-owid">Our World in Data (OWID)</h2>
+<p>Le gros du jeu de données avec lequel nous travaillons s’articule avec des données mondiales sur la vaccination. Grâce à une initiative de <span class="citation" data-cites="mathieu_global_2021"><a href="#ref-mathieu_global_2021" role="doc-biblioref">Mathieu et al.</a> (<a href="#ref-mathieu_global_2021" role="doc-biblioref">2021</a>)</span>, le site Web de OWID dispose d’une jeu de données très complet sur la vaccination. En plus d’être offertes par pays, par continent et certains États, les données disponibles couvrent plusieurs aspects de la vaccination allant du nombre de doses administrés au personnes ayant reçus une dose de rappels. Autre aspect intéressant de ces données, il est possible de suivre l’évolution quotidienne des différentes variables puisque les données sont disponibles sur une base quotidienne.</p>
+<p>Les données peuvent être visualiser et consulter sur le <a href="https://ourworldindata.org/covid-vaccinations">site Web de OWID</a>. La base de données complète est <a href="https://github.com/owid/covid-19-data/tree/master/public/data/vaccinations">disponibles pour le téléchargement sur GitHub</a>.</p>
+<h2 id="gappminder">Gappminder</h2>
+<p>Pour compléter notre jeu de données sur la vaccination et être en mesure d’ajouter des nuances à nos analyses, nous avons recours à Gapminder.</p>
+<p>Ayant pour objectif de combattre l’ignorance en s’appuyant sur des faits que tous sont mesures de comprendre, Gapminder offre des données fiables qui permettent d’expliquer et de bien comprendre des tendances mondiales.</p>
+<p>Plus précisément, nous avons utilisé Gapminder pour récupérer des données en lien avec la population, le PIB et l’espérance de vie. Particularité intéressante de Gapminder, c’est que le site offre les données à la fois pour les pays et pour les continents.</p>
+<p>Le site Web de Gapminder peut être consulter à cette adresse : <a href="https://www.gapminder.org/">www.gapminder.org</a></p>
+<p>Les jeux de données que nous avons utilisé pour construire son les suivants :</p>
+<ul>
+<li><a href="https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/edit#gid=501532268">Population</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/1gZZ28UiWCVue-tFHMEVOvSO58x7x-w20E23l1wZTR3E/edit#gid=501532268">Produit intérieur brut (PIB)</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/11mulzUH3_cueq-V9D5KIlo9oHE9YYZrUSeVyCin7_rM/edit#gid=501532268">Espérance de vie</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/1qHalit8sXC0R8oVXibc2wa2gY7bkwGzOybEMTWp-08o/edit#gid=501532268">Géographie</a></li>
+</ul>
+<h1 id="traitement-de-données">Traitement de données</h1>
+<h2 id="téléchargement-de-données">Téléchargement de données</h2>
+<p>La première étape de notre travail à consister à mettre en place une stratégie pour le téléchargement des données. Effectivement, comme les données sont récupérés directement sur Internet, il est préférable de récupérer une copie des jeux de données. Ceci répond à deux objectifs, d’abord travailler plus facilement avec une copie locale. De plus, nous permet d’éviter des mauvaises surprises dans l’éventualité où les données viendraient à être retirées du Web.</p>
+<p>Nos deux sources de données ont une fréquence de mises à jours différentes. En effet, les données sur la vaccination de OWID sont mises à jour quotidiennement tandis que celles de Gapminder sont plutôt sur une fréquence de mises à jours mensuelles.</p>
+<p>Afin de tenir compte de ces particularités, nous avons développer un script qui permet de télécharger quotidiennement ou mensuellement les jeux de données.</p>
+<p>Sommairement, voici les étapes qui constitue le script de téléchargement :</p>
+<ul>
+<li><strong>Mise en place</strong>. On part du principe qu’il y a déjà une version des données diponibles localement (qui comprend la date de téléchargement dans son titre).</li>
+<li><strong>Dernière version</strong>. On extrait la date de téléchargement du fichier disponible localement.</li>
+<li><strong>Comparaison de la date</strong>. On compare la date de téléchargement avec la date du jour (ou d’il y a un mois, dans le cas des données mensuelles).</li>
+<li><strong>Test conditionnel</strong>. Si les données disponibles localement ont plus d’une fjournée (ou qu’un mois), on télécharge une nouvelle version des données. On efface ensuite les anciennes données.</li>
+</ul>
+<h2 id="traitement-des-données">Traitement des données</h2>
+<h2 id="fusion-des-différents-jeux-de-données">Fusion des différents jeux de données</h2>
+<h1 id="jeux-de-données-complet">Jeux de données complet</h1>
 <p>Maintenant que notre jeu de données complet à été constitué, nous nous allons créer un nouveau jeu de données contenant seulement les données les plus récentes. En effet, bien que les données sur la vaccination soient disponibles sur une base quotidienne, les pays ne mettent pas leurs données à jour la même fréquence.</p>
 <p><em>Cette aspect sera exploré plus en détails dans la section Exploration des données </em></p>
 <p>TO DO : TÉLÉCHARGEMENT DES DONNÉES</p>
@@ -2807,7 +2842,7 @@ Europe
 <p>En considérant que le nombre de pays ou de continent qui présente une valeur différente est petit, il est possible de conclure que les données sont valides.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-mathieu2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-mathieu_global_2021" class="csl-entry" role="doc-biblioentry">
 Mathieu, Edouard, Hannah Ritchie, Esteban Ortiz-Ospina, Max Roser, Joe Hasell, Cameron Appel, Charlie Giattino, and Lucas Rodés-Guirao. 2021. <span>“A Global Database of <span>COVID</span>-19 Vaccinations.”</span> <em>Nature Human Behaviour</em> 5 (7): 947–53. <a href="https://doi.org/10.1038/s41562-021-01122-8">https://doi.org/10.1038/s41562-021-01122-8</a>.
 </div>
 </div>

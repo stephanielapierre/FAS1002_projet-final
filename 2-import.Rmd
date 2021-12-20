@@ -40,19 +40,55 @@ library(dplyr)
 library(kableExtra)
 ```
 
-Vous pouvez maintenant importer et travailler sur vos données, comme celles de @mathieu2021.
 
 # Données utilisées
-TO DO : Ajouter une présentation des sources de données et des données utiliser.
+Avant de se lancer dans quelques analyses que ce soit, il faut identifier les données que nous pouvons utiliser. Pour notre analyse, nous recours à deux sources Our World in Data et Gapminder.
 
-Finir avec une HEAD de la base merger
+## Our World in Data (OWID)
+Le gros du jeu de données avec lequel nous travaillons s'articule avec des données mondiales sur la vaccination. Grâce à une initiative de @mathieu_global_2021, le site Web de OWID dispose d'une jeu de données très complet sur la vaccination. En plus d'être offertes par pays, par continent et certains États, les données disponibles couvrent plusieurs aspects de la vaccination allant du nombre de doses administrés au personnes ayant reçus une dose de rappels. Autre aspect intéressant de ces données, il est possible de suivre l'évolution quotidienne des différentes variables puisque les données sont disponibles sur une base quotidienne.
+
+Les données peuvent être visualiser et consulter sur le [site Web de OWID](https://ourworldindata.org/covid-vaccinations). La base de données complète est [disponibles pour le téléchargement sur GitHub](https://github.com/owid/covid-19-data/tree/master/public/data/vaccinations). 
 
 
-# Importation et traitement de données
+## Gapminder
+Pour compléter notre jeu de données sur la vaccination et être en mesure d'ajouter des nuances à nos analyses, nous avons recours à Gapminder. 
+
+Ayant pour objectif de combattre l'ignorance en s'appuyant sur des faits que tous sont mesures de comprendre, Gapminder offre des données fiables qui permettent d'expliquer et de bien comprendre des tendances mondiales. 
+
+Plus précisément, nous avons utilisé Gapminder pour récupérer des données en lien avec la population, le PIB et l'espérance de vie. Particularité intéressante de Gapminder, c'est que le site offre les données à la fois pour les pays et pour les continents. 
+
+Le site Web de Gapminder peut être consulter à cette adresse : [www.gapminder.org](https://www.gapminder.org/)
+
+Les jeux de données que nous avons utilisé pour construire son les suivants : 
+
+- [Population](https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/edit#gid=501532268)
+- [Produit intérieur brut (PIB)](https://docs.google.com/spreadsheets/d/1gZZ28UiWCVue-tFHMEVOvSO58x7x-w20E23l1wZTR3E/edit#gid=501532268)
+- [Espérance de vie](https://docs.google.com/spreadsheets/d/11mulzUH3_cueq-V9D5KIlo9oHE9YYZrUSeVyCin7_rM/edit#gid=501532268)
+- [Géographie](https://docs.google.com/spreadsheets/d/1qHalit8sXC0R8oVXibc2wa2gY7bkwGzOybEMTWp-08o/edit#gid=501532268)
 
 
+# Traitement de données
 
-# Jeux de données
+## Téléchargement de données
+ 
+La première étape de notre travail à consister à mettre en place une stratégie pour le téléchargement des données. Effectivement, comme les données sont récupérés directement sur Internet, il est préférable de récupérer une copie des jeux de données. Ceci répond à deux objectifs, d'abord travailler plus facilement avec une copie locale. De plus, nous permet d'éviter des mauvaises surprises dans l'éventualité où les données viendraient à être retirées du Web. 
+
+Nos deux sources de données ont une fréquence de mises à jours différentes. En effet, les données sur la vaccination de OWID sont mises à jour quotidiennement tandis que celles de Gapminder sont plutôt sur une fréquence de mises à jours mensuelles.
+
+Afin de tenir compte de ces particularités, nous avons développer un script qui permet de télécharger quotidiennement ou mensuellement les jeux de données.
+
+Sommairement, voici les étapes qui constitue le script de téléchargement : 
+
+- **Mise en place**. On part du principe qu'il y a déjà une version des données diponibles localement (qui comprend la date de téléchargement dans son titre).
+- **Dernière version**. On extrait la date de téléchargement du fichier disponible localement.
+- **Comparaison de la date**. On compare la date de téléchargement avec la date du jour (ou d'il y a un mois, dans le cas des données mensuelles).
+- **Test conditionnel**. Si les données disponibles localement ont plus d'une fjournée (ou qu'un mois), on télécharge une nouvelle version des données. On efface ensuite les anciennes données.
+
+## Traitement des données
+
+## Fusion des différents jeux de données
+
+# Jeux de données complet
 
 Maintenant que notre jeu de données complet à été constitué, nous nous allons
 créer un nouveau jeu de données contenant seulement les données les plus récentes. 

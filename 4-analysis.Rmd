@@ -374,8 +374,9 @@ p <- augment(final_clust, df_analysis) %>%
 ggplotly(p, height = 500)
 ```
 
-C'est ce qui conclu la partie analyse de ce rapport. Dans la prochaine section, nous produisons quelques visualisations pour explorer les résultats de cette analyse par grappes.
-
+C'est ce qui conclu la partie analyse de ce rapport. Dans la prochaine section, 
+nous produisons quelques visualisations pour explorer les résultats de cette 
+analyse par grappes.
 
 ```{r, include=FALSE}
 cluster <- augment(final_clust, df_analysis)
