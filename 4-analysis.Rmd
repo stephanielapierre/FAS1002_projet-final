@@ -377,4 +377,22 @@ ggplotly(p, height = 500)
 C'est ce qui conclu la partie analyse de ce rapport. Dans la prochaine section, nous produisons quelques visualisations pour explorer les résultats de cette analyse par grappes.
 
 
+```{r, include=FALSE}
+cluster <- augment(final_clust, df_analysis)
+cluster <- select(cluster, c(1, 7))
 
+df_pays_cluster <- left_join(df_pays, cluster)
+
+# Si on fait des corrections dans les données et qu'on veut enregister
+# write.csv(df_pays_cluster, paste0('data/processed/pays_cluster_', Sys.Date(), '.csv'), row.names = FALSE)
+
+# Extraction de la date dernier enregistrement des données
+processed_file <- list.files("data/processed/", pattern ="pays_cluster")
+date_processed_file <- str_sub(processed_file, 14, 23)
+
+# Conditionnel pour vérifier les données doivent être enregistrées
+if (date_processed_file < Sys.Date()){
+    write.csv(df_pays_cluster, paste0('data/processed/pays_cluster_', Sys.Date(), '.csv'), row.names = FALSE)
+    file.remove(paste0('data/processed/pays_cluster_', date_processed_file, '.csv'))         # On enleve les données old
+}
+```
