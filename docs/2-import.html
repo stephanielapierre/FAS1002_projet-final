@@ -2524,16 +2524,15 @@ Aide pour le site
 <li><a href="#données-utilisées">Données utilisées</a>
 <ul>
 <li><a href="#our-world-in-data-owid">Our World in Data (OWID)</a></li>
-<li><a href="#gappminder">Gappminder</a></li>
+<li><a href="#gapminder">Gapminder</a></li>
 </ul></li>
 <li><a href="#traitement-de-données">Traitement de données</a>
 <ul>
 <li><a href="#téléchargement-de-données">Téléchargement de données</a></li>
-<li><a href="#traitement-des-données">Traitement des données</a></li>
-<li><a href="#fusion-des-différents-jeux-de-données">Fusion des différents jeux de données</a></li>
+<li><a href="#préparation-des-données">Préparation des données</a></li>
 </ul></li>
 <li><a href="#jeux-de-données-complet">Jeux de données complet</a></li>
-<li><a href="#variable-continent---comment-présenter">Variable continent? - Comment présenter?</a></li>
+<li><a href="#jeux-de-données-les-plus-récentes">Jeux de données les plus récentes</a></li>
 <li><a href="#validité-des-valeurs">Validité des valeurs</a></li>
 </ul>
 </nav>
@@ -2543,7 +2542,7 @@ Aide pour le site
 <h2 id="our-world-in-data-owid">Our World in Data (OWID)</h2>
 <p>Le gros du jeu de données avec lequel nous travaillons s’articule avec des données mondiales sur la vaccination. Grâce à une initiative de <span class="citation" data-cites="mathieu_global_2021"><a href="#ref-mathieu_global_2021" role="doc-biblioref">Mathieu et al.</a> (<a href="#ref-mathieu_global_2021" role="doc-biblioref">2021</a>)</span>, le site Web de OWID dispose d’une jeu de données très complet sur la vaccination. En plus d’être offertes par pays, par continent et certains États, les données disponibles couvrent plusieurs aspects de la vaccination allant du nombre de doses administrés au personnes ayant reçus une dose de rappels. Autre aspect intéressant de ces données, il est possible de suivre l’évolution quotidienne des différentes variables puisque les données sont disponibles sur une base quotidienne.</p>
 <p>Les données peuvent être visualiser et consulter sur le <a href="https://ourworldindata.org/covid-vaccinations">site Web de OWID</a>. La base de données complète est <a href="https://github.com/owid/covid-19-data/tree/master/public/data/vaccinations">disponibles pour le téléchargement sur GitHub</a>.</p>
-<h2 id="gappminder">Gappminder</h2>
+<h2 id="gapminder">Gapminder</h2>
 <p>Pour compléter notre jeu de données sur la vaccination et être en mesure d’ajouter des nuances à nos analyses, nous avons recours à Gapminder.</p>
 <p>Ayant pour objectif de combattre l’ignorance en s’appuyant sur des faits que tous sont mesures de comprendre, Gapminder offre des données fiables qui permettent d’expliquer et de bien comprendre des tendances mondiales.</p>
 <p>Plus précisément, nous avons utilisé Gapminder pour récupérer des données en lien avec la population, le PIB et l’espérance de vie. Particularité intéressante de Gapminder, c’est que le site offre les données à la fois pour les pays et pour les continents.</p>
@@ -2567,18 +2566,7640 @@ Aide pour le site
 <li><strong>Comparaison de la date</strong>. On compare la date de téléchargement avec la date du jour (ou d’il y a un mois, dans le cas des données mensuelles).</li>
 <li><strong>Test conditionnel</strong>. Si les données disponibles localement ont plus d’une fjournée (ou qu’un mois), on télécharge une nouvelle version des données. On efface ensuite les anciennes données.</li>
 </ul>
-<h2 id="traitement-des-données">Traitement des données</h2>
-<h2 id="fusion-des-différents-jeux-de-données">Fusion des différents jeux de données</h2>
+<h2 id="préparation-des-données">Préparation des données</h2>
+<p>La prochaine étape vers la constitution de notre jeu de données est en lien avec la préparation des différentes données afin de permettre la fusion les différents jeux de données.</p>
+<p>Dans l’ensemble des jeux de données, nous nous sommes d’abord assuré que les données sont sous la forme d’un <em>tibble</em> et que chaque variable était dans le format adéquat (ex. facteurs, date, numérique).</p>
+<p>Chaque jeu de données étant unique, certains jeux de données ont nécessité des manipulations particulières. Les voici :</p>
+<ul>
+<li><strong>Données sur la vaccination</strong>. Les donées de OWID ont nécessité un nettoyage au niveau des régions géographiques. Après exploration, nous avons constater que certaines juridictions présentaient un code <code>geo</code> commençant par “OWID_.” Nous avons constater deux cas expliquant ceci. D’abord, les continents ont étaient identifiés par ce “OWID_.” L’autre cas référait plutôt à des nations constituantes des Royaume-Uni ou à des groupements supplémentaires (ex. Union européenne, Low middle income, etc.). Dans le premier cas, les codes <code>geo</code> ont été corrigé pour correspondre à ceux des autres données. Alors que dans le deuxième cas, les juridictions ont été retirés des données.</li>
+<li><strong>Années de vaccination</strong>. En considérant que les données sur la vaccination sont quotidiennes et que les autres données sont présentées sur un base annuelle, nous avons ajouter une variable <code>année</code> aux données sur la vaccination.</li>
+<li><strong>Données sur le PIB</strong>. Pour tenir compte de effet d’échelle et offrir une meilleure compréhension des données, le PIB a été ramené en milliards de dollars.</li>
+</ul>
+<p>Une fois ces manipulations et ces corrections faites, il a été possible de fusionner tous les jeux de données pour constituer notre jeu de données complet.</p>
 <h1 id="jeux-de-données-complet">Jeux de données complet</h1>
-<p>Maintenant que notre jeu de données complet à été constitué, nous nous allons créer un nouveau jeu de données contenant seulement les données les plus récentes. En effet, bien que les données sur la vaccination soient disponibles sur une base quotidienne, les pays ne mettent pas leurs données à jour la même fréquence.</p>
-<p><em>Cette aspect sera exploré plus en détails dans la section Exploration des données </em></p>
-<p>TO DO : TÉLÉCHARGEMENT DES DONNÉES</p>
-<h1 id="variable-continent---comment-présenter">Variable continent? - Comment présenter?</h1>
+<p>Il contient 65419 observations et 24 variables. Voici un extrait des 50 premières lignes du jeu de données.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>table_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span>, <span class='fl'>50</span><span class='op'>)</span>
+
+<span class='va'>table_df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kbl.html'>kbl</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_styling.html'>kable_styling</a></span><span class='op'>(</span>bootstrap_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"striped"</span>, <span class='st'>"hover"</span>, <span class='st'>"condensed"</span><span class='op'>)</span>, full_width <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/scroll_box.html'>scroll_box</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='st'>"700px"</span>, height <span class='op'>=</span> <span class='st'>"300px"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:700px; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+geo
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+region
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+continent
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+date
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+year
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_vaccinations
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_vaccinated
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_fully_vaccinated
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_boosters
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_vaccinations_raw
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_vaccinations
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_vaccinations_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_vaccinated_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_fully_vaccinated_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_boosters_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_vaccinations_per_million
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_people_vaccinated
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_people_vaccinated_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+population
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+income_per_person
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+gdp
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+growth_gdp_per_capita
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+life_expectancy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-02-22
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-02-23
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-02-24
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-02-25
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-02-26
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-02-27
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-02-28
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+8200
+</td>
+<td style="text-align:right;">
+8200
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1367
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-01
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1580
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+1580
+</td>
+<td style="text-align:right;">
+0.004
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-02
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1794
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+1794
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-03
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2008
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+2008
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-04
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2221
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+2221
+</td>
+<td style="text-align:right;">
+0.006
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-05
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2435
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:right;">
+2435
+</td>
+<td style="text-align:right;">
+0.006
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-06
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2649
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+2649
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-07
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-08
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-09
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-10
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-11
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-12
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-13
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-14
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-16
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+54000
+</td>
+<td style="text-align:right;">
+54000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2862
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-17
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2882
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+2882
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2902
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+2902
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-19
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2921
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+2921
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-20
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2941
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+2941
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-21
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2961
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+2961
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-22
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2980
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+2980
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-23
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-24
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-25
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-26
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-27
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-28
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-29
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-30
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-03-31
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-01
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-02
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-03
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-04
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-05
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-06
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-07
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+120000
+</td>
+<td style="text-align:right;">
+120000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-08
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3714
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+93
+</td>
+<td style="text-align:right;">
+3714
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-09
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4429
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+4429
+</td>
+<td style="text-align:right;">
+0.011
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-10
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5143
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+129
+</td>
+<td style="text-align:right;">
+5143
+</td>
+<td style="text-align:right;">
+0.013
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-11
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5857
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+147
+</td>
+<td style="text-align:right;">
+5857
+</td>
+<td style="text-align:right;">
+0.015
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-04-12
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6571
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+165
+</td>
+<td style="text-align:right;">
+6571
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h1 id="jeux-de-données-les-plus-récentes">Jeux de données les plus récentes</h1>
+<p>Maintenant que notre jeu de données complet a été constitué, nous créons un nouveau jeu de données contenant seulement les données les plus récentes pour chacune des juridictions. En effet, bien que les données sur la vaccination soient disponibles sur une base quotidienne, les pays ne mettent pas tous leurs données à jour la même fréquence.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df_update</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>$</span><span class='va'>name</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.max</a></span><span class='op'>(</span><span class='va'>date</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>df_update</span> <span class='op'>&lt;-</span> <span class='va'>df_update</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>`df$name`</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>Cette version du jeu de données contient 65419 observations et 24 variables. Voici un extrait des 50 premières lignes du jeu de données.</p>
+<p><em>À noter que cet aspect sera exploré plus en détails dans la section Exploration des données </em></p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>recent</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df_update</span>, <span class='fl'>50</span><span class='op'>)</span>
+
+<span class='va'>recent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kbl.html'>kbl</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_styling.html'>kable_styling</a></span><span class='op'>(</span>bootstrap_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"striped"</span>, <span class='st'>"hover"</span>, <span class='st'>"condensed"</span><span class='op'>)</span>, full_width <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/scroll_box.html'>scroll_box</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='st'>"700px"</span>, height <span class='op'>=</span> <span class='st'>"300px"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:700px; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+geo
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+region
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+continent
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+date
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+year
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_vaccinations
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_vaccinated
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_fully_vaccinated
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_boosters
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_vaccinations_raw
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_vaccinations
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_vaccinations_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_vaccinated_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+people_fully_vaccinated_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+total_boosters_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_vaccinations_per_million
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_people_vaccinated
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+daily_people_vaccinated_per_hundred
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+population
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+income_per_person
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+gdp
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+growth_gdp_per_capita
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+life_expectancy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Afghanistan
+</td>
+<td style="text-align:left;">
+afg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-11-27
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+5228706
+</td>
+<td style="text-align:right;">
+4397449
+</td>
+<td style="text-align:right;">
+3566192
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+15991
+</td>
+<td style="text-align:right;">
+13.13
+</td>
+<td style="text-align:right;">
+11.04
+</td>
+<td style="text-align:right;">
+8.95
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+401
+</td>
+<td style="text-align:right;">
+16001
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+39835428
+</td>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+77.661
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+64.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+africa
+</td>
+<td style="text-align:left;">
+continent
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+279760862
+</td>
+<td style="text-align:right;">
+177362707
+</td>
+<td style="text-align:right;">
+115284524
+</td>
+<td style="text-align:right;">
+689618
+</td>
+<td style="text-align:right;">
+74842
+</td>
+<td style="text-align:right;">
+1872035
+</td>
+<td style="text-align:right;">
+20.37
+</td>
+<td style="text-align:right;">
+12.91
+</td>
+<td style="text-align:right;">
+8.39
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+1363
+</td>
+<td style="text-align:right;">
+989434
+</td>
+<td style="text-align:right;">
+0.072
+</td>
+<td style="text-align:right;">
+1371687302
+</td>
+<td style="text-align:right;">
+4698
+</td>
+<td style="text-align:right;">
+6443.655
+</td>
+<td style="text-align:right;">
+1.50
+</td>
+<td style="text-align:right;">
+67.20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Albania
+</td>
+<td style="text-align:left;">
+alb
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+2226267
+</td>
+<td style="text-align:right;">
+1111494
+</td>
+<td style="text-align:right;">
+1001189
+</td>
+<td style="text-align:right;">
+113584
+</td>
+<td style="text-align:right;">
+9865
+</td>
+<td style="text-align:right;">
+8580
+</td>
+<td style="text-align:right;">
+77.49
+</td>
+<td style="text-align:right;">
+38.69
+</td>
+<td style="text-align:right;">
+34.85
+</td>
+<td style="text-align:right;">
+3.95
+</td>
+<td style="text-align:right;">
+2986
+</td>
+<td style="text-align:right;">
+2740
+</td>
+<td style="text-align:right;">
+0.095
+</td>
+<td style="text-align:right;">
+2872934
+</td>
+<td style="text-align:right;">
+13950
+</td>
+<td style="text-align:right;">
+40.078
+</td>
+<td style="text-align:right;">
+4.17
+</td>
+<td style="text-align:right;">
+78.70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Algeria
+</td>
+<td style="text-align:left;">
+dza
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-11-30
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+12293060
+</td>
+<td style="text-align:right;">
+6875003
+</td>
+<td style="text-align:right;">
+5391232
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+147230
+</td>
+<td style="text-align:right;">
+35110
+</td>
+<td style="text-align:right;">
+27.55
+</td>
+<td style="text-align:right;">
+15.41
+</td>
+<td style="text-align:right;">
+12.08
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+787
+</td>
+<td style="text-align:right;">
+23904
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+44616626
+</td>
+<td style="text-align:right;">
+10735
+</td>
+<td style="text-align:right;">
+478.970
+</td>
+<td style="text-align:right;">
+1.01
+</td>
+<td style="text-align:right;">
+78.49
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Andorra
+</td>
+<td style="text-align:left;">
+and
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-12
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+115709
+</td>
+<td style="text-align:right;">
+56628
+</td>
+<td style="text-align:right;">
+50551
+</td>
+<td style="text-align:right;">
+8530
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1326
+</td>
+<td style="text-align:right;">
+149.58
+</td>
+<td style="text-align:right;">
+73.21
+</td>
+<td style="text-align:right;">
+65.35
+</td>
+<td style="text-align:right;">
+11.03
+</td>
+<td style="text-align:right;">
+17142
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+77354
+</td>
+<td style="text-align:right;">
+63705
+</td>
+<td style="text-align:right;">
+4.928
+</td>
+<td style="text-align:right;">
+3.44
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Angola
+</td>
+<td style="text-align:left;">
+ago
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+10805281
+</td>
+<td style="text-align:right;">
+7246240
+</td>
+<td style="text-align:right;">
+3559041
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+83747
+</td>
+<td style="text-align:right;">
+31.84
+</td>
+<td style="text-align:right;">
+21.35
+</td>
+<td style="text-align:right;">
+10.49
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2468
+</td>
+<td style="text-align:right;">
+47305
+</td>
+<td style="text-align:right;">
+0.139
+</td>
+<td style="text-align:right;">
+33933611
+</td>
+<td style="text-align:right;">
+6060
+</td>
+<td style="text-align:right;">
+205.638
+</td>
+<td style="text-align:right;">
+-0.60
+</td>
+<td style="text-align:right;">
+65.71
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Anguilla
+</td>
+<td style="text-align:left;">
+aia
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-12-08
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+20284
+</td>
+<td style="text-align:right;">
+10079
+</td>
+<td style="text-align:right;">
+9223
+</td>
+<td style="text-align:right;">
+982
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+53
+</td>
+<td style="text-align:right;">
+134.11
+</td>
+<td style="text-align:right;">
+66.64
+</td>
+<td style="text-align:right;">
+60.98
+</td>
+<td style="text-align:right;">
+6.49
+</td>
+<td style="text-align:right;">
+3504
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Antigua and Barbuda
+</td>
+<td style="text-align:left;">
+atg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America North
+</td>
+<td style="text-align:left;">
+2021-12-10
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+119809
+</td>
+<td style="text-align:right;">
+61921
+</td>
+<td style="text-align:right;">
+57888
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+121.35
+</td>
+<td style="text-align:right;">
+62.72
+</td>
+<td style="text-align:right;">
+58.63
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1621
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+98728
+</td>
+<td style="text-align:right;">
+17075
+</td>
+<td style="text-align:right;">
+1.686
+</td>
+<td style="text-align:right;">
+10.29
+</td>
+<td style="text-align:right;">
+77.54
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Argentina
+</td>
+<td style="text-align:left;">
+arg
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America South
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+73285642
+</td>
+<td style="text-align:right;">
+37606502
+</td>
+<td style="text-align:right;">
+31615122
+</td>
+<td style="text-align:right;">
+3904443
+</td>
+<td style="text-align:right;">
+174667
+</td>
+<td style="text-align:right;">
+269683
+</td>
+<td style="text-align:right;">
+160.69
+</td>
+<td style="text-align:right;">
+82.46
+</td>
+<td style="text-align:right;">
+69.32
+</td>
+<td style="text-align:right;">
+8.56
+</td>
+<td style="text-align:right;">
+5913
+</td>
+<td style="text-align:right;">
+44209
+</td>
+<td style="text-align:right;">
+0.097
+</td>
+<td style="text-align:right;">
+45605823
+</td>
+<td style="text-align:right;">
+20613
+</td>
+<td style="text-align:right;">
+940.073
+</td>
+<td style="text-align:right;">
+1.46
+</td>
+<td style="text-align:right;">
+77.25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Armenia
+</td>
+<td style="text-align:left;">
+arm
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-12
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+1452374
+</td>
+<td style="text-align:right;">
+869750
+</td>
+<td style="text-align:right;">
+582624
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+16305
+</td>
+<td style="text-align:right;">
+48.93
+</td>
+<td style="text-align:right;">
+29.30
+</td>
+<td style="text-align:right;">
+19.63
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5493
+</td>
+<td style="text-align:right;">
+5498
+</td>
+<td style="text-align:right;">
+0.185
+</td>
+<td style="text-align:right;">
+2968128
+</td>
+<td style="text-align:right;">
+12745
+</td>
+<td style="text-align:right;">
+37.828
+</td>
+<td style="text-align:right;">
+3.54
+</td>
+<td style="text-align:right;">
+76.18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aruba
+</td>
+<td style="text-align:left;">
+abw
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-12-17
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+162818
+</td>
+<td style="text-align:right;">
+84191
+</td>
+<td style="text-align:right;">
+78627
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+195
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+151.89
+</td>
+<td style="text-align:right;">
+78.54
+</td>
+<td style="text-align:right;">
+73.35
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+634
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+asia
+</td>
+<td style="text-align:left;">
+continent
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+5899306671
+</td>
+<td style="text-align:right;">
+3057418124
+</td>
+<td style="text-align:right;">
+2497753129
+</td>
+<td style="text-align:right;">
+171602073
+</td>
+<td style="text-align:right;">
+21068176
+</td>
+<td style="text-align:right;">
+23198398
+</td>
+<td style="text-align:right;">
+126.10
+</td>
+<td style="text-align:right;">
+65.35
+</td>
+<td style="text-align:right;">
+53.39
+</td>
+<td style="text-align:right;">
+3.67
+</td>
+<td style="text-align:right;">
+4959
+</td>
+<td style="text-align:right;">
+3713568
+</td>
+<td style="text-align:right;">
+0.079
+</td>
+<td style="text-align:right;">
+4617906978
+</td>
+<td style="text-align:right;">
+13520
+</td>
+<td style="text-align:right;">
+62436.005
+</td>
+<td style="text-align:right;">
+6.06
+</td>
+<td style="text-align:right;">
+74.03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Australia
+</td>
+<td style="text-align:left;">
+aus
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+41187932
+</td>
+<td style="text-align:right;">
+20320601
+</td>
+<td style="text-align:right;">
+19538547
+</td>
+<td style="text-align:right;">
+1328784
+</td>
+<td style="text-align:right;">
+105158
+</td>
+<td style="text-align:right;">
+147596
+</td>
+<td style="text-align:right;">
+159.72
+</td>
+<td style="text-align:right;">
+78.80
+</td>
+<td style="text-align:right;">
+75.77
+</td>
+<td style="text-align:right;">
+5.15
+</td>
+<td style="text-align:right;">
+5723
+</td>
+<td style="text-align:right;">
+16475
+</td>
+<td style="text-align:right;">
+0.064
+</td>
+<td style="text-align:right;">
+25788217
+</td>
+<td style="text-align:right;">
+50130
+</td>
+<td style="text-align:right;">
+1292.771
+</td>
+<td style="text-align:right;">
+2.02
+</td>
+<td style="text-align:right;">
+83.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Austria
+</td>
+<td style="text-align:left;">
+aut
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+15824816
+</td>
+<td style="text-align:right;">
+6544832
+</td>
+<td style="text-align:right;">
+6313170
+</td>
+<td style="text-align:right;">
+3308763
+</td>
+<td style="text-align:right;">
+68193
+</td>
+<td style="text-align:right;">
+92396
+</td>
+<td style="text-align:right;">
+174.99
+</td>
+<td style="text-align:right;">
+72.37
+</td>
+<td style="text-align:right;">
+69.81
+</td>
+<td style="text-align:right;">
+36.59
+</td>
+<td style="text-align:right;">
+10217
+</td>
+<td style="text-align:right;">
+9284
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+9043072
+</td>
+<td style="text-align:right;">
+53632
+</td>
+<td style="text-align:right;">
+485.000
+</td>
+<td style="text-align:right;">
+3.48
+</td>
+<td style="text-align:right;">
+82.25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Azerbaijan
+</td>
+<td style="text-align:left;">
+aze
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+11046136
+</td>
+<td style="text-align:right;">
+5138212
+</td>
+<td style="text-align:right;">
+4638622
+</td>
+<td style="text-align:right;">
+1269302
+</td>
+<td style="text-align:right;">
+28277
+</td>
+<td style="text-align:right;">
+25238
+</td>
+<td style="text-align:right;">
+108.05
+</td>
+<td style="text-align:right;">
+50.26
+</td>
+<td style="text-align:right;">
+45.37
+</td>
+<td style="text-align:right;">
+12.42
+</td>
+<td style="text-align:right;">
+2469
+</td>
+<td style="text-align:right;">
+2912
+</td>
+<td style="text-align:right;">
+0.028
+</td>
+<td style="text-align:right;">
+10223344
+</td>
+<td style="text-align:right;">
+13773
+</td>
+<td style="text-align:right;">
+140.805
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+71.28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bahamas
+</td>
+<td style="text-align:left;">
+bhs
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America North
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+293226
+</td>
+<td style="text-align:right;">
+157232
+</td>
+<td style="text-align:right;">
+145793
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+949
+</td>
+<td style="text-align:right;">
+73.88
+</td>
+<td style="text-align:right;">
+39.61
+</td>
+<td style="text-align:right;">
+36.73
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2391
+</td>
+<td style="text-align:right;">
+505
+</td>
+<td style="text-align:right;">
+0.127
+</td>
+<td style="text-align:right;">
+396914
+</td>
+<td style="text-align:right;">
+30985
+</td>
+<td style="text-align:right;">
+12.298
+</td>
+<td style="text-align:right;">
+7.30
+</td>
+<td style="text-align:right;">
+74.34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bahrain
+</td>
+<td style="text-align:left;">
+bhr
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+3097455
+</td>
+<td style="text-align:right;">
+1194968
+</td>
+<td style="text-align:right;">
+1168676
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5952
+</td>
+<td style="text-align:right;">
+8634
+</td>
+<td style="text-align:right;">
+177.17
+</td>
+<td style="text-align:right;">
+68.35
+</td>
+<td style="text-align:right;">
+66.85
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4939
+</td>
+<td style="text-align:right;">
+338
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+1748295
+</td>
+<td style="text-align:right;">
+42277
+</td>
+<td style="text-align:right;">
+73.913
+</td>
+<td style="text-align:right;">
+1.13
+</td>
+<td style="text-align:right;">
+80.02
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bangladesh
+</td>
+<td style="text-align:left;">
+bgd
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-12-17
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+132282376
+</td>
+<td style="text-align:right;">
+87546674
+</td>
+<td style="text-align:right;">
+44735702
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+570616
+</td>
+<td style="text-align:right;">
+728418
+</td>
+<td style="text-align:right;">
+79.54
+</td>
+<td style="text-align:right;">
+52.64
+</td>
+<td style="text-align:right;">
+26.90
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4380
+</td>
+<td style="text-align:right;">
+288712
+</td>
+<td style="text-align:right;">
+0.174
+</td>
+<td style="text-align:right;">
+166303494
+</td>
+<td style="text-align:right;">
+5029
+</td>
+<td style="text-align:right;">
+836.416
+</td>
+<td style="text-align:right;">
+6.39
+</td>
+<td style="text-align:right;">
+74.23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Barbados
+</td>
+<td style="text-align:left;">
+brb
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America North
+</td>
+<td style="text-align:left;">
+2021-12-16
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+296255
+</td>
+<td style="text-align:right;">
+154990
+</td>
+<td style="text-align:right;">
+141265
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+460
+</td>
+<td style="text-align:right;">
+377
+</td>
+<td style="text-align:right;">
+102.97
+</td>
+<td style="text-align:right;">
+53.87
+</td>
+<td style="text-align:right;">
+49.10
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1310
+</td>
+<td style="text-align:right;">
+94
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+287708
+</td>
+<td style="text-align:right;">
+13347
+</td>
+<td style="text-align:right;">
+3.840
+</td>
+<td style="text-align:right;">
+7.43
+</td>
+<td style="text-align:right;">
+77.57
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Belarus
+</td>
+<td style="text-align:left;">
+blr
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-12
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+7217727
+</td>
+<td style="text-align:right;">
+4064247
+</td>
+<td style="text-align:right;">
+3039334
+</td>
+<td style="text-align:right;">
+114146
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+77113
+</td>
+<td style="text-align:right;">
+76.44
+</td>
+<td style="text-align:right;">
+43.04
+</td>
+<td style="text-align:right;">
+32.19
+</td>
+<td style="text-align:right;">
+1.21
+</td>
+<td style="text-align:right;">
+8166
+</td>
+<td style="text-align:right;">
+35979
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+9442867
+</td>
+<td style="text-align:right;">
+19133
+</td>
+<td style="text-align:right;">
+180.673
+</td>
+<td style="text-align:right;">
+1.31
+</td>
+<td style="text-align:right;">
+74.77
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Belgium
+</td>
+<td style="text-align:left;">
+bel
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-16
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+20351329
+</td>
+<td style="text-align:right;">
+8879748
+</td>
+<td style="text-align:right;">
+8759422
+</td>
+<td style="text-align:right;">
+3134336
+</td>
+<td style="text-align:right;">
+77684
+</td>
+<td style="text-align:right;">
+84830
+</td>
+<td style="text-align:right;">
+174.95
+</td>
+<td style="text-align:right;">
+76.34
+</td>
+<td style="text-align:right;">
+75.30
+</td>
+<td style="text-align:right;">
+26.95
+</td>
+<td style="text-align:right;">
+7293
+</td>
+<td style="text-align:right;">
+1659
+</td>
+<td style="text-align:right;">
+0.014
+</td>
+<td style="text-align:right;">
+11632334
+</td>
+<td style="text-align:right;">
+50103
+</td>
+<td style="text-align:right;">
+582.820
+</td>
+<td style="text-align:right;">
+2.65
+</td>
+<td style="text-align:right;">
+82.02
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Belize
+</td>
+<td style="text-align:left;">
+blz
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America North
+</td>
+<td style="text-align:left;">
+2021-12-10
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+416878
+</td>
+<td style="text-align:right;">
+229107
+</td>
+<td style="text-align:right;">
+196741
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+697
+</td>
+<td style="text-align:right;">
+102.95
+</td>
+<td style="text-align:right;">
+56.58
+</td>
+<td style="text-align:right;">
+48.59
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1721
+</td>
+<td style="text-align:right;">
+84
+</td>
+<td style="text-align:right;">
+0.021
+</td>
+<td style="text-align:right;">
+404915
+</td>
+<td style="text-align:right;">
+5851
+</td>
+<td style="text-align:right;">
+2.369
+</td>
+<td style="text-align:right;">
+4.29
+</td>
+<td style="text-align:right;">
+74.69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Benin
+</td>
+<td style="text-align:left;">
+ben
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-12
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+1425408
+</td>
+<td style="text-align:right;">
+1363471
+</td>
+<td style="text-align:right;">
+1062378
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+60281
+</td>
+<td style="text-align:right;">
+11.45
+</td>
+<td style="text-align:right;">
+10.95
+</td>
+<td style="text-align:right;">
+8.53
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4841
+</td>
+<td style="text-align:right;">
+59279
+</td>
+<td style="text-align:right;">
+0.476
+</td>
+<td style="text-align:right;">
+12451031
+</td>
+<td style="text-align:right;">
+3330
+</td>
+<td style="text-align:right;">
+41.460
+</td>
+<td style="text-align:right;">
+3.11
+</td>
+<td style="text-align:right;">
+65.90
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bermuda
+</td>
+<td style="text-align:left;">
+bmu
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-12-17
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+110329
+</td>
+<td style="text-align:right;">
+46194
+</td>
+<td style="text-align:right;">
+45213
+</td>
+<td style="text-align:right;">
+18922
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+544
+</td>
+<td style="text-align:right;">
+177.69
+</td>
+<td style="text-align:right;">
+74.40
+</td>
+<td style="text-align:right;">
+72.82
+</td>
+<td style="text-align:right;">
+30.47
+</td>
+<td style="text-align:right;">
+8761
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+0.032
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bhutan
+</td>
+<td style="text-align:left;">
+btn
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-12-05
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+1154093
+</td>
+<td style="text-align:right;">
+589482
+</td>
+<td style="text-align:right;">
+564611
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+77
+</td>
+<td style="text-align:right;">
+147.98
+</td>
+<td style="text-align:right;">
+75.58
+</td>
+<td style="text-align:right;">
+72.40
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+779900
+</td>
+<td style="text-align:right;">
+11289
+</td>
+<td style="text-align:right;">
+8.804
+</td>
+<td style="text-align:right;">
+4.65
+</td>
+<td style="text-align:right;">
+75.34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bolivia
+</td>
+<td style="text-align:left;">
+bol
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America South
+</td>
+<td style="text-align:left;">
+2021-12-16
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+9231661
+</td>
+<td style="text-align:right;">
+5328739
+</td>
+<td style="text-align:right;">
+4427369
+</td>
+<td style="text-align:right;">
+459041
+</td>
+<td style="text-align:right;">
+54083
+</td>
+<td style="text-align:right;">
+42010
+</td>
+<td style="text-align:right;">
+78.02
+</td>
+<td style="text-align:right;">
+45.03
+</td>
+<td style="text-align:right;">
+37.42
+</td>
+<td style="text-align:right;">
+3.88
+</td>
+<td style="text-align:right;">
+3550
+</td>
+<td style="text-align:right;">
+19292
+</td>
+<td style="text-align:right;">
+0.163
+</td>
+<td style="text-align:right;">
+11832936
+</td>
+<td style="text-align:right;">
+8249
+</td>
+<td style="text-align:right;">
+97.613
+</td>
+<td style="text-align:right;">
+2.68
+</td>
+<td style="text-align:right;">
+73.85
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bonaire Sint Eustatius and Saba
+</td>
+<td style="text-align:left;">
+bes
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-09-01
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+35845
+</td>
+<td style="text-align:right;">
+19109
+</td>
+<td style="text-align:right;">
+16736
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+196
+</td>
+<td style="text-align:right;">
+135.55
+</td>
+<td style="text-align:right;">
+72.26
+</td>
+<td style="text-align:right;">
+63.29
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7412
+</td>
+<td style="text-align:right;">
+92
+</td>
+<td style="text-align:right;">
+0.348
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bosnia and Herzegovina
+</td>
+<td style="text-align:left;">
+bih
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-11-04
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+1553874
+</td>
+<td style="text-align:right;">
+833233
+</td>
+<td style="text-align:right;">
+720631
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+13791
+</td>
+<td style="text-align:right;">
+47.61
+</td>
+<td style="text-align:right;">
+25.53
+</td>
+<td style="text-align:right;">
+22.08
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4226
+</td>
+<td style="text-align:right;">
+5949
+</td>
+<td style="text-align:right;">
+0.182
+</td>
+<td style="text-align:right;">
+3263459
+</td>
+<td style="text-align:right;">
+14765
+</td>
+<td style="text-align:right;">
+48.185
+</td>
+<td style="text-align:right;">
+3.66
+</td>
+<td style="text-align:right;">
+77.29
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Botswana
+</td>
+<td style="text-align:left;">
+bwa
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+2128351
+</td>
+<td style="text-align:right;">
+1125993
+</td>
+<td style="text-align:right;">
+1002358
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+93251
+</td>
+<td style="text-align:right;">
+88.78
+</td>
+<td style="text-align:right;">
+46.97
+</td>
+<td style="text-align:right;">
+41.81
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+38899
+</td>
+<td style="text-align:right;">
+25103
+</td>
+<td style="text-align:right;">
+1.047
+</td>
+<td style="text-align:right;">
+2397240
+</td>
+<td style="text-align:right;">
+16813
+</td>
+<td style="text-align:right;">
+40.306
+</td>
+<td style="text-align:right;">
+3.24
+</td>
+<td style="text-align:right;">
+70.17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Brazil
+</td>
+<td style="text-align:left;">
+bra
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America South
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+324798686
+</td>
+<td style="text-align:right;">
+165409165
+</td>
+<td style="text-align:right;">
+141474540
+</td>
+<td style="text-align:right;">
+22820476
+</td>
+<td style="text-align:right;">
+209137
+</td>
+<td style="text-align:right;">
+688367
+</td>
+<td style="text-align:right;">
+151.78
+</td>
+<td style="text-align:right;">
+77.30
+</td>
+<td style="text-align:right;">
+66.11
+</td>
+<td style="text-align:right;">
+10.66
+</td>
+<td style="text-align:right;">
+3217
+</td>
+<td style="text-align:right;">
+69529
+</td>
+<td style="text-align:right;">
+0.032
+</td>
+<td style="text-align:right;">
+213993441
+</td>
+<td style="text-align:right;">
+14390
+</td>
+<td style="text-align:right;">
+3079.431
+</td>
+<td style="text-align:right;">
+1.94
+</td>
+<td style="text-align:right;">
+76.34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+British Virgin Islands
+</td>
+<td style="text-align:left;">
+vgb
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-12-03
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+34992
+</td>
+<td style="text-align:right;">
+18288
+</td>
+<td style="text-align:right;">
+16704
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+115.02
+</td>
+<td style="text-align:right;">
+60.11
+</td>
+<td style="text-align:right;">
+54.91
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+625
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Brunei
+</td>
+<td style="text-align:left;">
+brn
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-12-14
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+790506
+</td>
+<td style="text-align:right;">
+405092
+</td>
+<td style="text-align:right;">
+385414
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3827
+</td>
+<td style="text-align:right;">
+4049
+</td>
+<td style="text-align:right;">
+179.04
+</td>
+<td style="text-align:right;">
+91.75
+</td>
+<td style="text-align:right;">
+87.29
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+9170
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+0.017
+</td>
+<td style="text-align:right;">
+441532
+</td>
+<td style="text-align:right;">
+63588
+</td>
+<td style="text-align:right;">
+28.076
+</td>
+<td style="text-align:right;">
+2.31
+</td>
+<td style="text-align:right;">
+75.90
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bulgaria
+</td>
+<td style="text-align:left;">
+bgr
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+3583759
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1871061
+</td>
+<td style="text-align:right;">
+216305
+</td>
+<td style="text-align:right;">
+6047
+</td>
+<td style="text-align:right;">
+13303
+</td>
+<td style="text-align:right;">
+51.96
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+27.13
+</td>
+<td style="text-align:right;">
+3.14
+</td>
+<td style="text-align:right;">
+1929
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6896655
+</td>
+<td style="text-align:right;">
+23631
+</td>
+<td style="text-align:right;">
+162.977
+</td>
+<td style="text-align:right;">
+5.03
+</td>
+<td style="text-align:right;">
+75.36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Burkina Faso
+</td>
+<td style="text-align:left;">
+bfa
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+776941
+</td>
+<td style="text-align:right;">
+442769
+</td>
+<td style="text-align:right;">
+334172
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2808
+</td>
+<td style="text-align:right;">
+3.61
+</td>
+<td style="text-align:right;">
+2.06
+</td>
+<td style="text-align:right;">
+1.55
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+131
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+21497097
+</td>
+<td style="text-align:right;">
+2161
+</td>
+<td style="text-align:right;">
+46.465
+</td>
+<td style="text-align:right;">
+2.23
+</td>
+<td style="text-align:right;">
+63.32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Burundi
+</td>
+<td style="text-align:left;">
+bdi
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+6086
+</td>
+<td style="text-align:right;">
+4010
+</td>
+<td style="text-align:right;">
+2076
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+404
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+12255429
+</td>
+<td style="text-align:right;">
+719
+</td>
+<td style="text-align:right;">
+8.813
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:right;">
+62.91
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cambodia
+</td>
+<td style="text-align:left;">
+khm
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+29803062
+</td>
+<td style="text-align:right;">
+14224202
+</td>
+<td style="text-align:right;">
+13590650
+</td>
+<td style="text-align:right;">
+3041361
+</td>
+<td style="text-align:right;">
+32158
+</td>
+<td style="text-align:right;">
+47234
+</td>
+<td style="text-align:right;">
+175.87
+</td>
+<td style="text-align:right;">
+83.94
+</td>
+<td style="text-align:right;">
+80.20
+</td>
+<td style="text-align:right;">
+17.95
+</td>
+<td style="text-align:right;">
+2787
+</td>
+<td style="text-align:right;">
+3434
+</td>
+<td style="text-align:right;">
+0.020
+</td>
+<td style="text-align:right;">
+16946446
+</td>
+<td style="text-align:right;">
+4344
+</td>
+<td style="text-align:right;">
+73.621
+</td>
+<td style="text-align:right;">
+4.93
+</td>
+<td style="text-align:right;">
+70.87
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cameroon
+</td>
+<td style="text-align:left;">
+cmr
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-14
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+986281
+</td>
+<td style="text-align:right;">
+806176
+</td>
+<td style="text-align:right;">
+627046
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1740
+</td>
+<td style="text-align:right;">
+3.62
+</td>
+<td style="text-align:right;">
+2.96
+</td>
+<td style="text-align:right;">
+2.30
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+1556
+</td>
+<td style="text-align:right;">
+0.006
+</td>
+<td style="text-align:right;">
+27224262
+</td>
+<td style="text-align:right;">
+3482
+</td>
+<td style="text-align:right;">
+94.789
+</td>
+<td style="text-align:right;">
+1.73
+</td>
+<td style="text-align:right;">
+64.51
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canada
+</td>
+<td style="text-align:left;">
+can
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America North
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+64831932
+</td>
+<td style="text-align:right;">
+31409602
+</td>
+<td style="text-align:right;">
+29277444
+</td>
+<td style="text-align:right;">
+4144886
+</td>
+<td style="text-align:right;">
+243001
+</td>
+<td style="text-align:right;">
+239439
+</td>
+<td style="text-align:right;">
+170.31
+</td>
+<td style="text-align:right;">
+82.51
+</td>
+<td style="text-align:right;">
+76.91
+</td>
+<td style="text-align:right;">
+10.89
+</td>
+<td style="text-align:right;">
+6290
+</td>
+<td style="text-align:right;">
+44979
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+<td style="text-align:right;">
+38067913
+</td>
+<td style="text-align:right;">
+47650
+</td>
+<td style="text-align:right;">
+1813.950
+</td>
+<td style="text-align:right;">
+3.54
+</td>
+<td style="text-align:right;">
+82.46
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cape Verde
+</td>
+<td style="text-align:left;">
+cpv
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-13
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+557243
+</td>
+<td style="text-align:right;">
+301215
+</td>
+<td style="text-align:right;">
+254463
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+705
+</td>
+<td style="text-align:right;">
+99.17
+</td>
+<td style="text-align:right;">
+53.61
+</td>
+<td style="text-align:right;">
+45.29
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1255
+</td>
+<td style="text-align:right;">
+144
+</td>
+<td style="text-align:right;">
+0.026
+</td>
+<td style="text-align:right;">
+561901
+</td>
+<td style="text-align:right;">
+6368
+</td>
+<td style="text-align:right;">
+3.578
+</td>
+<td style="text-align:right;">
+4.71
+</td>
+<td style="text-align:right;">
+76.57
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cayman Islands
+</td>
+<td style="text-align:left;">
+cym
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-12-10
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+128181
+</td>
+<td style="text-align:right;">
+58371
+</td>
+<td style="text-align:right;">
+56486
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+352
+</td>
+<td style="text-align:right;">
+192.76
+</td>
+<td style="text-align:right;">
+87.78
+</td>
+<td style="text-align:right;">
+84.94
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5293
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+0.050
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Central African Republic
+</td>
+<td style="text-align:left;">
+caf
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+790782
+</td>
+<td style="text-align:right;">
+446712
+</td>
+<td style="text-align:right;">
+344070
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+32183
+</td>
+<td style="text-align:right;">
+16.07
+</td>
+<td style="text-align:right;">
+9.08
+</td>
+<td style="text-align:right;">
+6.99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6541
+</td>
+<td style="text-align:right;">
+6511
+</td>
+<td style="text-align:right;">
+0.132
+</td>
+<td style="text-align:right;">
+4919987
+</td>
+<td style="text-align:right;">
+943
+</td>
+<td style="text-align:right;">
+4.639
+</td>
+<td style="text-align:right;">
+2.98
+</td>
+<td style="text-align:right;">
+53.63
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chad
+</td>
+<td style="text-align:left;">
+tcd
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+366585
+</td>
+<td style="text-align:right;">
+285922
+</td>
+<td style="text-align:right;">
+80663
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+12413
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+1.69
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+734
+</td>
+<td style="text-align:right;">
+12073
+</td>
+<td style="text-align:right;">
+0.071
+</td>
+<td style="text-align:right;">
+16914985
+</td>
+<td style="text-align:right;">
+1502
+</td>
+<td style="text-align:right;">
+25.408
+</td>
+<td style="text-align:right;">
+-0.34
+</td>
+<td style="text-align:right;">
+61.22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chile
+</td>
+<td style="text-align:left;">
+chl
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America South
+</td>
+<td style="text-align:left;">
+2021-12-16
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+42783128
+</td>
+<td style="text-align:right;">
+17123006
+</td>
+<td style="text-align:right;">
+16391793
+</td>
+<td style="text-align:right;">
+9841842
+</td>
+<td style="text-align:right;">
+83106
+</td>
+<td style="text-align:right;">
+105894
+</td>
+<td style="text-align:right;">
+222.69
+</td>
+<td style="text-align:right;">
+89.12
+</td>
+<td style="text-align:right;">
+85.32
+</td>
+<td style="text-align:right;">
+51.23
+</td>
+<td style="text-align:right;">
+5512
+</td>
+<td style="text-align:right;">
+21070
+</td>
+<td style="text-align:right;">
+0.110
+</td>
+<td style="text-align:right;">
+19212362
+</td>
+<td style="text-align:right;">
+24346
+</td>
+<td style="text-align:right;">
+467.746
+</td>
+<td style="text-align:right;">
+2.76
+</td>
+<td style="text-align:right;">
+80.28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+China
+</td>
+<td style="text-align:left;">
+chn
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+2021-12-18
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+2673688000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+11850000
+</td>
+<td style="text-align:right;">
+10140714
+</td>
+<td style="text-align:right;">
+185.13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7022
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1444216102
+</td>
+<td style="text-align:right;">
+17744
+</td>
+<td style="text-align:right;">
+25626.456
+</td>
+<td style="text-align:right;">
+5.33
+</td>
+<td style="text-align:right;">
+77.87
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Colombia
+</td>
+<td style="text-align:left;">
+col
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America South
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+61722515
+</td>
+<td style="text-align:right;">
+40112363
+</td>
+<td style="text-align:right;">
+26737024
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+316703
+</td>
+<td style="text-align:right;">
+270654
+</td>
+<td style="text-align:right;">
+120.40
+</td>
+<td style="text-align:right;">
+78.24
+</td>
+<td style="text-align:right;">
+52.15
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5279
+</td>
+<td style="text-align:right;">
+146185
+</td>
+<td style="text-align:right;">
+0.285
+</td>
+<td style="text-align:right;">
+51265841
+</td>
+<td style="text-align:right;">
+14043
+</td>
+<td style="text-align:right;">
+719.920
+</td>
+<td style="text-align:right;">
+2.69
+</td>
+<td style="text-align:right;">
+80.84
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Comoros
+</td>
+<td style="text-align:left;">
+com
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-10
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+527119
+</td>
+<td style="text-align:right;">
+282378
+</td>
+<td style="text-align:right;">
+244741
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+322
+</td>
+<td style="text-align:right;">
+59.33
+</td>
+<td style="text-align:right;">
+31.78
+</td>
+<td style="text-align:right;">
+27.55
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+362
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+0.004
+</td>
+<td style="text-align:right;">
+888456
+</td>
+<td style="text-align:right;">
+2887
+</td>
+<td style="text-align:right;">
+2.565
+</td>
+<td style="text-align:right;">
+-0.10
+</td>
+<td style="text-align:right;">
+69.51
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Congo, Dem. Rep. 
+</td>
+<td style="text-align:left;">
+cod
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-14
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+256561
+</td>
+<td style="text-align:right;">
+195619
+</td>
+<td style="text-align:right;">
+83718
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5256
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:right;">
+0.09
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+4661
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+92377986
+</td>
+<td style="text-align:right;">
+1068
+</td>
+<td style="text-align:right;">
+98.631
+</td>
+<td style="text-align:right;">
+1.56
+</td>
+<td style="text-align:right;">
+63.63
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Congo, Rep. 
+</td>
+<td style="text-align:left;">
+cog
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+2021-12-15
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+1295601
+</td>
+<td style="text-align:right;">
+734721
+</td>
+<td style="text-align:right;">
+560880
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+87780
+</td>
+<td style="text-align:right;">
+22.90
+</td>
+<td style="text-align:right;">
+12.99
+</td>
+<td style="text-align:right;">
+9.91
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+15517
+</td>
+<td style="text-align:right;">
+26949
+</td>
+<td style="text-align:right;">
+0.476
+</td>
+<td style="text-align:right;">
+5657017
+</td>
+<td style="text-align:right;">
+3230
+</td>
+<td style="text-align:right;">
+18.272
+</td>
+<td style="text-align:right;">
+-1.46
+</td>
+<td style="text-align:right;">
+63.68
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cook Islands
+</td>
+<td style="text-align:left;">
+cok
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-11-08
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+24326
+</td>
+<td style="text-align:right;">
+12600
+</td>
+<td style="text-align:right;">
+11726
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+138.44
+</td>
+<td style="text-align:right;">
+71.70
+</td>
+<td style="text-align:right;">
+66.73
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2276
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0.080
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Costa Rica
+</td>
+<td style="text-align:left;">
+cri
+</td>
+<td style="text-align:left;">
+pays
+</td>
+<td style="text-align:left;">
+America North
+</td>
+<td style="text-align:left;">
+2021-12-13
+</td>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:right;">
+7348965
+</td>
+<td style="text-align:right;">
+3922190
+</td>
+<td style="text-align:right;">
+3364478
+</td>
+<td style="text-align:right;">
+62297
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+18135
+</td>
+<td style="text-align:right;">
+143.00
+</td>
+<td style="text-align:right;">
+76.32
+</td>
+<td style="text-align:right;">
+65.47
+</td>
+<td style="text-align:right;">
+1.21
+</td>
+<td style="text-align:right;">
+3529
+</td>
+<td style="text-align:right;">
+2503
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+5139053
+</td>
+<td style="text-align:right;">
+19417
+</td>
+<td style="text-align:right;">
+99.785
+</td>
+<td style="text-align:right;">
+2.23
+</td>
+<td style="text-align:right;">
+80.21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <h1 id="validité-des-valeurs">Validité des valeurs</h1>
-<p>Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (Our World in Data et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable <code>total_vaccinations_per_hundred</code>, qui est fourni par Our World in Data, avec une nouvelle variable que nous obtenous à partir de la population de 2021 estimé par Gapminder.</p>
+<p>Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (OWID et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable <code>total_vaccinations_per_hundred</code>, qui est fourni par OWID, avec une nouvelle variable que nous obtenous à partir de la population de 2021 estimé par Gapminder.</p>
 <p>Le jeu de données des données les plus récentes contient 224 observations (des pays ou des continents).</p>
-<p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour 31 observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population.</p>
-<p>Pour 182 des observations, il n’y a pas de différence entre la valeur de la variable <code>total_vaccinations_per_hundred</code> de Our World in Data et celle calculée. Alors que pour 11 observations, il y a une différence entre la valeur de OWID et la valeur calculée.</p>
+<p>Il faut d’abord noter qu’il n’est pas possible d’effectuer de comparaison pour les 31 observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population.</p>
+<p>Pour 182 des observations, il n’y a pas de différence entre la valeur de la variable <code>total_vaccinations_per_hundred</code> de OWID et celle calculée. Alors que pour 11 observations, il y a une différence entre la valeur de OWID et la valeur calculée.</p>
 <p>Voici le tableau qui présente les 11 pays ou continents pour lesquels le taux de vaccination par 100 habitants de OWID est différent que celui qui est calculé.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>

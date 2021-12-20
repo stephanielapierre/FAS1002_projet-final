@@ -84,20 +84,43 @@ Sommairement, voici les étapes qui constitue le script de téléchargement :
 - **Comparaison de la date**. On compare la date de téléchargement avec la date du jour (ou d'il y a un mois, dans le cas des données mensuelles).
 - **Test conditionnel**. Si les données disponibles localement ont plus d'une fjournée (ou qu'un mois), on télécharge une nouvelle version des données. On efface ensuite les anciennes données.
 
-## Traitement des données
+## Préparation des données
 
-## Fusion des différents jeux de données
+La prochaine étape vers la constitution de notre jeu de données est en lien avec la préparation des différentes données afin de permettre la fusion les différents jeux de données. 
+
+Dans l'ensemble des jeux de données, nous nous sommes d'abord assuré que les données sont sous la forme d'un *tibble* et que chaque variable était dans le format adéquat (ex. facteurs, date, numérique). 
+
+Chaque jeu de données étant unique, certains jeux de données ont nécessité des manipulations particulières. Les voici : 
+
+- **Données sur la vaccination**. Les donées de OWID ont nécessité un nettoyage au niveau des régions géographiques. Après exploration, nous avons constater que certaines juridictions présentaient un code `geo` commençant par "OWID_". Nous avons constater deux cas expliquant ceci. D'abord, les continents ont étaient identifiés par ce "OWID_". L'autre cas référait plutôt à des nations constituantes des Royaume-Uni ou à des groupements supplémentaires (ex. Union européenne, Low middle income, etc.). Dans le premier cas, les codes `geo` ont été corrigé pour correspondre à ceux des autres données. Alors que dans le deuxième cas, les juridictions ont été retirés des données. 
+- **Années de vaccination**. En considérant que les données sur la vaccination sont quotidiennes et que les autres données sont présentées sur un base annuelle, nous avons ajouter une variable `année` aux données sur la vaccination.
+- **Données sur le PIB**. Pour tenir compte de effet d'échelle et offrir une meilleure compréhension des données, le PIB a été ramené en milliards de dollars.
+
+Une fois ces manipulations et ces corrections faites, il a été possible de fusionner tous les jeux de données pour constituer notre jeu de données complet. 
 
 # Jeux de données complet
 
-Maintenant que notre jeu de données complet à été constitué, nous nous allons
-créer un nouveau jeu de données contenant seulement les données les plus récentes. 
-En effet, bien que les données sur la vaccination soient disponibles sur une base 
-quotidienne, les pays ne mettent pas leurs données à jour la même fréquence. 
+Il contient `r nrow(df)` observations et `r ncol(df)` variables. Voici un extrait des 50 premières lignes du jeu de données.
 
-*Cette aspect sera exploré plus en détails dans la section Exploration des données *
-  
-```{r, include=FALSE}
+```{r}
+table_df <- head(df, 50)
+
+table_df %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F) %>%
+  scroll_box(width = "700px", height = "300px")
+```
+
+
+## Jeux de données les plus récentes
+
+Maintenant que notre jeu de données complet a été constitué, nous créons un 
+nouveau jeu de données contenant seulement les données les plus récentes pour 
+chacune des juridictions. En effet, bien que les données sur la vaccination 
+soient disponibles sur une base quotidienne, les pays ne mettent pas tous leurs 
+données à jour la même fréquence. 
+
+```{r}
 df_update <- df %>% 
   group_by(df$name) %>%
   slice(which.max(date))
@@ -107,17 +130,22 @@ df_update <- df_update %>%
   select(-`df$name`)
 ```
 
-TO DO : TÉLÉCHARGEMENT DES DONNÉES
+Cette version du jeu de données contient `r nrow(df_update)` observations et `r ncol(df_update)` variables. Voici un extrait des 50 premières lignes du jeu de données.
+
+*À noter que cet aspect sera exploré plus en détails dans la section Exploration des données *
+  
+```{r}
+recent <- head(df_update, 50)
+
+recent %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F) %>%
+  scroll_box(width = "700px", height = "300px")
+```
 
 
-# Variable continent? - Comment présenter?
-
-# Validité des valeurs
-Comme mentionné plus haut, notre jeu de données est constitué à partir de deux 
-sources (Our World in Data et Gapminder). Afin de vérifier la validité des 
-données, nous comparons la valeur de la variable `total_vaccinations_per_hundred`, 
-qui est fourni par Our World in Data, avec une nouvelle variable que nous 
-obtenous à partir de la population de 2021 estimé par Gapminder.
+## Validité des valeurs
+Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (OWID et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable `total_vaccinations_per_hundred`, qui est fourni par OWID, avec une nouvelle variable que nous obtenous à partir de la population de 2021 estimé par Gapminder.
 
 ```{r, include=FALSE}
 # Subset pour simplifier le jeu de données (on enleve des variables)
@@ -156,21 +184,13 @@ incorrect <- rename(incorrect,
                     Différence = `difference`)
 ```
 
-Le jeu de données des données les plus récentes contient `r nrow(df_vac_100hab)` 
-observations (des pays ou des continents).
+Le jeu de données des données les plus récentes contient `r nrow(df_vac_100hab)` observations (des pays ou des continents).
 
-Il faut d'abord noter qu'il n'est pas possible d'effectuer de comparaison pour 
-`r nrow(na)` observations. Ceci est dû à des valeurs manquantes pour la 
-vaccination ou la population. 
+Il faut d'abord noter qu'il n'est pas possible d'effectuer de comparaison pour les `r nrow(na)` observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population. 
 
-Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la 
-valeur de la variable `total_vaccinations_per_hundred` de Our World in Data et 
-celle calculée. Alors que pour `r nrow(incorrect)` observations, il y a une 
-différence entre la valeur de OWID et la valeur calculée.
+Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la valeur de la variable `total_vaccinations_per_hundred` de OWID et celle calculée. Alors que pour `r nrow(incorrect)` observations, il y a une différence entre la valeur de OWID et la valeur calculée.
 
-Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour 
-lesquels le taux de vaccination par 100 habitants de OWID est différent que 
-celui qui est calculé.
+Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour lesquels le taux de vaccination par 100 habitants de OWID est différent que celui qui est calculé.
 
 ```{r}
 incorrect %>%
