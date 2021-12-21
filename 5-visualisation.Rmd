@@ -1,9 +1,7 @@
 ---
 title: "Visualisation des données"
 description: | 
-  Cette section présente les données contenues dans le jeu de données. Elle 
-  permet notamment de prendre connaissance des statistiques relatives aux 
-  différentes variables d'intérêt et de visualiser leur distribution.
+  Cette section présente quelques visualisations des données à partir des groupes de pays comparables établis.
 date: "`r Sys.Date()`"
 # Modifier les détails que vous voulez
 author:

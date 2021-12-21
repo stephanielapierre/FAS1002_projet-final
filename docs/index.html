@@ -85,33 +85,55 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>FAS1002 - Projet final: Titre de votre projet final</title>
+  <title>FAS1002 - Projet final: Vaccination : établir des groupes de pays comparables</title>
 
-  <meta property="description" itemprop="description" content="Ceci est votre page d&#39;accueil de votre site web"/>
+  <meta property="description" itemprop="description" content="Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l&#39;ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination."/>
 
-  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/png" href="static/images/FAS1002.png"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="FAS1002 - Projet final: Titre de votre projet final"/>
+  <meta property="og:title" content="FAS1002 - Projet final: Vaccination : établir des groupes de pays comparables"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Ceci est votre page d&#39;accueil de votre site web"/>
+  <meta property="og:description" content="Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l&#39;ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="FAS1002 - Projet final"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="FAS1002 - Projet final: Titre de votre projet final"/>
-  <meta property="twitter:description" content="Ceci est votre page d&#39;accueil de votre site web"/>
+  <meta property="twitter:title" content="FAS1002 - Projet final: Vaccination : établir des groupes de pays comparables"/>
+  <meta property="twitter:description" content="Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l&#39;ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination."/>
 
   <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=K-means Clustering in R with Example;citation_author=Daniel Johnson"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","site","toc"]}},"value":[{"type":"character","attributes":{},"value":["Titre de votre projet final"]},{"type":"character","attributes":{},"value":["Ceci est votre page d'accueil de votre site web\n"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"logical","attributes":{},"value":[false]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","site","bibliography","toc"]}},"value":[{"type":"character","attributes":{},"value":["Vaccination : établir des groupes de pays comparables"]},{"type":"character","attributes":{},"value":["Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l'ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination.\n"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"logical","attributes":{},"value":[false]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2413,7 +2435,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Titre de votre projet final","description":"Ceci est votre page d'accueil de votre site web","authors":[]}
+{"title":"Vaccination : établir des groupes de pays comparables","description":"Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l'ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination.","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2444,15 +2466,11 @@ Aide pour le site
 </div>
 </div>
 <div class="nav-right">
-<a href="1-intro.html">Introduction</a>
 <a href="2-import.html">Importation</a>
 <a href="3-exploration.html">Exploration</a>
 <a href="4-analysis.html">Analyse</a>
 <a href="5-visualisation.html">Visualisation</a>
 <a href="contact.html">Contact</a>
-<a href="https://twitter.com/VOTREUSERNAME">
-<i class="fab fa-twitter" aria-hidden="true"></i>
-</a>
 <a href="https://github.com/FAS1002/FAS1002_projet-final" aria-label="Link to source">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
@@ -2465,41 +2483,51 @@ Aide pour le site
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Titre de votre projet final</h1>
+<h1>Vaccination : établir des groupes de pays comparables</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Ceci est votre page d’accueil de votre site web</p></p>
+<p><p>Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l’ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination.</p></p>
 </div>
 
 
 <div class="d-article">
+<h2 id="établir-des-groupes-des-pays-comparables">Établir des groupes des pays comparables</h2>
+<h3 id="analyse-par-grappes">Analyse par grappes</h3>
+<p>Il est parfois tentant d’utiliser nos expériences, nos connaissances et nos a apriori pour affirmer si des individus sont comparables ou pas. Ce n’est toutefois pas très rigoureux comme démarche. La bonne nouvelle est qu’il existe des outils statistiques pour nous aider à définir des groupes d’individus qui sont comparables sur la base de certains critères. Il s’agit des <strong>analyses par grappes</strong>.</p>
+<p>La façon la plus simple d’illustrer une analyse par grappe est de penser à un nuage de points qui présente la relation entre deux variables. Par la suite, il suffit de regrouper les points (individus) qui sont les plus prês les uns des autres.</p>
+<p><img src="static/images/example.png" /></p>
+<p>Dans cette exemple qui montre la relation entre les dépenses et l’âge des consommateurs, nous voyons rapidement qu’il est facilement possible de définir trois groupes distints.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Une analyse par grappes de deux dimensions est relativement simple. Malheureusement, c’est souvent bien insuffisant pour bien représenter toutes les complexités et les subtilités d’un groupe d’individus. C’est pourquoi l’analyse par grappes est beaucoup plus sophistiquées qu’une simple analyse d’un nuage de points.</p>
+<h3 id="des-pays-comparables-selon-leur-profils-de-vaccination">Des pays comparables selon leur profils de vaccination</h3>
+<p>Les campagnes de vaccination battent leur plein partout dans le monde dans la lutte qui est actuellement mené contre le virus de la COVID-19. Toutesfois, les pays n’ont pas tous les mêmes réalités, ressources ou stratégies pour déployer leurs campagnes de vaccination.</p>
+<p>Nous utiliserons donc l’analyse par grappes afin d’établir des groupes de pays comparables en fonction de leur profils vaccinales. Afin de donner un peu plus de profondeur à nos analyses, nous croisons le taux de personnes pleinement vaccinées avec des indicateurs supplémentaires tels que la population, le PIB, le PIB par habitant et l’espérance de vie.</p>
+<h2 id="mise-en-garde">Mise en garde</h2>
+<h3 id="une-initiation-à-la-programmation-avec-r-et-rstudio">Une initiation à la programmation avec R et RStudio</h3>
+<p>Au cours de l’automne 2021, le cours <em>Initiation à la programmation en sciences sociales</em> offert à l’Université de Montréal nous a permis d’apprendre les bonnes pratiques et méthodes de travail en lien avec des outils nous permettant de faire de la programmation pour réaliser des analyses statistiques. Tout au long de la session, nous avons pu explorer divers outils tels que <a href="https://www.r-project.org/">R</a>, <a href="https://www.rstudio.com/">RStudio</a>, divers packages (<a href="https://cran.r-project.org/">CRAN</a>, <a href="https://www.tidyverse.org/">tidyverse</a>, etc.), <a href="https://git-scm.com/">Git</a>, <a href="https://github.com/">GitHub</a>, <a href="https://rstudio.github.io/distill/">Distill</a> et <a href="https://gohugo.io/">HUGO</a>.</p>
+<h3 id="la-démarche-présentée-dans-ce-rapport">La démarche présentée dans ce rapport</h3>
+<p>La démarche utilisée pour produire ce rapport se veut rigoureuse et appuyée sur les bonnes pratiques autant en matière de statistiques que de programmation. Étant réalisé dans un contexte d’apprentissage de la programmation, il n’a pas été possible d’aller aussi loin que nous espérions dans le cadre de l’analyse statistique. En d’autres mots, nous sommes conscients notamment que :</p>
+<ul>
+<li>Des éléments d’analyses supplémentaires seraient nécessaires pour compléter l’exploration des données</li>
+<li>Il serait pertinent d’explorer les différentes méthodes d’analyses par grappes (hiérarchique et non hiérarchique)</li>
+<li>Le choix des variables pour réaliser l’analyse par grappes est limité et mériterait d’être raffiné</li>
+<li>Une interprétation des résultats de groupes de pays comparables serait nécessaire</li>
+</ul>
+<p>La présente démarche se veut donc une exploration de ce qu’il est possible de faire en matière d’analyse statistique avec des outils de programmation comme R et RStudio. Et laissez-nous vous dire que le résultat est plus que prometteur! ;-)</p>
+<h3 id="production-du-rapport">Production du rapport</h3>
+<p>Ce rapport a été produit dans <a href="https://www.rstudio.com/">RStudio</a> en utilisant le package <a href="https://rstudio.github.io/distill/">Distill</a> qui permet de générer facilement un site Web optimiser pour communiquer des résultats scientiques et techniques. Le rapport a été rédigé directement dans des <em>markdown</em> dans lequel nous avons également réaliser l’ensemble des manipulations et des analyses à l’aide de lignes de codes ou de scripts.</p>
+<p>Git et GitHub ont été utilisé pour faire le contrôle des versions. GitHub est également utilisé pour rendre disponible le site web en ligne.</p>
+<h2 id="structure-de-lanalyse">Structure de l’analyse</h2>
+<p>L’ensemble des démarches et des analyses effectuées pour établir des groupes de pays comparables selon leurs profils de vaccination sont présentées dans les différentes sections de ce site.</p>
+<ul>
+<li><a href="docs/2-import.html"><strong>Importation et préparation des données</strong></a>. Cette section présente les données utilisées dans ce rapport ainsi que les manipulations qui ont été nécessaire pour préparer les données aux analyses.</li>
+<li><a href="docs/3-exploration.html"><strong>Exploration des données</strong></a>. Cette section présente les données contenues dans le jeu de données. Elle permet notamment de prendre connaissance des statistiques relatives aux différentes variables d’intérêt et de visualiser leur distribution.</li>
+<li><a href="docs/4-analysis.html"><strong>Établir des groupes de pays comparables</strong> (ou analyses)</a>. Cette section présente les analyses réalisées pour établir des groupes de pays comparables selon leur profil de vaccination.</li>
+<li><a href="docs/5-visualisation.html"><strong>Visualisation des données</strong></a>. Cette section présente quelques visualisations des données à partir des groupes de pays comparables établis.</li>
+</ul>
 <p>Vous pouvez faire le résumé de votre projet directement sur cette page et utiliser le document <a href="1-intro.html">1-intro</a> pour décrire votre projet.</p>
-<p>Il s’agit d’un fichier R Markdown traditionnel. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Il s’agit d’un fichier R Markdown traditionnel.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <h2 id="inclure-des-graphiques">Inclure des graphiques</h2>
-<p>Comme la classique pyramide à la Figure <a href="#fig:pie">1</a> par exemple:</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-Show code
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/pie.html'>pie</a></span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>280</span>, <span class='fl'>60</span>, <span class='fl'>20</span><span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Ciel'</span>, <span class='st'>'Côté ensoleillé de la pyramide'</span>, <span class='st'>'Côté ombragé de la pyramide'</span><span class='op'>)</span>,
-  col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'#0292D8'</span>, <span class='st'>'#F7EA39'</span>, <span class='st'>'#C4B632'</span><span class='op'>)</span>,
-  init.angle <span class='op'>=</span> <span class='op'>-</span><span class='fl'>50</span>, border <span class='op'>=</span> <span class='cn'>NA</span>
-<span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-<div class="figure"><span style="display:block;" id="fig:pie"></span>
-<img src="index_files/figure-html5/pie-1.png" alt="Une très belle tarte" width="624" />
-<p class="caption">
-Figure 1: Une très belle tarte
-</p>
-</div>
-</div>
+<p>Comme la classique pyramide à la Figure <a href="#fig:pie"><strong>??</strong></a> par exemple:</p>
 <aside>
 Quand même très cool, non? Vous pouvez mettre des annotations sur le côté!
 </aside>
@@ -2508,10 +2536,16 @@ Quand même très cool, non? Vous pouvez mettre des annotations sur le côté!
 <h2 class="appendix" id="remerciements">Remerciements</h2>
 <p>J’aimerais remercier toutes les étudiantes et tous les étudiants du cours FAS1002 de l’automne 2021 pour leur enthousiasme, leur ouverture et leur rétroaction envers le cours!</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-johnson_k-means_nodate" class="csl-entry" role="doc-biblioentry">
+Johnson, Daniel. n.d. <span>“K-Means <span>Clustering</span> in <span>R</span> with <span>Example</span>.”</span> Accessed December 20, 2021. <a href="https://www.guru99.com/r-k-means-clustering.html">https://www.guru99.com/r-k-means-clustering.html</a>.
+</div>
+</div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>Avec des petits trucs sympa comme des notes de bas de page<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p><span class="citation" data-cites="johnson_k-means_nodate"><a href="#ref-johnson_k-means_nodate" role="doc-biblioref">Johnson</a> (<a href="#ref-johnson_k-means_nodate" role="doc-biblioref">n.d.</a>)</span><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Avec des petits trucs sympa comme des notes de bas de page<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->
@@ -2526,16 +2560,15 @@ Quand même très cool, non? Vous pouvez mettre des annotations sur le côté!
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
 <h3 id="updates-and-corrections">Corrections</h3>
 <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/FAS1002/FAS1002_projet-final/issues/new">create an issue</a> on the source repository.</p>
-<h3 id="reuse">Reuse</h3>
-<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/FAS1002/FAS1002_projet-final">https://github.com/FAS1002/FAS1002_projet-final</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
 </div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
 <p>Ceci est le texte provenant de <code>_footer.html</code>. Vous pouvez aller le <strong>modifier</strong> en y ajoutant ce que vous voulez ou tout simplement <strong>supprimer</strong> le fichier.</p>
-<p><img src="static/images/FAS1002.png" /></p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

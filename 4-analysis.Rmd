@@ -1,8 +1,7 @@
 ---
-title: "Analyses des données"
+title: "Établir des groupes de pays comparables"
 description: | 
-  Cette section présente les analyses réalisées pour produire des grappes de 
-  pays en fonction de différentes variables.
+  Cette section présente les analyses réalisées pour établir des groupes de pays comparables selon leur profil de vaccination.
 date: "`r Sys.Date()`"
 # Modifier les détails que vous voulez
 author:

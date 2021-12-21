@@ -1,8 +1,8 @@
 ---
-title: "Importation et manipulation des données"
+title: "Importation et préparation des données"
 description: | 
   Cette section présente les données utilisées dans ce rapport ainsi que les 
-  manipulations qui ont été nécessaire pour préparer les données aux analyses
+  manipulations qui ont été nécessaire pour préparer les données aux analyses.
 date: "`r Sys.Date()`"
 # Modifier les détails que vous voulez
 author:

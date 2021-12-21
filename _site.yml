@@ -33,8 +33,6 @@ navbar:
           href: https://rstudio.github.io/distill/metadata.html
   right:
   # L'ordre et les noms == arbitraires, usez de créativité.
-    - text: "Introduction"
-      href: 1-intro.html
     - text: "Importation"
       href: 2-import.html
     - text: "Exploration"
@@ -47,9 +45,9 @@ navbar:
       href: contact.html
 
       # voir https://fontawesome.com/v4.7/icons/ pour les icones
-    - icon: fab fa-twitter
-      href: https://twitter.com/VOTREUSERNAME
-creative_commons: CC BY
+#    - icon: fab fa-twitter
+#      href: https://twitter.com/VOTREUSERNAME
+#creative_commons: CC BY
 
 output:
   distill::distill_article:
