@@ -90,3 +90,7 @@ L'ensemble des démarches et des analyses effectuées pour établir des groupes 
 ## Remerciements {.appendix}
 
 Merci à Samuel Guay! Merci pour ta passion et ton enthousiasme à résoudre des problèmes de programmations ou de données! Merci pour ton ouverture et ta patience!
+
+## Données {.appendix}
+
+Les données utilisées pour les analyses sont disponibles pour le téléchargement sur la page [**Données pour téléchargement**](donnee.html). 

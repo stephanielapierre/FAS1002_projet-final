@@ -112,8 +112,6 @@ table_df %>%
   scroll_box(width = "700px", height = "300px")
 ```
 
-[Télécharger les données en format CSV](data/processed/df_....csv)
-
 
 ## Jeux de données les plus récentes
 
@@ -144,14 +142,6 @@ recent %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F) %>%
   scroll_box(width = "700px", height = "300px")
-```
-
-```{r}
-datatable(
-  df_update, extensions = 'Buttons', options = list(
-    dom = 'Bfrtip',
-    buttons = c('csv', 'excel'))
-)
 ```
 
 
@@ -215,3 +205,8 @@ différente est petit, il est possible de conclure que les données sont valides
 ```{r, include=FALSE}
 source("R/processed-data.R", local = knitr::knit_global())             # Script pour enregistrer les données
 ```
+
+
+## Données {.appendix}
+
+Les données utilisées pour les analyses sont disponibles pour le téléchargement sur la page [**Données pour téléchargement**](donnee.html). 

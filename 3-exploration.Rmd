@@ -507,3 +507,7 @@ ggplot(df_pays) +
    theme(plot.title = element_text(face = "bold", size = 14))
 ```
 
+
+## Données {.appendix}
+
+Les données utilisées pour les analyses sont disponibles pour le téléchargement sur la page [**Données pour téléchargement**](donnee.html). 

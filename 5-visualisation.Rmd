@@ -152,3 +152,6 @@ fig
 ```
 
 
+## Données {.appendix}
+
+Les données utilisées pour les analyses sont disponibles pour le téléchargement sur la page [**Données pour téléchargement**](donnee.html). 

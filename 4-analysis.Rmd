@@ -396,3 +396,8 @@ if (date_processed_file < Sys.Date()){
     file.remove(paste0('data/processed/pays_cluster_', date_processed_file, '.csv'))         # On enleve les données old
 }
 ```
+
+
+## Données {.appendix}
+
+Les données utilisées pour les analyses sont disponibles pour le téléchargement sur la page [**Données pour téléchargement**](donnee.html). 
