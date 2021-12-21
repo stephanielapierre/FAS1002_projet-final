@@ -38,6 +38,7 @@ library(tidyverse)
 library(readxl)
 library(dplyr)
 library(kableExtra)
+library(DT)
 ```
 
 
@@ -111,6 +112,8 @@ table_df %>%
   scroll_box(width = "700px", height = "300px")
 ```
 
+[Télécharger les données en format CSV](data/processed/df_....csv)
+
 
 ## Jeux de données les plus récentes
 
@@ -141,6 +144,14 @@ recent %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F) %>%
   scroll_box(width = "700px", height = "300px")
+```
+
+```{r}
+datatable(
+  df_update, extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    buttons = c('csv', 'excel'))
+)
 ```
 
 
