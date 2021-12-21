@@ -57,63 +57,6 @@ library(kableExtra)
 
 
 
-
-
-
-
-## Évolution de la vaccination dans le temps
-
-Enfin, voici un graphique qui présente l'évolution dans le temps de la proportion de personnes pleinement vaccinées (par 100 habitants) en relation avec l'espérance de vie.
-```{r plotly}
-library(plotly)
-
-timeline <- filter(df, df$region == "pays")
-
-fig <- timeline %>%
-  plot_ly(
-    x = ~ people_fully_vaccinated_per_hundred,
-    y = ~ life_expectancy,
-    size = ~ gdp,
-    color = ~ continent,
-    frame = ~ date,
-    text = ~ name,
-    hoverinfo = "text",
-    type = 'scatter',
-    mode = 'markers',
-    width = "100%",
-    height = 600
-  )
-
-#fig <- fig %>% layout(xaxis = list(type = "log"))
-
-#fig <- fig %>%
-#  animation_button(
-#    x = 0, xanchor = "left", y = -0.15, yanchor = "bottom"
-#  )
-
-fig
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r, include=FALSE}
 ggplot(df_pays, 
       aes(people_fully_vaccinated_per_hundred, income_per_person, col=continent)) + 
       geom_point() + 
@@ -127,10 +70,10 @@ ggplot(df_pays,
         axis.title = element_text(size = 10),
         legend.text = element_text(size = 10),
         legend.title= element_blank())
-```
 
 
-```{r, include=FALSE}
+
+
 ggplot(df_pays, 
       aes(people_fully_vaccinated_per_hundred, life_expectancy, col=continent)) + 
       geom_point() + 
@@ -144,10 +87,10 @@ ggplot(df_pays,
         axis.title = element_text(size = 10),
         legend.text = element_text(size = 10),
         legend.title= element_blank())
-```
 
 
-```{r, include=FALSE}
+
+
 ggplot(df_pays, 
       aes(people_fully_vaccinated_per_hundred, growth_gdp_per_capita, col=continent)) + 
       geom_point() + 
@@ -161,7 +104,7 @@ ggplot(df_pays,
         axis.title = element_text(size = 10),
         legend.text = element_text(size = 10),
         legend.title= element_blank())
-```
+
 
 
 
