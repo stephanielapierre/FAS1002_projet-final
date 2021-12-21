@@ -3,7 +3,6 @@ title: "Vaccination : établir des groupes de pays comparables"
 description: |
   Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l'ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination.
 site: distill::distill_website
-bibliography: references.bib
 toc: false
 ---
 

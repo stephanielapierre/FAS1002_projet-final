@@ -81,10 +81,10 @@ Ce rapport a été produit dans [RStudio](https://www.rstudio.com/) en utilisant
 
 L'ensemble des démarches et des analyses effectuées pour établir des groupes de pays comparables selon leurs profils de vaccination sont présentées dans les différentes sections de ce site. 
 
-- [**Importation et préparation des données**](docs/2-import.html). Cette section présente les données utilisées dans ce rapport ainsi que les manipulations qui ont été nécessaire pour préparer les données aux analyses. 
-- [**Exploration des données**](docs/3-exploration.html). Cette section présente les données contenues dans le jeu de données. Elle permet notamment de prendre connaissance des statistiques relatives aux différentes variables d’intérêt et de visualiser leur distribution.
-- [**Établir des groupes de pays comparables** (ou analyses)](docs/4-analysis.html). Cette section présente les analyses réalisées pour établir des groupes de pays comparables selon leur profil de vaccination.
-- [**Visualisation des données**](docs/5-visualisation.html). Cette section présente quelques visualisations des données à partir des groupes de pays comparables établis. 
+- [**Importation et préparation des données**](2-import.html). Cette section présente les données utilisées dans ce rapport ainsi que les manipulations qui ont été nécessaire pour préparer les données aux analyses. 
+- [**Exploration des données**](3-exploration.html). Cette section présente les données contenues dans le jeu de données. Elle permet notamment de prendre connaissance des statistiques relatives aux différentes variables d’intérêt et de visualiser leur distribution.
+- [**Établir des groupes de pays comparables** (ou analyses)](4-analysis.html). Cette section présente les analyses réalisées pour établir des groupes de pays comparables selon leur profil de vaccination.
+- [**Visualisation des données**](5-visualisation.html). Cette section présente quelques visualisations des données à partir des groupes de pays comparables établis. 
 
 
 ## Remerciements {.appendix}
