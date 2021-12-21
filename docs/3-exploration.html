@@ -2490,7 +2490,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <h1 id="la-vaccination-à-travers-le-monde">La vaccination à travers le monde</h1>
 <h2 id="les-données-les-plus-récentes">Les données les plus récentes</h2>
-<p>Comme mentionné dans la section Importation et manipulation des données, les données sur la vaccination sont disponibles sur une base quotidienne, mais tous les pays ne procéde pas à la mise à jour de leurs données avec la même fréquence.</p>
+<p>Comme mentionné dans la section <a href="2-import.html">Importation et préparation des données</a>, les données sur la vaccination sont disponibles sur une base quotidienne, mais tous les pays ne procédent pas à la mise à jour de leurs données avec la même fréquence.</p>
 <p>Commençons par analyser la distribution des pays selon la plus récente observation en lien avec la vaccination.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2517,7 +2517,7 @@ Show code
 </details>
 <p><img src="3-exploration_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<p>En analysant le graphique de la distribution des pays, le premier est que la majorité des observations sont datées après le mois de novembre. Il y a toutefois quelques pays dont les données les plus récentes se détachent des autres. De quel pays s’agit-il?</p>
+<p>En analysant le graphique de la distribution des pays, le premier constat est que la majorité des observations sont datées après le mois de novembre. Il y a toutefois quelques pays dont les données les plus récentes se détachent des autres. De quel pays s’agit-il?</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2592,7 +2592,7 @@ Asia
 </tbody>
 </table>
 </div>
-<p>Si on exclus les 4 pays qui ont des observations qui datent de plus d’un mois, on obtient des observations dont la date varie entre le 2021-11-23 et le 2021-12-20, avec le 2021-12-16 comme date moyenne. En d’autre mots, l’écart varie de 1 à 28 jours avec une moyenne de 5 jours. Visuellement, voici la distribution :</p>
+<p>Si on exclut les 4 pays qui ont des observations qui datent de plus d’un mois, on obtient des observations dont la date varie entre le 2021-11-23 et le 2021-12-20, avec le 2021-12-16 comme date moyenne. En d’autres mots, l’écart varie de 1 à 28 jours avec une moyenne de 5 jours. Visuellement, voici la distribution :</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2619,8 +2619,8 @@ Show code
 <p><img src="3-exploration_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
 </div>
 <h2 id="les-statistiques-sur-la-vaccination">Les statistiques sur la vaccination</h2>
-<p>Toujours en utilisant le jeu de données avec les observations les plus récentes par pays, explorons maintenant les statistiques descriptives des données sur la vaccination. <em>tableau sommaire des indicateurs de la vaccination</em> <em>on va faire un summarise de chaque variable puis, on fait faire un rowbind pour tout avoir dans un tableau</em></p>
-<em>Statistiques descriptives des données sur la vaccination, selon l’observation la plus récente chauqe pays</em>
+<p>Toujours en utilisant le jeu de données avec les observations les plus récentes par pays, explorons maintenant les statistiques descriptives des données sur la vaccination.</p>
+<strong>Statistiques descriptives des données sur la vaccination, selon l’observation la plus récente chauqe pays</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2820,9 +2820,9 @@ Personnes pleinement vaccinées par 100 hab.
 </tbody>
 </table>
 </div>
-<p><strong>Analyse du tableau</strong> <strong>rappeler le nombre d’observation </strong> <strong>Notamment, beaucoup de disparités</strong> <strong>Plus 125 pays, les doses se rappels ne sont pas commencer</strong></p>
+<p>L’analyse de ce tableau montre beaucoup de disparités pour les 191 pays présents. En effet, l’écart entre les minimums et les maximums est généralement grand. Des minimums sont même nuls. Il est également possible de constater que 121 pays n’ont pas encore commencé à administrer des doses de rappel du vaccin.</p>
 <h2 id="pays-versus-continent">Pays versus continent</h2>
-<p>Les statistiques précédentes sont trés intéressantes. Toutefois, les statistiques ont été calculées sur les données de l’ensemble des pays. En considérant qu’il y a beaucoup de différentes entre les différentes régions du monde, il serait intéressant de voir comment les statistiques changent quand on les groupent par continent.</p>
+<p>Les statistiques précédentes sont très intéressantes. Toutefois, les statistiques ont été calculées sur les données de l’ensemble des pays. En considérant qu’il y a beaucoup de disparités entre les différentes régions du monde, il serait intéressant de voir comment les statistiques changent quand on groupe les pays par continent.</p>
 <strong>Données sur la vaccination, moyenne</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3116,7 +3116,7 @@ Show code
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
     x <span class='op'>=</span> <span class='st'>"Continent"</span>,
     y <span class='op'>=</span> <span class='st'>"Personnes pleinements vaccinées par 100 habitants"</span>,
-    title <span class='op'>=</span> <span class='st'>"Distribution des personnes pleinements vaccinées par 100 habitants"</span>
+    title <span class='op'>=</span> <span class='st'>"Distribution des pays selon les personnes \npleinements vaccinées par 100 habitants"</span>
   <span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>
@@ -3125,7 +3125,7 @@ Show code
 </details>
 <p><img src="3-exploration_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
 </div>
-<p>Ce graphique de boîtes à moustaches illustre bien la distribution des pays à l’intérieur des continents. L’Afrique, l’Asie et l’Europe se démarquent avec des pays qui qui se retrouve répartie sur toute la distribution.</p>
+<p>Ce graphique de boîtes à moustaches illustre bien la distribution des pays à l’intérieur des continents. L’Afrique, l’Asie et l’Europe se démarquent avec des pays qui se retrouvent répartis sur toute la distribution.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3139,7 +3139,7 @@ Show code
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
     x <span class='op'>=</span> <span class='st'>"Continent"</span>,
     y <span class='op'>=</span> <span class='st'>"Doses de rappels administrés par 100 hab."</span>,
-    title <span class='op'>=</span> <span class='st'>"Distribution des doses de rappels administrés par 100 habitants"</span>
+    title <span class='op'>=</span> <span class='st'>"Distribution des pays selon les doses de \nrappels administrés par 100 habitants"</span>
   <span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_economist.html'>theme_economist</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span>

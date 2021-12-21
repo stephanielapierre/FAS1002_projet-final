@@ -23,7 +23,7 @@ citation_url: https://fas1002.github.io/FAS1002_projet-final
 # dans un fichier biblio.bib. Je conseille Zotero pour construire
 # ce fichier ou d'utiliser le package citr dans RStudio.
 # Installation: devtools::install_github("crsh/citr")
-bibliography: references.bib
+# bibliography: references.bib
 output: distill::distill_article
 ---
 
@@ -52,12 +52,9 @@ df_pays <- df_pays[!is.na(df_pays$continent),]
 # La vaccination à travers le monde
 
 ## Les données les plus récentes
-Comme mentionné dans la section Importation et manipulation des données, les 
-données sur la vaccination sont disponibles sur une base quotidienne, mais tous 
-les pays ne procéde pas à la mise à jour de leurs données avec la même fréquence. 
+Comme mentionné dans la section [Importation et préparation des données](2-import.html), les données sur la vaccination sont disponibles sur une base quotidienne, mais tous les pays ne procédent pas à la mise à jour de leurs données avec la même fréquence. 
 
-Commençons par analyser la distribution des pays selon la plus récente 
-observation en lien avec la vaccination.
+Commençons par analyser la distribution des pays selon la plus récente observation en lien avec la vaccination.
 
 ```{r}
 ggplot(df_pays, aes(date, fill = continent)) +
@@ -76,10 +73,7 @@ ggplot(df_pays, aes(date, fill = continent)) +
         legend.title= element_blank())
 ```
 
-En analysant le graphique de la distribution des pays, le premier est que la 
-majorité des observations sont datées après le mois de novembre. Il y a 
-toutefois quelques pays dont les données les plus récentes se détachent des 
-autres. De quel pays s'agit-il?
+En analysant le graphique de la distribution des pays, le premier constat est que la majorité des observations sont datées après le mois de novembre. Il y a toutefois quelques pays dont les données les plus récentes se détachent des autres. De quel pays s'agit-il?
 
 ```{r, include=FALSE}
 # Préparation pour les données plus vieilles
@@ -111,12 +105,7 @@ new <- select(new, c(1, 3, 4))
 new$difference <- Sys.Date() - new$date
 ```
 
-Si on exclus les `r nrow(old)` pays qui ont des observations qui datent de plus 
-d'un mois, on obtient des observations dont la date varie entre le `r min(new$date)` 
-et le `r max(new$date)`, avec le `r mean(new$date)` comme date moyenne. En d'autre 
-mots, l'écart varie de `r min(new$difference)` à `r max(new$difference)` jours 
-avec une moyenne de `r round(mean(new$difference), 0)` jours. Visuellement, 
-voici la distribution : 
+Si on exclut les `r nrow(old)` pays qui ont des observations qui datent de plus d'un mois, on obtient des observations dont la date varie entre le `r min(new$date)` et le `r max(new$date)`, avec le `r mean(new$date)` comme date moyenne. En d'autres mots, l'écart varie de `r min(new$difference)` à `r max(new$difference)` jours avec une moyenne de `r round(mean(new$difference), 0)` jours. Visuellement, voici la distribution : 
 
 ```{r}
 ggplot(new, aes(date, fill = continent)) +
@@ -142,11 +131,7 @@ rm(old, new, old_date)
 
 ## Les statistiques sur la vaccination
 
-Toujours en utilisant le jeu de données avec les observations les plus récentes 
-par pays, explorons maintenant les statistiques descriptives des données sur la 
-vaccination.
-*tableau sommaire des indicateurs de la vaccination*
-*on va faire un summarise de chaque variable puis, on fait faire un rowbind pour tout avoir dans un tableau*
+Toujours en utilisant le jeu de données avec les observations les plus récentes par pays, explorons maintenant les statistiques descriptives des données sur la vaccination.
 
 ```{r, include=FALSE}
 # Vaccins administrés     `total_vaccinations`
@@ -247,25 +232,18 @@ sommaire$`Écart type` <- round(sommaire$`Écart type`, 0)
 sommaire <- sommaire %>% relocate(Variable, .before = Minimum)
 ```
 
-*Statistiques descriptives des données sur la vaccination, selon l'observation la plus récente chauqe pays*
+**Statistiques descriptives des données sur la vaccination, selon l'observation la plus récente chauqe pays**
 ```{r}
 sommaire %>%
   kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-**Analyse du tableau**
-**rappeler le nombre d'observation **
-**Notamment, beaucoup de disparités**
-**Plus 125 pays, les doses se rappels ne sont pas commencer**
+L'analyse de ce tableau montre beaucoup de disparités pour les `r nrow(df_pays)` pays présents. En effet, l'écart entre les minimums et les maximums est généralement grand. Des minimums sont même nuls. Il est également possible de constater que `r total_boosters$"Données manquantes"` pays n'ont pas encore commencé à administrer des doses de rappel du vaccin.
 
 ## Pays versus continent
 
-Les statistiques précédentes sont trés intéressantes. Toutefois, les statistiques 
-ont été calculées sur les données de l'ensemble des pays. En considérant qu'il y 
-a beaucoup de différentes entre les différentes régions du monde, il serait 
-intéressant de voir comment les statistiques changent quand on les groupent par 
-continent. 
+Les statistiques précédentes sont très intéressantes. Toutefois, les statistiques ont été calculées sur les données de l'ensemble des pays. En considérant qu'il y a beaucoup de disparités entre les différentes régions du monde, il serait intéressant de voir comment les statistiques changent quand on groupe les pays par continent. 
 
 
 ```{r, include=FALSE}
@@ -329,17 +307,9 @@ mean100_ens %>%
 ```
 
 
+Déjà avec ce tableau, il est possible de constater que les données varient beaucoup d'un continent à l'autre.
 
-
-
-
-
-
-
-Déjà avec ce tableau, il est possible de constater que les données varient 
-beaucoup d'un continent à l'autre.
-
-Observons maintenant la distribution des pays selon la variable Personnes pleinement vaccinées par 100 habitants.
+Observons maintenant la distribution des pays selon la variable *personnes pleinement vaccinées par 100 habitants*.
 
 ```{r}
 ggplot(df_pays) +
@@ -349,15 +319,13 @@ ggplot(df_pays) +
   labs(
     x = "Continent",
     y = "Personnes pleinements vaccinées par 100 habitants",
-    title = "Distribution des personnes pleinements vaccinées par 100 habitants"
+    title = "Distribution des pays selon les personnes \npleinements vaccinées par 100 habitants"
   ) +
   theme_economist() +
    theme(plot.title = element_text(face = "bold", size = 14))
 ```
 
-Ce graphique de boîtes à moustaches illustre bien la distribution des pays à
-l'intérieur des continents. L'Afrique, l'Asie et l'Europe se démarquent avec des 
-pays qui qui se retrouve répartie sur toute la distribution. 
+Ce graphique de boîtes à moustaches illustre bien la distribution des pays à l'intérieur des continents. L'Afrique, l'Asie et l'Europe se démarquent avec des pays qui se retrouvent répartis sur toute la distribution. 
 
 ```{r}
 ggplot(df_pays) +
@@ -367,7 +335,7 @@ ggplot(df_pays) +
   labs(
     x = "Continent",
     y = "Doses de rappels administrés par 100 hab.",
-    title = "Distribution des doses de rappels administrés par 100 habitants"
+    title = "Distribution des pays selon les doses de \nrappels administrés par 100 habitants"
   ) +
   theme_economist() +
    theme(plot.title = element_text(face = "bold", size = 14))
@@ -443,7 +411,7 @@ ggplot(df_pays) +
   theme_economist() +
    theme(plot.title = element_text(face = "bold", size = 14))
 ```
-
+On note ici que les données extrêmes rendent le graphique moins intéressant ou plus difficile à comprendre.
 
 **Statistiques descriptive de la variable espérance de vie**
 ```{r}
@@ -485,7 +453,7 @@ ggplot(df_pays) +
   theme_economist() +
    theme(plot.title = element_text(face = "bold", size = 14))
 ```
-
+Ici encore on note que les données extrêmes rendent le graphique moins intéressant ou plus difficile à comprendre.
 
 **Statistiques descriptive de la variable PIB par habitant estimé**
 ```{r}

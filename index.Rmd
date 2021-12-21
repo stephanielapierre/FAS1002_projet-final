@@ -1,7 +1,7 @@
 ---
 title: "Vaccination : établir des groupes de pays comparables"
 description: |
-  Ce site web présente le travail final du cours FAS1002 qui consite à produire un rapport analytique. Plus précisément, le site présente l'ensemble de la démarche réaliser pour établir des groupes de pays comparables en fonction, entre autre, de leurs profils de vaccination.
+  Ce site web présente le travail final du cours FAS1002 qui consiste à produire un rapport analytique. Plus précisément, le site présente l'ensemble de la démarche réalisée pour établir des groupes de pays comparables en fonction, entre autres, de leur profil de vaccination.
 site: distill::distill_website
 toc: false
 ---
@@ -10,10 +10,10 @@ toc: false
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Les campagnes de vaccination battent leur plein partout dans le monde dans la lutte qui est actuellement menée contre le virus de la COVID-19. Toutefois, les pays n'ont pas tous les mêmes réalités, ressources ou stratégies pour déployer leurs campagnes de vaccination.
+Dans la lutte pour contrer le virus de la COVID-19, les campagnes de vaccination battent leur plein partout dans le monde. Les pays n'ont toutefois pas tous les mêmes réalités, ressources ou stratégies pour déployer leurs campagnes de vaccination.
 
-Est-ce que certains pays se démarquent des autres? Est-ce que certains pays performent "mieux" ou "moins bien" que d'autres? Est-ce qu'on pourrait apprendre de l'expérience de certains pays? Est-ce que certains pays ont des profils similaires?
+Est-ce que certains pays se démarquent des autres? Est-ce que des pays performent "mieux" ou "moins bien" que d'autres? Est-ce qu'on pourrait apprendre de l'expérience de certains pays? Est-ce que des pays ont des profils similaires?
 
-Pour répondre à ces questions, nous avons utilisé une approche d'analyses par grappes pour établir des groupes de pays comparables en fonction de leur profil de vaccination. Afin de donner un peu plus de profondeur à nos analyses, nous croisons le taux de personnes pleinement vaccinées avec des indicateurs supplémentaires tels que la population, le PIB, le PIB par habitant et l’espérance de vie.
+Pour répondre à ces questions, nous avons utilisé une approche d'analyses par grappes qui permet d'établir des groupes de pays comparables en fonction de leur profil de vaccination. Afin de donner un peu plus de profondeur à nos analyses, nous croisons le taux de personnes pleinement vaccinées avec des indicateurs supplémentaires tels que la population, le PIB, le PIB par habitant et l’espérance de vie.
 
 Ce rapport présente l'ensemble des démarches et des analyses que nous avons effectuées pour établir des groupes de pays comparables selon leur profil de vaccination. La présentation complète de la démarche est disponible dans la section [Introduction](1-intro.html).

@@ -2,7 +2,7 @@
 title: "Importation et préparation des données"
 description: | 
   Cette section présente les données utilisées dans ce rapport ainsi que les 
-  manipulations qui ont été nécessaire pour préparer les données aux analyses.
+  manipulations qui ont été nécessaires pour préparer les données aux analyses.
 date: "`r Sys.Date()`"
 # Modifier les détails que vous voulez
 author:
@@ -43,24 +43,24 @@ library(DT)
 
 
 # Données utilisées
-Avant de se lancer dans quelques analyses que ce soit, il faut identifier les données que nous pouvons utiliser. Pour notre analyse, nous recours à deux sources Our World in Data et Gapminder.
+Avant de se lancer dans quelques analyses que ce soit, il faut identifier les données que nous pouvons utiliser. Pour notre analyse, nous recours à deux sources, soit Our World in Data et Gapminder.
 
 ## Our World in Data (OWID)
-Le gros du jeu de données avec lequel nous travaillons s'articule avec des données mondiales sur la vaccination. Grâce à une initiative de @mathieu_global_2021, le site Web de OWID dispose d'une jeu de données très complet sur la vaccination. En plus d'être offertes par pays, par continent et certains États, les données disponibles couvrent plusieurs aspects de la vaccination allant du nombre de doses administrés au personnes ayant reçus une dose de rappels. Autre aspect intéressant de ces données, il est possible de suivre l'évolution quotidienne des différentes variables puisque les données sont disponibles sur une base quotidienne.
+Le gros du jeu de données avec lequel nous travaillons s'articule avec des données mondiales sur la vaccination. Grâce à une initiative de @mathieu_global_2021, le site Web de OWID dispose d'un jeu de données très complet sur la vaccination. En plus d'être offertes par pays, par continent et pour certains États, les données disponibles couvrent plusieurs aspects de la vaccination allant du nombre de doses administrées aux personnes ayant reçu une dose de rappels. Autre aspect intéressant de ces données, il est possible de suivre l'évolution quotidienne des différentes variables puisque les données sont disponibles sur une base quotidienne.
 
-Les données peuvent être visualiser et consulter sur le [site Web de OWID](https://ourworldindata.org/covid-vaccinations). La base de données complète est [disponibles pour le téléchargement sur GitHub](https://github.com/owid/covid-19-data/tree/master/public/data/vaccinations). 
+Les données peuvent être visualisées et consultées sur le [site Web de OWID](https://ourworldindata.org/covid-vaccinations). La base de données complète est [disponible pour le téléchargement sur GitHub](https://github.com/owid/covid-19-data/tree/master/public/data/vaccinations). 
 
 
 ## Gapminder
 Pour compléter notre jeu de données sur la vaccination et être en mesure d'ajouter des nuances à nos analyses, nous avons recours à Gapminder. 
 
-Ayant pour objectif de combattre l'ignorance en s'appuyant sur des faits que tous sont mesures de comprendre, Gapminder offre des données fiables qui permettent d'expliquer et de bien comprendre des tendances mondiales. 
+Ayant pour objectif de combattre l'ignorance en s'appuyant sur des faits que tous sont en mesure de comprendre, Gapminder offre des données fiables qui permettent d'expliquer et de bien comprendre des tendances mondiales. 
 
 Plus précisément, nous avons utilisé Gapminder pour récupérer des données en lien avec la population, le PIB et l'espérance de vie. Particularité intéressante de Gapminder, c'est que le site offre les données à la fois pour les pays et pour les continents. 
 
-Le site Web de Gapminder peut être consulter à cette adresse : [www.gapminder.org](https://www.gapminder.org/)
+Le site Web de Gapminder peut être consulté à cette adresse : [www.gapminder.org](https://www.gapminder.org/)
 
-Les jeux de données que nous avons utilisé pour construire son les suivants : 
+Les jeux de données que nous avons utilisées sont les suivants : 
 
 - [Population](https://docs.google.com/spreadsheets/d/14_suWY8fCPEXV0MH7ZQMZ-KndzMVsSsA5HdR-7WqAC0/edit#gid=501532268)
 - [Produit intérieur brut (PIB)](https://docs.google.com/spreadsheets/d/1gZZ28UiWCVue-tFHMEVOvSO58x7x-w20E23l1wZTR3E/edit#gid=501532268)
@@ -72,36 +72,36 @@ Les jeux de données que nous avons utilisé pour construire son les suivants :
 
 ## Téléchargement de données
  
-La première étape de notre travail à consister à mettre en place une stratégie pour le téléchargement des données. Effectivement, comme les données sont récupérés directement sur Internet, il est préférable de récupérer une copie des jeux de données. Ceci répond à deux objectifs, d'abord travailler plus facilement avec une copie locale. De plus, nous permet d'éviter des mauvaises surprises dans l'éventualité où les données viendraient à être retirées du Web. 
+La première étape de notre travail a consisté à mettre en place une stratégie pour le téléchargement des données. Comme les données sont récupérées directement sur Internet, il est préférable de récupérer une copie des jeux de données. Ceci répond à deux objectifs, d'abord travailler plus facilement avec une copie locale. De plus, cela permet d'éviter de mauvaises surprises dans l'éventualité où les données viendraient à être retirées du Web. 
 
-Nos deux sources de données ont une fréquence de mises à jours différentes. En effet, les données sur la vaccination de OWID sont mises à jour quotidiennement tandis que celles de Gapminder sont plutôt sur une fréquence de mises à jours mensuelles.
+Nos deux sources de données ont une fréquence de mises à jour différentes. En effet, les données sur la vaccination de OWID sont mises à jour quotidiennement tandis que celles de Gapminder sont plutôt sur une fréquence de mises à jour mensuelle.
 
-Afin de tenir compte de ces particularités, nous avons développer un script qui permet de télécharger quotidiennement ou mensuellement les jeux de données.
+Afin de tenir compte de ces particularités, nous avons développé un script qui permet de télécharger quotidiennement ou mensuellement les jeux de données.
 
-Sommairement, voici les étapes qui constitue le script de téléchargement : 
+Sommairement, voici les étapes qui constituent le script de téléchargement : 
 
-- **Mise en place**. On part du principe qu'il y a déjà une version des données diponibles localement (qui comprend la date de téléchargement dans son titre).
+- **Mise en place**. On part du principe qu'il y a déjà une version des données diponible localement (qui comprend la date de téléchargement dans son titre).
 - **Dernière version**. On extrait la date de téléchargement du fichier disponible localement.
 - **Comparaison de la date**. On compare la date de téléchargement avec la date du jour (ou d'il y a un mois, dans le cas des données mensuelles).
-- **Test conditionnel**. Si les données disponibles localement ont plus d'une fjournée (ou qu'un mois), on télécharge une nouvelle version des données. On efface ensuite les anciennes données.
+- **Test conditionnel**. Si les données disponibles localement ont plus d'une journée (ou qu'un mois), on télécharge une nouvelle version des données. On efface ensuite les anciennes données.
 
 ## Préparation des données
 
 La prochaine étape vers la constitution de notre jeu de données est en lien avec la préparation des différentes données afin de permettre la fusion les différents jeux de données. 
 
-Dans l'ensemble des jeux de données, nous nous sommes d'abord assuré que les données sont sous la forme d'un *tibble* et que chaque variable était dans le format adéquat (ex. facteurs, date, numérique). 
+Dans l'ensemble des jeux de données, nous nous sommes d'abord assuré que les données sont sous la forme d'un *tibble* et que chaque variable était dans le format adéquat (ex. facteur, date, numérique). 
 
 Chaque jeu de données étant unique, certains jeux de données ont nécessité des manipulations particulières. Les voici : 
 
-- **Données sur la vaccination**. Les donées de OWID ont nécessité un nettoyage au niveau des régions géographiques. Après exploration, nous avons constater que certaines juridictions présentaient un code `geo` commençant par "OWID_". Nous avons constater deux cas expliquant ceci. D'abord, les continents ont étaient identifiés par ce "OWID_". L'autre cas référait plutôt à des nations constituantes des Royaume-Uni ou à des groupements supplémentaires (ex. Union européenne, Low middle income, etc.). Dans le premier cas, les codes `geo` ont été corrigé pour correspondre à ceux des autres données. Alors que dans le deuxième cas, les juridictions ont été retirés des données. 
-- **Années de vaccination**. En considérant que les données sur la vaccination sont quotidiennes et que les autres données sont présentées sur un base annuelle, nous avons ajouter une variable `année` aux données sur la vaccination.
-- **Données sur le PIB**. Pour tenir compte de effet d'échelle et offrir une meilleure compréhension des données, le PIB a été ramené en milliards de dollars.
+- **Données sur la vaccination**. Les données de OWID ont nécessité un nettoyage au niveau des régions géographiques. Après exploration, nous avons constaté que certaines juridictions présentaient un code `geo` commençant par "OWID_". Nous avons constaté deux cas expliquant ceci. D'abord, les continents étaient identifiés par ce "OWID_". L'autre cas référait plutôt à des nations constituantes du Royaume-Uni ou à des groupements supplémentaires (ex. Union européenne, Low middle income, etc.). Dans le premier cas, les codes `geo` ont été corrigé pour correspondre à ceux des autres données. Dans le deuxième cas, les juridictions ont été retirées des données. 
+- **Années de vaccination**. En considérant que les données sur la vaccination sont quotidiennes et que les autres données sont présentées sur une base annuelle, nous avons ajouté une variable `année` aux données sur la vaccination.
+- **Données sur le PIB**. Pour tenir compte de l'effet d'échelle et offrir une meilleure compréhension des données, le PIB a été ramené en milliards de dollars.
 
 Une fois ces manipulations et ces corrections faites, il a été possible de fusionner tous les jeux de données pour constituer notre jeu de données complet. 
 
-# Jeux de données complet
+# Jeu de données complet
 
-Il contient `r nrow(df)` observations et `r ncol(df)` variables. Voici un extrait des 50 premières lignes du jeu de données.
+Notre jeu de données complet contient `r nrow(df)` observations et `r ncol(df)` variables. Voici un extrait des 50 premières lignes du jeu de données.
 
 ```{r}
 table_df <- head(df, 50)
@@ -115,13 +115,9 @@ table_df %>%
 
 ## Jeux de données les plus récentes
 
-Maintenant que notre jeu de données complet a été constitué, nous créons un 
-nouveau jeu de données contenant seulement les données les plus récentes pour 
-chacune des juridictions. En effet, bien que les données sur la vaccination 
-soient disponibles sur une base quotidienne, les pays ne mettent pas tous leurs 
-données à jour la même fréquence. 
+Maintenant que notre jeu de données complet a été constitué, nous créons une nouvelle version du jeu de données contenant seulement les données les plus récentes pour chacune des juridictions. En effet, bien que les données sur la vaccination soient disponibles sur une base quotidienne, les pays ne mettent pas toutes leurs données à jour à la même fréquence. 
 
-```{r}
+```{r, include=FALSE}
 df_update <- df %>% 
   group_by(df$name) %>%
   slice(which.max(date))
@@ -133,7 +129,7 @@ df_update <- df_update %>%
 
 Cette version du jeu de données contient `r nrow(df_update)` observations et `r ncol(df_update)` variables. Voici un extrait des 50 premières lignes du jeu de données.
 
-*À noter que cet aspect sera exploré plus en détails dans la section Exploration des données *
+À noter que cet aspect sera exploré plus en détail dans la section [Exploration des données](3-exploration.html)
   
 ```{r}
 recent <- head(df_update, 50)
@@ -146,7 +142,7 @@ recent %>%
 
 
 ## Validité des valeurs
-Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (OWID et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable `total_vaccinations_per_hundred`, qui est fourni par OWID, avec une nouvelle variable que nous obtenous à partir de la population de 2021 estimé par Gapminder.
+Comme mentionné plus haut, notre jeu de données est constitué à partir de deux sources (OWID et Gapminder). Afin de vérifier la validité des données, nous comparons la valeur de la variable `total_vaccinations_per_hundred`, qui est fournie par OWID, avec une nouvelle variable que nous obtenons à partir de la population de 2021 estimée par Gapminder.
 
 ```{r, include=FALSE}
 # Subset pour simplifier le jeu de données (on enleve des variables)
@@ -185,13 +181,13 @@ incorrect <- rename(incorrect,
                     Différence = `difference`)
 ```
 
-Le jeu de données des données les plus récentes contient `r nrow(df_vac_100hab)` observations (des pays ou des continents).
+Les données les plus récentes contiennent `r nrow(df_vac_100hab)` observations (des pays ou des continents).
 
 Il faut d'abord noter qu'il n'est pas possible d'effectuer de comparaison pour les `r nrow(na)` observations. Ceci est dû à des valeurs manquantes pour la vaccination ou la population. 
 
 Pour `r nrow(correct)` des observations, il n'y a pas de différence entre la valeur de la variable `total_vaccinations_per_hundred` de OWID et celle calculée. Alors que pour `r nrow(incorrect)` observations, il y a une différence entre la valeur de OWID et la valeur calculée.
 
-Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour lesquels le taux de vaccination par 100 habitants de OWID est différent que celui qui est calculé.
+Voici le tableau qui présente les `r nrow(incorrect)` pays ou continents pour lesquels le taux de vaccination par 100 habitants de OWID est différent de celui qui est calculé.
 
 ```{r}
 incorrect %>%
@@ -199,8 +195,7 @@ incorrect %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
-En considérant que le nombre de pays ou de continent qui présente une valeur 
-différente est petit, il est possible de conclure que les données sont valides.
+En considérant que le nombre de pays ou de continent qui présente une valeur différente est petit, il est possible de conclure que les données sont tout à fait valides.
 
 ```{r, include=FALSE}
 source("R/processed-data.R", local = knitr::knit_global())             # Script pour enregistrer les données
@@ -209,4 +204,4 @@ source("R/processed-data.R", local = knitr::knit_global())             # Script 
 
 ## Données {.appendix}
 
-Les données utilisées pour les analyses sont disponibles pour le téléchargement sur la page [**Données pour téléchargement**](donnee.html). 
+Les données utilisées pour les analyses sont disponibles pour le téléchargement sur la page [Données pour téléchargement](donnee.html). 

@@ -10,8 +10,8 @@ author:
     url: https://github.com/stephanielapierre
     # les champs d'affiliation sont optionnels, vous pouvez les
     # comment out en ajoutant un # devant.
-    affiliation: FAS1002
-    affiliation_url: https://admission.umontreal.ca/programmes/microprogramme-de-1er-cycle-en-analyse-des-megadonnees-en-sciences-humaines-et-sociales/structure-du-programme/
+    # affiliation: FAS1002
+    # affiliation_url: https://admission.umontreal.ca/programmes/microprogramme-de-1er-cycle-en-analyse-des-megadonnees-en-sciences-humaines-et-sociales/structure-du-programme/
     # changer pour votre propre orcid id
     # https://orcid.org/ pour vous inscrire.
     # orcid_id: 0000-0000-0000-0000
@@ -53,4 +53,4 @@ datatable(
 
 ## Jeu de données complet
 
-Étant très volumineux, le jeu de données complet qui contient `r nrow(df)` observations et `r ncol(df)` variables est disponible sur demande seulement. La particularité de ce jeu de données est qu'il permet de suivre quotidiennement l'évolution des capampagnes de vaccination partout dans le monde.
+Étant très volumineux, le jeu de données complet qui contient `r nrow(df)` observations et `r ncol(df)` variables est disponible sur demande seulement. La particularité de ce jeu de données est qu'il permet de suivre quotidiennement l'évolution des campagnes de vaccination partout dans le monde.
