@@ -1,5 +1,5 @@
 name: "FAS1002_projet-final"
-title: "FAS1002 - Projet final"
+title: "Projet final"
 favicon: static/images/FAS1002.png
 # N'oubliez pas d'activer votre site web dans vos params sur GH.
 repository_url: https://github.com/FAS1002/FAS1002_projet-final
@@ -12,25 +12,6 @@ navbar:
     image: static/images/FAS1002.png
     href: index.html
   source_url: true
-  left:
-  # Vous pouvez supprimer ou changer les pages
-    - text: "Aide pour le site"
-      menu:
-        - text: "Distill Basics"
-          href: https://rstudio.github.io/distill/basics.html
-        - text: "Figure Layout"
-          href: https://rstudio.github.io/distill/figures.html
-        - text: "Tables"
-          href: https://rstudio.github.io/distill/tables.html
-        - text: "Diagrams"
-          href: https://rstudio.github.io/distill/diagrams.html
-        - text: "JavaScript & D3"
-          href: https://rstudio.github.io/distill/interactivity.html
-        - text: "---"
-        - text: "Citations"
-          href: https://rstudio.github.io/distill/citations.html
-        - text: "Article Metadata"
-          href: https://rstudio.github.io/distill/metadata.html
   right:
   # L'ordre et les noms == arbitraires, usez de créativité.
     - text: "Introduction"
