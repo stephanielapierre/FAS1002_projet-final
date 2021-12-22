@@ -39,118 +39,76 @@ library(ggthemes)
 library(kableExtra)
 ```
 
-# Idées pour la visualisation
+## Les pays répartis en 4 groupes
+
+À l'aide de l'analyse par grappe, nous avons été en mesure de définir quatre groupes de pays comparable en fonction de leur profil de vaccination, de leur population, de leur PIB, de leur PIB par habitant et de leur espérance de vie. 
 
 
-- Carte du monde avec les clusters
+```{r, include=FALSE}
+# Enlever les pays qui on NA dans cluster
+df_cluster <- df_cluster[!is.na(df_cluster$.cluster),]
 
-- Nuage de point interactif avec l'ensemble de cluster
+# Statistiques descriptives des variables
+statistique <- df_cluster %>% group_by(df_cluster$.cluster) %>% summarise(
+  "Personnes pleinement vaccinées par 100 hab." = round(mean(`people_fully_vaccinated_per_hundred`), 1),
+  Population = mean(`population`),
+  "PIB réel estimé (G$)" = round(mean(`gdp`), 1),
+  "PIB réel estimé par habitant" = round(mean(`income_per_person`), 1),
+  "Espérance de vie" = round(mean(`life_expectancy`), 1),
+  "Nombre de pays" = nrow(`name`)
+  )
 
-- Puis un prend un seul cluster et les couleurs deviennent les continents
+statistique <- rename(statistique, Groupe = `df_cluster$.cluster`)
+```
 
-- Puis on change l'espérance de vie par le pib par habitant
-
-
-- Graphique interactif (comme l'exemple, on présente l'évolution de la vaccination dans le temps)
-
-
-
-
-
-ggplot(df_pays, 
-      aes(people_fully_vaccinated_per_hundred, income_per_person, col=continent)) + 
-      geom_point() + 
-      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et du PIB par hab.") +
-      theme_economist() +
-      theme(legend.position = "top", legend.direction = "horizontal",
-        legend.box = "horizontal",
-        legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma", size = 14),
-        text = element_text(family = "Tahoma"),
-        axis.title = element_text(size = 10),
-        legend.text = element_text(size = 10),
-        legend.title= element_blank())
-
-
-
-
-ggplot(df_pays, 
-      aes(people_fully_vaccinated_per_hundred, life_expectancy, col=continent)) + 
-      geom_point() + 
-      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et l'espérance de vie") +
-      theme_economist() +
-      theme(legend.position = "top", legend.direction = "horizontal",
-        legend.box = "horizontal",
-        legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma", size = 14),
-        text = element_text(family = "Tahoma"),
-        axis.title = element_text(size = 10),
-        legend.text = element_text(size = 10),
-        legend.title= element_blank())
-
-
-
-
-ggplot(df_pays, 
-      aes(people_fully_vaccinated_per_hundred, growth_gdp_per_capita, col=continent)) + 
-      geom_point() + 
-      ggtitle("Relation entre les personnes pleinement vaccinées par 100 hab. et la croissance du PIB par hab.") +
-      theme_economist() +
-      theme(legend.position = "top", legend.direction = "horizontal",
-        legend.box = "horizontal",
-        legend.key.size = unit(0.6, "cm"),
-        plot.title = element_text(family="Tahoma", size = 14),
-        text = element_text(family = "Tahoma"),
-        axis.title = element_text(size = 10),
-        legend.text = element_text(size = 10),
-        legend.title= element_blank())
-
-
-
-
-## Un peu d'interactivité pour le plaisir!
-
-```{r map, layout = "l-page"}
-library(leaflet)
-leaflet() %>%
-  addTiles() %>%
-  addMarkers(lng=174.768, lat=-36.852, popup="Là où R est né") %>%
-  addProviderTiles(providers$Stamen.Watercolor)
+**Moyenne des variables d'intérêt, selon le groupe de comparable**
+```{r}
+statistique %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
 
-## Peut-être que ça vous inspirera!
+Voici un premier graphique qui présente la distribution des quatre groupes selon le profil de vaccination et l'espérance de vie. 
 
-```{r plotly}
+```{r}
 library(plotly)
-library(gapminder)
-df <- gapminder
 
-fig <- df %>%
-  plot_ly(
-    x = ~ gdpPercap,
-    y = ~ lifeExp,
-    size = ~ pop,
-    color = ~ continent,
-    frame = ~ year,
-    text = ~ country,
-    hoverinfo = "text",
-    type = 'scatter',
-    mode = 'markers',
-    width = "100%",
-    height = 600
-  )
+p <- df_cluster %>%
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = .cluster, name = name)) +
+  geom_point() +
+  ggtitle("Relation entre les personnes pleinement vaccinées \npar 100 habitants et l'espérance de vie, quatre grappes")
 
-fig <- fig %>% layout(xaxis = list(type = "log"))
-
-fig <- fig %>%
-  animation_button(
-    x = 0, xanchor = "left", y = -0.15, yanchor = "bottom"
-  )
-
-fig
+ggplotly(p, height = 500)
 ```
 
+Quant est-il si l'espérance de vie est remplacée par le PIB par habitant ?
+
+```{r}
+p2 <- df_cluster %>%
+  ggplot(aes(people_fully_vaccinated_per_hundred, income_per_person, color = .cluster, name = name)) +
+  geom_point() +
+  ggtitle("Relation entre les personnes pleinement vaccinées par \n100 habitants et le PIB réel par habitant, quatre grappes")
+
+ggplotly(p2, height = 500)
+```
+
+## Analyse d'une grappe
+
+```{r}
+group3 <- filter(df_cluster, df_cluster$.cluster == 3)
+```
+
+Voyons maintenant si nous pouvons voir comment les pays sont distribués à l'intérieur d'une grappe. Plus précisément est la répartition des continents à l'intérieur d'une grappe. Prenons par exemple le groupe 3 qui contient `r nrow(group3)` pays.
+
+```{r}
+p <- group3 %>%
+  ggplot(aes(people_fully_vaccinated_per_hundred, life_expectancy, color = continent, name = name)) +
+  geom_point() +
+  ggtitle("Relation entre les personnes pleinement vaccinées \npar 100 habitants et l'espérance de vie")
+
+ggplotly(p, height = 500)
+```
 
 ## Données {.appendix}
 

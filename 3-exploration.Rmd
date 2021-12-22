@@ -232,7 +232,7 @@ sommaire$`Écart type` <- round(sommaire$`Écart type`, 0)
 sommaire <- sommaire %>% relocate(Variable, .before = Minimum)
 ```
 
-**Statistiques descriptives des données sur la vaccination, selon l'observation la plus récente chauqe pays**
+**Statistiques descriptives des données sur la vaccination, selon l'observation la plus récente chaque pays**
 ```{r}
 sommaire %>%
   kbl() %>%
