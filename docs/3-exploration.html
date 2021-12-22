@@ -117,11 +117,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta name="citation_publication_date" content="2021/12/21"/>
   <meta name="citation_author" content="Stéphanie Lapierre"/>
   <!--/radix_placeholder_meta_tags-->
-  
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Exploration des données"]},{"type":"character","attributes":{},"value":["Cette section présente les données contenues dans le jeu de données. Elle \npermet notamment de prendre connaissance des statistiques relatives aux \ndifférentes variables d'intérêt et de visualiser leur distribution.\n"]},{"type":"character","attributes":{},"value":["2021-12-21"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","output"]}},"value":[{"type":"character","attributes":{},"value":["Exploration des données"]},{"type":"character","attributes":{},"value":["Cette section présente les données contenues dans le jeu de données. Elle \npermet notamment de prendre connaissance des statistiques relatives aux \ndifférentes variables d'intérêt et de visualiser leur distribution.\n"]},{"type":"character","attributes":{},"value":["2021-12-21"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url"]}},"value":[{"type":"character","attributes":{},"value":["Stéphanie"]},{"type":"character","attributes":{},"value":["Lapierre"]},{"type":"character","attributes":{},"value":["https://github.com/stephanielapierre"]}]}]},{"type":"character","attributes":{},"value":["https://fas1002.github.io/FAS1002_projet-final"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2620,7 +2619,7 @@ Show code
 </div>
 <h2 id="les-statistiques-sur-la-vaccination">Les statistiques sur la vaccination</h2>
 <p>Toujours en utilisant le jeu de données avec les observations les plus récentes par pays, explorons maintenant les statistiques descriptives des données sur la vaccination.</p>
-<strong>Statistiques descriptives des données sur la vaccination, selon l’observation la plus récente chauqe pays</strong>
+<strong>Statistiques descriptives des données sur la vaccination, selon l’observation la plus récente chaque pays</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3102,7 +3101,7 @@ Ensemble des pays
 </table>
 </div>
 <p>Déjà avec ce tableau, il est possible de constater que les données varient beaucoup d’un continent à l’autre.</p>
-<p>Observons maintenant la distribution des pays selon la variable Personnes pleinement vaccinées par 100 habitants.</p>
+<p>Observons maintenant la distribution des pays selon la variable <em>personnes pleinement vaccinées par 100 habitants</em>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3311,6 +3310,7 @@ Show code
 </details>
 <p><img src="3-exploration_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
 </div>
+<p>On note ici que les données extrêmes rendent le graphique moins intéressant ou plus difficile à comprendre.</p>
 <strong>Statistiques descriptive de la variable espérance de vie</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3633,6 +3633,7 @@ Show code
 </details>
 <p><img src="3-exploration_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
 </div>
+<p>Ici encore on note que les données extrêmes rendent le graphique moins intéressant ou plus difficile à comprendre.</p>
 <strong>Statistiques descriptive de la variable PIB par habitant estimé</strong>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3809,8 +3810,6 @@ Show code
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
-<h3 id="references">References</h3>
-<div id="references-listing"></div>
 <h3 id="updates-and-corrections">Corrections</h3>
 <p>If you see mistakes or want to suggest changes, please <a href="https://stephanielapierre.github.io/FAS1002_projet-final/">create an issue</a> on the source repository.</p>
 <h3 id="citation">Citation</h3>
